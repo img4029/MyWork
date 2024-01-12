@@ -24,24 +24,22 @@ public class Ex04_Select extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		if(job.equals("")) {
-			out.print("직 업 : 선택안함,\n");
-		} else {
+		if(job != null && job.length() > 0) {
 			out.printf("직 업 : %s,\n",job);
+		} else {
+			out.print("직 업 : 선택안함,\n");
+			
 		}
 		
-		if(interest == null) {
-			out.print("관심분야 : 선택안함\n");
-		} else {
+		if(interest != null && interest.length > 0) {
 			out.print("관심분야 : ");
 			for (String s : interest) {
 				out.print(s + " ");
 			}
+		} else {
+			out.print("관심분야 : 선택안함\n");
 		}
-		
-		
-		
-
+		out.print("<br><br><h2><a href = 'javascript:history.go(-1)'>다시입력하기</a><h2>");
 	}
 
 }

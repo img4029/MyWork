@@ -34,7 +34,7 @@ public class Ex02_RadioText extends HttpServlet {
 		} else {
 			out.printf("가입인사 : %s\n",content);
 		}
-		
+		out.print("<br><br><h2><a href = 'javascript:history.go(-1)'>다시입력하기</a><h2>");
 	}
 
 }

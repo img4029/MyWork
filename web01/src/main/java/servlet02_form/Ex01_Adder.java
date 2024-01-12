@@ -23,36 +23,27 @@ public class Ex01_Adder extends HttpServlet {
 		// => request 처리 : 한글, Parameter
 		request.setCharacterEncoding("UTF-8");
 		
+		// 2) 서비스 & 결과 처리
+		// => response 한글처리, 출력객체생성 & response
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		try {
-			int num1 = Integer.parseInt(request.getParameter("num1"));
-			int num2 = Integer.parseInt(request.getParameter("num2"));
-			
-			int add = num1 + num2;
-			
-			out.print(add);
-		} catch (NumberFormatException e) {
-			out.print("뭐든입력해주세요.try");
-		}
-		
-//		String num1 = request.getParameter("num1");
-//		String num2 = request.getParameter("num2");
-//		if(num1 != null && num2 != null && num1.length()>0 && num2.length()>0) {
-//			int add = Integer.parseInt(num1) + Integer.parseInt(num2);
+//		try {
+//			int num1 = Integer.parseInt(request.getParameter("num1"));
+//			int num2 = Integer.parseInt(request.getParameter("num2"));
+//			
+//			int add = num1 + num2;
+//			
 //			out.print(add);
-//		} else {
-//			out.print("값을 입력해주세요.if");
+//		} catch (NumberFormatException e) {
+//			out.print("뭐든입력해주세요.try");
 //		}
 		
+		int num1 = Integer.parseInt(request.getParameter("num1"));
+		int num2 = Integer.parseInt(request.getParameter("num2"));
 		
-		
-		
-		// 2) 서비스 & 결과 처리
-		// => response 한글처리, 출력객체생성 & response
-		
-		
+		int add = num1 + num2;
+		out.print(add);
 		
 	} //doGet
 

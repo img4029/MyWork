@@ -23,26 +23,26 @@ public class Ex03_Check extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		try {
-			String[] str = request.getParameterValues("gift");
-
-			for (String s : str) {
-				out.print(s + " ");
-			}
-		} catch (NullPointerException e) {
-			out.print("아무것도 선택하지않았습니다.try");
-		}
-		
-//		if(request.getParameterValues("gift") != null) {
+//		try {
 //			String[] str = request.getParameterValues("gift");
 //
 //			for (String s : str) {
 //				out.print(s + " ");
 //			}
-//		} else {
-//			out.print("아무것도 선택하지않았습니다.if");
+//		} catch (NullPointerException e) {
+//			out.print("아무것도 선택하지않았습니다.try");
 //		}
 		
+		String[] gift = request.getParameterValues("gift");
+		if(gift != null && gift.length>0) {
+			
+			for (String s : gift) {
+				out.print(s + " ");
+			}
+		} else {
+			out.print("아무것도 선택하지않았습니다.if");
+		}
+		out.print("<br><br><h2><a href = 'javascript:history.go(-1)'>다시입력하기</a><h2>");
 	}
 
 }
