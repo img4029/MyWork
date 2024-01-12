@@ -26,4 +26,10 @@
   	<url-pattern>/hello</url-pattern>
   	<url-pattern>/123</url-pattern>
   </servlet-mapping>
+  <!-- Session Time 설정
+  	   => 분 단위, 0 또는 음수를 넣으면 무제한 -->
+  <session-config>
+  	<session-timeout>5</session-timeout>
+  </session-config>
+  
 </web-app>
