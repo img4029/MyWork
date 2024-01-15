@@ -17,10 +17,10 @@ public class Ex04_Logout extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		session.invalidate();
+		request.getSession().invalidate();
 		String uri = "index.html";
-		request.getRequestDispatcher(uri).forward(request, response);
+		System.out.println("로그아웃 되었습니다.");
+		response.sendRedirect(uri);
 	}
 
 }

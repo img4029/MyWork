@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8"%>
 <%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     --%>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 </head>
 <body>
 <h2>** servlet03_flow Student Login Test **</h2>
-<form action="/web01/login" method="get">
+<form action="/web01/login" method="post">
 <table>
 	<tr height="30"><td><label for="sno">SNO</label></td>
 		<td><input type="text" id="sno" name="sno"></td>
