@@ -29,7 +29,7 @@ public class Ex04_Login extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String sno = request.getParameter("sno") ;
 		String name = request.getParameter("name");
-		String uri = "index.html";
+		String uri = "home.jsp";
 		PrintWriter out = response.getWriter();
 		
 		StudentService service = new StudentService();
@@ -44,6 +44,7 @@ public class Ex04_Login extends HttpServlet {
 		// => 실패 : flowEx04_LoginForm.jsp (재로그인 유도)
 		if(!name.equals(dto.getName()) || dto == null) {
 			uri = "servletTestForm/flowEx04_LoginForm.jsp";
+			request.setAttribute("message", "로그인 실패, 다시입력하세요");
 			System.out.println("로그인 실패");
 //			out.println("<script>alert('비밀번호가 틀렸습니다. 다시입력하세요'); location.href='"+uri+"';</script>");
 //			out.close();
