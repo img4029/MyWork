@@ -1,32 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>** home **</title>
-<!-- <style type="text/css">
-	body>h2 {
-		color : red;
-		background-color: black;
-		text-align: center;
-	}
-	
-	body>div {
-		display: flex;
-		justify-content: center;
-	}
-</style> -->
 </head>
 <body>
-	<h2>** Dynamic Web Project **</h2>	
-	<%
-		if(session.getAttribute("sname") != null){ %>
-			<h3><%=session.getAttribute("sname")%>님 안녕하세요.</h3>
-	<%  }else { %>
+	<h2>** Dynamic Web Project **</h2>
+	<c:set value="${sessionScope.sname}" var="sname"/>
+	<c:choose>
+		<c:when test="${!empty sname}">
+			<h3>${sname}님 안녕하세요.</h3>
+		</c:when>
+		<c:otherwise>
 			<h3>로그인을 해주세요.</h3>
-	<%	}
-	%>
+		</c:otherwise>
+	</c:choose>
 	
 	<form action="getpost" method="post">
 		<input type="text" name="id" value="banana"> &nbsp;
@@ -44,15 +35,22 @@
 	-->
 	<img alt="" src="./images/Destiny3.gif" width="1000" height="600">
 	<hr>
-	&nbsp;<a href = "/web01/servletTestForm/flowEx04_LoginForm.jsp">Login</a>&nbsp;
-	&nbsp;<a href = "/web01/logout">logout</a>&nbsp;
+	<c:choose>
+		<c:when test="${!empty sname}">
+			&nbsp;<a href = "#">MyInfo</a>&nbsp;
+			&nbsp;<a href = "/web01/logout">logout</a>&nbsp;
+		</c:when>
+		<c:otherwise>
+			&nbsp;<a href = "/web01/servletTestForm/flowEx04_LoginForm.jsp">Login</a>&nbsp;
+			&nbsp;<a href = "#">Join</a>&nbsp;
+		</c:otherwise>
+	</c:choose>
 	&nbsp;<a href = "/web01/02get">sessionCheck</a>&nbsp;
 	<hr>
 	&nbsp;<a href = "/web01/hello">Hello</a>&nbsp;
 	&nbsp;<a href = "/web01/list">M01List</a>&nbsp;
 	&nbsp;<a href = "/web01/life">LifeCycle</a>&nbsp;
 	<hr>
-	<!-- &nbsp;<a href = "./servletTestForm/form01_Adder.html">Ex01_Adder</a>&nbsp; -->
 	&nbsp;<a href = "/web01/servletTestForm/form01_Adder.html">Adder</a>&nbsp;
 	&nbsp;<a href = "/web01/servletTestForm/form02_Radio.jsp">Radio</a>&nbsp;
 	&nbsp;<a href = "/web01/servletTestForm/form03_Check.jsp">Check</a>&nbsp;
