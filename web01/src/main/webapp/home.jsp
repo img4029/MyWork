@@ -45,6 +45,7 @@
 			&nbsp;<a href = "#">Join</a>&nbsp;
 		</c:otherwise>
 	</c:choose>
+	&nbsp;<a href = "/web01/test01">test01</a>&nbsp;
 	<hr>
 	&nbsp;<a href = "/web01/hello">Hello</a>&nbsp;
 	&nbsp;<a href = "/web01/list">M01List</a>&nbsp;
