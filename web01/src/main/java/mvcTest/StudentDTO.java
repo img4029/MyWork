@@ -65,6 +65,7 @@ public class StudentDTO extends JoDTO {
 	private String info;
 	private double point;
 	private String cname; // 조장이름, 필요시사용
+	// => getter/setter 생성시 2번째 글자도 대문자 금지
 	
 	// ** 생성자
 	// => default 생성자, 모든값을 초기화하는 생성자

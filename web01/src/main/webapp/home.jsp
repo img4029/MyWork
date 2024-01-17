@@ -37,7 +37,7 @@
 	<hr>
 	<c:choose>
 		<c:when test="${!empty sname}">
-			&nbsp;<a href = "#">MyInfo</a>&nbsp;
+			&nbsp;<a href = "/web01/detail">MyInfo</a>&nbsp;
 			&nbsp;<a href = "/web01/logout">logout</a>&nbsp;
 		</c:when>
 		<c:otherwise>

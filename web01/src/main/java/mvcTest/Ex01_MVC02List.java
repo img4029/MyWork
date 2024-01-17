@@ -32,7 +32,9 @@ public class Ex01_MVC02List extends HttpServlet {
 		//    request.setAttribute(...)
 		request.setAttribute("myList",list);
 		// => 
-		request.getRequestDispatcher("mvcTestJsp/ex01_MVC02List.jsp").forward(request, response);
+		String uri = "mvcTestJsp/ex01_MVC02List.jsp";
+		uri = "mvcTestJsp/ex02_MVC02List.jsp";
+		request.getRequestDispatcher(uri).forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

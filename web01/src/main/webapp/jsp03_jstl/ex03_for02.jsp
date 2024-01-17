@@ -32,7 +32,6 @@
 => index : 배열등 index가 존재하는 경우에는 index 값을 출력
            반복자(iterator) 의 값   
            step 을 지정하지 않으면 1씩 증가
-
 </pre>
 => 결과 step=1<br>
 <table border="1" style="text-align:center; width:90%;">
@@ -58,5 +57,27 @@
 		</tr>
 	</c:forEach>
 </table>
+=> 실습 3) 1~30 을 다음처럼 1행에 5개식 출력하세요<br>
+방법1)<br>
+<c:forEach var="i" begin="1" end="30" step="5" varStatus="vs1">
+	<c:forEach var="j" begin="${i}" end="${i+4}" step="1" varStatus="vs2">
+		${j}
+		${vs2.last ? "":", "}
+	</c:forEach><br>
+</c:forEach>
+<hr>
+방법2)<br>
+<c:forEach var="i" begin="0" end="5" step="1" varStatus="vs1">
+	<c:forEach var="j" begin="${1+i*5}" end="${5+i*5}" step="1" varStatus="vs2">
+		${j}
+		${vs2.last ? "":", "}
+	</c:forEach><br>
+</c:forEach>
+<hr>
+방법3)<br>
+<c:forEach var="i" begin="1" end="30" step="1" varStatus="vs">
+	${i}
+	${i%5==0 ? "<br>":", "}
+</c:forEach>
 </body>
 </html>
