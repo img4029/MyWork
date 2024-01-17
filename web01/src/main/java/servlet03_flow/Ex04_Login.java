@@ -27,8 +27,8 @@ public class Ex04_Login extends HttpServlet {
 		// => 한글, request 의 Parameter 처리
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		String sno = request.getParameter("sno") ;
-		String name = request.getParameter("name");
+		String sno = request.getParameter("sno").trim() ;
+		String name = request.getParameter("name").trim();
 		String uri = "home.jsp";
 		PrintWriter out = response.getWriter();
 		
@@ -54,7 +54,8 @@ public class Ex04_Login extends HttpServlet {
 		
 	    // 3. View () : Forward or Redirect
 		HttpSession session = request.getSession();
-		session.setAttribute("sid", sno);
+//		session.setAttribute("sid", sno);
+		session.setAttribute("sid", dto.getSno());
 		session.setAttribute("sname", name);
 		session.setAttribute("sage", dto.getAge()+"");
 //		request.getRequestDispatcher(uri).forward(request, response);
