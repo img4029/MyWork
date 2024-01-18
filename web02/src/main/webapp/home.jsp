@@ -32,6 +32,6 @@
 		</c:otherwise>
 	</c:choose>
 	<hr>
-	&nbsp;<a href = "/web02/list">MList</a>&nbsp;
+	&nbsp;<a href = "/web02/mlist">MList</a>&nbsp;
 </body>
 </html>

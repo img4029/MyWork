@@ -18,7 +18,7 @@ import model.DBConnection;
 public class MemberDAO {
 	// ** 전역변수 정의 
 	private static Connection cn = DBConnection.getConnection();
-	private static Statement st;
+	/* private static Statement st; */
 	private static PreparedStatement pst;
 	private static ResultSet rs;
 	private static String sql;

@@ -7,7 +7,7 @@ import model.MemberDAO;
 
 public class MemberService {
 	
-	MemberDAO dao;
+	MemberDAO dao = new MemberDAO();
 	
 	public List<MemberDTO> selectList() {
 		return dao.selectList();
