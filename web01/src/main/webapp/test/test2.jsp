@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="test.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="test2.js"></script>
+<script defer type="text/javascript" src="test2.js"></script>
 </head>
 <body>
 	<div class="container">

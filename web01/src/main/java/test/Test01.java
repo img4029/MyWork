@@ -16,7 +16,7 @@ public class Test01 extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String uri = "test/test2.jsp";
+		String uri = "test/test.jsp";
 		response.sendRedirect(uri);
 	}
 

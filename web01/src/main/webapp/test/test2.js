@@ -1,17 +1,17 @@
 function test() {
-	console.log('test');
 	let li = document.querySelectorAll('.tabs li');
-	let div = document.querySelectorAll('.tab-content');
-	console.log(li);
+	let div = document.querySelectorAll('.tab-content');;
 	for(i = 0; i < li.length; i++){
 		li[i].addEventListener('click', () => {
 			for(j = 0; j < li.length; j++){
 				li[j].classList.remove('current');
 				div[j].classList.remove('current');
 			}
-/*			li[i].getAttribute('data-tab');*/
-			li[i].classList.add('current');
-			div[i].classList.add('current');
+/*			e.getAttribute('data-tab');*/
+			console.log(this);
+/*			console.log(document.querySelector('#'+e.getAttribute('data-tab')).classList);*/
+			e.className += 'current';
+			document.querySelector('#'+e.getAttribute('data-tab')).classList += 'current';
 		});
 	}
 	

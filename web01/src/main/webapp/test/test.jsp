@@ -9,7 +9,7 @@
 <link href="test.css" rel="stylesheet" type="text/css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript" src="test.js"></script>
+<script defer type="text/javascript" src="test.js"></script>
 </head>
 <body>
 	<h2>tab test</h2>
