@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,12 +32,15 @@
 
 		<div id="tab-1" class="tab-content current">
 			<p>tab1입니다.</p>
+			<c:import url="/jsp03_jstl/ex05_catch.jsp"></c:import>
 		</div>
 		<div id="tab-2" class="tab-content">
 			<p>tab2입니다.</p>
+			<c:import url="/jsp03_jstl/ex06_fmt.jsp"></c:import>
 		</div>
 		<div id="tab-3" class="tab-content">
 			<p>tab3입니다.</p>
+			<c:import url="/jsp03_jstl/ex07_elFunction.jsp"></c:import>
 		</div>
 	</div>
 </body>
