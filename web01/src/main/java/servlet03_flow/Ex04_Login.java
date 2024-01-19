@@ -43,12 +43,12 @@ public class Ex04_Login extends HttpServlet {
 		// => 성공 : index.html 
 		// => 실패 : flowEx04_LoginForm.jsp (재로그인 유도)
 		if(!name.equals(dto.getName()) || dto == null) {
-			uri = "servletTestForm/flowEx04_LoginForm.jsp";
+			/* uri = "servletTestForm/flowEx04_LoginForm.jsp"; */
 			request.setAttribute("message", "로그인 실패, 다시입력하세요");
 			System.out.println("로그인 실패");
 //			out.println("<script>alert('비밀번호가 틀렸습니다. 다시입력하세요'); location.href='"+uri+"';</script>");
 //			out.close();
-			request.getRequestDispatcher(uri).forward(request, response);
+			request.getRequestDispatcher("#").forward(request, response);
 			return;
 		} 
 		

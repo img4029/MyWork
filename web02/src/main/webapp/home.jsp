@@ -11,8 +11,8 @@
 	<h2>** Dynamic Web Project **</h2>
 	<c:set value="${sessionScope.sname}" var="sname"/>
 	<c:choose>
-		<c:when test="${!empty sname}">
-			<h3>${sname}님 안녕하세요.</h3>
+		<c:when test="${!empty sessionScope.sname}">
+			<h3>${sessionScope.sname}님 안녕하세요.</h3>
 		</c:when>
 		<c:otherwise>
 			<h3>로그인을 해주세요.</h3>
@@ -24,7 +24,9 @@
 	<c:choose>
 		<c:when test="${!empty sname}">
 			&nbsp;<a href = "/web02/mdetail">MyInfo</a>&nbsp;
+			&nbsp;<a href = "/web02/mdetail?jCode=U">내정보수정</a>&nbsp;
 			&nbsp;<a href = "/web02/logout">logout</a>&nbsp;
+			&nbsp;<a href = "/web02/member/deleteForm.jsp">회원탈퇴</a>&nbsp;
 		</c:when>
 		<c:otherwise>
 			&nbsp;<a href = "/web02/member/loginForm.jsp">Login</a>&nbsp;
@@ -33,5 +35,7 @@
 	</c:choose>
 	<hr>
 	&nbsp;<a href = "/web02/mlist">MList</a>&nbsp;
+	<hr>
+	&nbsp;<a href = "/web02/test/test.jsp">test</a>&nbsp;
 </body>
 </html>
