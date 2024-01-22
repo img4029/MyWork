@@ -22,7 +22,7 @@ import java.util.Map;
 //=> 외부에서는 getInstance() 메서드를 통해서만 사용
 
 public class Ex03_ServiceFactory {
-	//2) Map 정의
+	//1) Map 정의
 	private Map<String,Ex04_Controller> mappings;
 	
 	//2) 생성자 정의 (싱글톤 패턴)
