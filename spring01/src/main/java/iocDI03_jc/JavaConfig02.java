@@ -3,6 +3,7 @@ package iocDI03_jc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
 // ** Java Bean Configuration class를 이용한 DI
 // => Test02 : 스피커 1개 사용 TV 
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 // => @ImportResource("iocDI03_jc/app09.xml")
 // => AiTVs 생성은 xml 로 
 
+@ImportResource("iocDI03_jc/app09.xml")
 @Configuration 
 public class JavaConfig02 {
 	// 1) 고전적 방법 (직접 new : 소스 재컴파일)
@@ -23,7 +25,7 @@ public class JavaConfig02 {
 	//public TV lgtv() { return new LgTVs(new Speaker(),"Blue",998800); }
 	@Bean
 	public TV lgtv() { return new LgTVs(sp(),"Blue",998800); }
-	@Bean
+//	@Bean
 	public Speaker sp() { return new Speaker(); }
 	
 	// 3) IOC/DI -> JC에서 xml 병행사용
