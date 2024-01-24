@@ -7,4 +7,8 @@
 	
 	<context:component-scan base-package="iocDI02_anno" />
 	
-</beans>
+	<!-- xml 과 @ 병행 Test -->
+	<bean class="iocDI02_anno.Speaker" lazy-init="default"/>
+	<bean class="iocDI02_anno.SpeakerA" id="spa" lazy-init="default"/>
+	
+</beans> 
