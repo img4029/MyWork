@@ -24,7 +24,7 @@
 		<hr><h4>${requestScope.message}</h4>
 	</c:if>
 	<hr>
-	<img alt="" src="resources/images/Destiny3.gif" width="1000" height="600">
+	<img alt="" src="resources/images/Destiny2.gif" width="1000" height="600">
 	<hr>
 	<c:choose>
 		<c:when test="${!empty sname}">

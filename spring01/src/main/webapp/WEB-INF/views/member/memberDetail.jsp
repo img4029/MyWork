@@ -65,7 +65,7 @@
 		</c:choose>
 	</table>
 	<hr>
-	&nbsp;<a href="/web02/home.jsp">Home</a>&nbsp;
+	&nbsp;<a href="/spring01/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
 </body>
 </html>
