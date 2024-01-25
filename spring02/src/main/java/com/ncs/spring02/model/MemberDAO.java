@@ -3,15 +3,15 @@ package com.ncs.spring02.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+//import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.ncs.spring02.domain.MemberDTO;
-import com.ncs.spring02.model.DBConnection;
+//import com.ncs.spring02.model.DBConnection;
 
 //** DAO(Data Access Object) 
 //=> SQL 구문 처리 
