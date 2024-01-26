@@ -12,6 +12,7 @@ public class JoDTO {
 	private int jno;
 	private String jname;
 	private String captain;
+	private String cname;
 	private String project;
 	private String slogan;
 	
