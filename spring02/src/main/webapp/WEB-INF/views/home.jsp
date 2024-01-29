@@ -24,7 +24,7 @@
 
 <!-- 로그인 전 -->
 <c:if test="${empty sessionScope.loginID}">
-	<img alt="mainImage" src="resources/images/Destiny2.gif" width="1000" height="600">
+	<img alt="mainImage" src="resources/images/Destiny2.gif" width="800">
 	<hr>
 	<div class="divBox">
 		&nbsp;<a href = "member/loginForm">LoginF</a>&nbsp;
@@ -33,7 +33,7 @@
 </c:if>
 <!-- 로그인 후 -->
 <c:if test="${!empty sessionScope.loginID}">
-	<img alt="mainImage" src="resources/images/Destiny4.gif" width="1000" height="600">
+	<img alt="mainImage" src="resources/images/Destiny4.gif" width="800">
 	<hr>
 	<div class="divBox">
 		&nbsp;<a href = "member/detail?jCode=D">내정보</a>&nbsp;
@@ -46,6 +46,7 @@
 <div class="divBox">
 	&nbsp;<a href = "member/memberList">MList</a>&nbsp;
 	&nbsp;<a href = "jo/joList">JList</a>&nbsp;
+	&nbsp;<a href = "board/boardList">BList</a>&nbsp;
 </div>
 
 </body>

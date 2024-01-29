@@ -9,24 +9,24 @@
 <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
 <style type="text/css">
 
-	tbody, tr {
+	#jo tbody, #jo tr {
 		display: flex;
 	}
-	tr {
+	#jo tr {
 		flex-direction: column;
 	}
-	th,td {
+	#jo th, #jo td {
 		
 		height: 40px;
 		display:flex;
 		align-items: center;
 	}
-	th {
+	#jo th {
 		width: 10vw;
 		justify-content: center;
 		text-align: center;
 	}
-	td {
+	#jo td {
 		width: 40vw;
 		padding-left: 10px;
 	}
@@ -43,8 +43,8 @@
 </head>
 <body>
 <h2>** joDetail **</h2>
-<table border=1>
-	<tr bgcolor="Aquamarine" style="font-weight: bold;">
+<table id="jo" border=1>
+	<tr bgcolor="DarkGray" style="font-weight: bold;">
 		<th>Jno</th><th>Jname</th><th>Captain</th><th>조장명</th>
 		<th>Project</th><th>Slogan</th>
 	</tr>
@@ -62,6 +62,36 @@
 		<c:otherwise>
 			<tr>
 				<td colspan="5">joDetail 결과가 1건도 없음
+			</tr>
+		</c:otherwise>
+	</c:choose>
+</table>
+
+<h3>** jo MemberList **</h3>
+<table border="1" style="width: 100%">
+	<tr bgcolor="DarkGray" style="font-weight: bold;">
+		<th>ID</th><th>Password</th><th>Name</th><th>Age</th>
+		<th>Jno</th><th>Info</th><th>Point</th><th>Birthday</th><th>추천인</th>
+	</tr>
+	<c:choose>
+		<c:when test="${!empty requestScope.list}">
+			<c:forEach var="s" items="${requestScope.list}">
+				<tr>
+					<td>${s.id}</td>
+					<td>${s.password}</td>
+					<td>${s.name}</td>
+					<td>${s.age}</td>
+					<td>${s.jno}</td>
+					<td>${s.info}</td>
+					<td>${s.point}</td>
+					<td>${s.birthday}</td>
+					<td>${s.rid}</td>
+				</tr>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<tr>
+				<td colspan="9" style="text-align: center;">조원이 1명도없습니다.</td>
 			</tr>
 		</c:otherwise>
 	</c:choose>

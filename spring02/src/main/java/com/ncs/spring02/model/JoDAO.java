@@ -74,7 +74,6 @@ public class JoDAO {
 				dto.setCname(rs.getString(4));
 				dto.setProject(rs.getString(5));
 				dto.setSlogan(rs.getString(6));
-				System.out.println(dto);
 				return dto;
 			} else {
 				return null;

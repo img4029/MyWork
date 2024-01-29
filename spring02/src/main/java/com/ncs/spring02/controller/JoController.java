@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,38 +14,48 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ncs.spring02.domain.JoDTO;
 import com.ncs.spring02.service.JoService;
+import com.ncs.spring02.service.MemberService;
+
+import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping( value = "/jo")
+@RequestMapping("/jo")
+@AllArgsConstructor
+// => 모든 맴버변수를 초리화 하는 생성자 자동 추가 & 사용
+//    그러므로 아래의 @Autowired는 생략 가능
 public class JoController {
-	
-	@Autowired(required = false)
+	//@Autowired
 	JoService service;
+	//@Autowired
+	MemberService mservice;
 	
 	// ** joList
-	@RequestMapping(value = { "/joList" }, method = RequestMethod.GET)
+	@GetMapping("/joList")
 	public void jList(Model model) {
 		model.addAttribute("jList", service.selectJoList());
 	}
 	
 	// ** memberDetail or updateForm
-	@RequestMapping( value = {"/detail"}, method = RequestMethod.GET )
+	@GetMapping("/detail")
 	public String detail(HttpSession session,Model model, @RequestParam("jo") int jno) {
 		String uri = "jo/joDetail";
 		if(jno > 10) {
 			uri = "jo/updateForm";
 			jno -= 10;
+		} else {
+			model.addAttribute("list", mservice.selectJoList(jno));
 		}
 		model.addAttribute("dto", service.selectJoOne(jno));
+		
 		return uri;
 	}
 	
 	// ** joinForm
-	@RequestMapping( value = {"/insertForm"}, method = RequestMethod.GET )
+	@GetMapping("/insertForm")
 	public void joinForm() {}
 	
 	// ** join
-	@RequestMapping( value = {"/insert"}, method = RequestMethod.POST )
+	@PostMapping("/insert")
 	public String join(Model model, JoDTO dto, RedirectAttributes rttr) {
 		// 1. 요청분석
 		// => 이전: 한글처리, request 값 -> dto 에 set
@@ -61,7 +73,7 @@ public class JoController {
 	}
 	
 	// ** update
-	@RequestMapping( value = {"/update"}, method = RequestMethod.POST )
+	@PostMapping("/update")
 	public String update(Model model, JoDTO dto, RedirectAttributes rttr) {
 		String uri = "redirect:detail?jo="+dto.getJno(); // 성공시
 		model.addAttribute("dto", dto);
@@ -75,7 +87,7 @@ public class JoController {
 	}
 	
 	// ** delete
-	@RequestMapping( value = {"/delete"}, method = RequestMethod.GET )
+	@GetMapping("/delete")
 	public String delete(@RequestParam("jo") int jno, Model model, RedirectAttributes rttr) {
 		if(service.delete(jno) > 0) {
 			rttr.addFlashAttribute("message", "조 삭제에 성공했습니다.");
