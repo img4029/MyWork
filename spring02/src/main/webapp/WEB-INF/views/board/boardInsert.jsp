@@ -18,7 +18,7 @@
 		<p>내용 : </p>
 		<textarea id="content" name="content"></textarea>
 		<div>
-			<input type="submit" value="수정">&nbsp;&nbsp;&nbsp;
+			<input type="submit" value="등록">&nbsp;&nbsp;&nbsp;
 			<input type="reset" value="리셋">
 		</div>
 		<hr>

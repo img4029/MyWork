@@ -9,16 +9,19 @@
 <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/boardStyle.css">
 </head>
 <body>
-<form action="update" method="post">
+<form action=replyInsert method="post">
+	<input name="root" type="hidden" value="${boardDTO.root}">
+	<input name="step" type="hidden" value="${boardDTO.step}">
+	<input name="indent" type="hidden" value="${boardDTO.indent}">
+	<input name="id" type="hidden" value="${sessionScope.loginID}">
 	<div id="boardUpdate">
-		<input id="seq" name="seq" value="${requestScope.dto.seq}"><br>
 		<span>제목 : </span>
-		<input id="title" name="title" value="${requestScope.dto.title}"><br>
-		<h4>작성자 : ${requestScope.dto.id}</h4>
+		<input id="title" name="title" value=""><br>
+		<h4>작성자 : ${sessionScope.loginID}</h4>
 		<p>내용 : </p>
-		<textarea id="content" name="content">${requestScope.dto.content}</textarea>
+		<textarea id="content" name="content"></textarea>
 		<div>
-			<input type="submit" value="수정">&nbsp;&nbsp;&nbsp;
+			<input type="submit" value="입력">&nbsp;&nbsp;&nbsp;
 			<input type="reset" value="리셋">
 		</div>
 		<hr>

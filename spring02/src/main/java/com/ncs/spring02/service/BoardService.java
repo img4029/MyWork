@@ -11,8 +11,12 @@ public interface BoardService {
 	BoardDTO selectOne(int seq);
 
 	int insert(BoardDTO dto);
+	
+	int rinsert(BoardDTO dto);
 
 	int update(BoardDTO dto);
+	
+	int update(int seq);
 
 	int delete(int seq);
 

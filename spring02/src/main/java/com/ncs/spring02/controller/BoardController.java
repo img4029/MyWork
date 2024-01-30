@@ -27,17 +27,26 @@ public class BoardController {
 		model.addAttribute("bList", service.selectList());
 	}
 	
-	// ** memberDetail or updateForm
+	// ** Detail or Update
+	// => 글요청 처리중, 글을 읽기전
+	// => 조회수 증가
+	//	  -> loginID 와 board 의 id가 다른 경우
 	@GetMapping("/detail")
 	public String detail(HttpSession session,Model model,
 			@RequestParam("seq") int seq, @RequestParam("jCode") String jCode) {
 		String uri = "board/boardDetail";
+		BoardDTO dto = service.selectOne(seq);
+		
 		if(jCode.equals("U")) {
 			uri = "board/boardUpdate";
-		} else {
-
+		} else if(!session.getAttribute("loginID").equals( dto.getId() ) ){
+			if(service.update(seq) > 0) {
+				System.out.println("조회수 +1 성공");
+			} else {
+				System.out.println("조회수 +1 실패");
+			}
 		}
-		model.addAttribute("dto", service.selectOne(seq));
+		model.addAttribute("dto", dto);
 		
 		return uri;
 	}
@@ -56,10 +65,10 @@ public class BoardController {
 		
 		// 2. Service & 결과
 		if(service.insert(dto) > 0) {
-			rttr.addFlashAttribute("message", "조 등록에 성공했습니다");
+			rttr.addFlashAttribute("message", "글 등록 성공했습니다");
 		} else {
 			uri = "board/joinForm";
-			model.addAttribute("message", "조 등록에 실패했습니다, 다시입력하세요");
+			model.addAttribute("message", "글 등록 실패했습니다, 다시입력하세요");
 		}
 		return uri;
 	}
@@ -88,5 +97,30 @@ public class BoardController {
 			rttr.addFlashAttribute("message", "게시글 삭제에 실패했습니다.");
 		}
 		return "redirect:boardList";
+	}
+	
+	// ** replyInsert
+	@GetMapping("/replyInsert")
+	public void missingno(Model model, BoardDTO dto) {
+		// => 답글처리를위해 부모글의 root, step, indent 를 인자로 전달받으면,
+	    //    이 인자에 담겨진 값은 requestScope 과 동일 
+	    // => 그러므로 response 전송 전까지는 서버(Jsp)에서 사용가능
+	    //    단, 객체명의 첫문자를 소문자로 해서 접근가능 ( ${boardDTO.~~} )
+	}
+
+	@PostMapping("/replyInsert")
+	public String missingno(Model model, RedirectAttributes rttr, BoardDTO dto) {
+		String uri = "redirect:boardList"; // 성공시
+		dto.setStep(dto.getStep()+1);
+		dto.setIndent(dto.getIndent()+1);
+		
+		if(service.rinsert(dto)>0) {
+			rttr.addFlashAttribute("message", "글 등록 성공했습니다");
+		} else {
+			uri = "board/replyInsert";
+			model.addAttribute("message", "글 등록 실패 했습니다, 다시입력하세요");
+		}
+		
+		return uri;
 	}
 }

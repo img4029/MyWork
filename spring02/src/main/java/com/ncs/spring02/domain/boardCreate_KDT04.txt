@@ -55,8 +55,32 @@ insert into board values(
 );
 
 2.project
-2.1 ) Java
+2.1) Java
 => BoardDTO, BoardDAO, BoardService, BoardServiceImpl, BoardController
 
-2.2 ) Jsp
+2.2) Jsp
 => boardList, boardDetail, boardInsert, boardUpdate
+
+2.3) 조회수 증가
+=> sql
+	-> 1) update board set cnt=cnt+1 where seq =?
+	-> 2) Java code 에서 cnt+1 전달하면 set cnt=? 도 가능
+	
+=> 조건 : 글쓴이와 글보는이가 다른경우
+=> 어디서 detail 에서
+
+2.4) 계층적 답변형 게시판의 답글달기
+
+=> board 조회
+select seq, id, root, step, indent from board order by root desc, step asc;
+
+=> 각 컬럼의 역할
+   -> root: 원글의 seq
+   -> step: 댓글의 출력순서 (부모글+1, 이전댓글들 step+1 로 수정)
+   -> indent: 댓글의 레벨 (부모글+1)
+=> 원글  -> root: 자신의 seq ,  step: 0 , indent: 0
+=> 첫댓글 -> root: 원글의 seq ,  step: 1-2-3 로 변경 , indent: 1
+   2댓글 -> root: 원글의 seq ,  step: 1-2 , indent: 1 
+   3댓글 -> root: 원글의 seq ,  step: 1 , indent: 1 
+   
+=> 댓글 입력 form과 컨트롤러의 매핑메서드 메뉴추가
