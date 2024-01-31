@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.ncs.spring02.domain.BoardDTO;
+import com.ncs.spring02.domain.MemberDTO;
 
 @Repository
 public class BoardDAO {
@@ -196,11 +197,15 @@ public class BoardDAO {
 		
 		// ** delete 
 		// => seq 로 삭제 
-		public int delete(int seq) {
-			sql = "delete from board where seq=?";
+		public int delete(BoardDTO dto) {
+			//원글 삭제
+			if(dto.getSeq() == dto.getRoot()) sql = "delete from board where root=?";
+			//답글 삭제
+			else sql = "delete from board where seq=?";
+			
 			try {
 				pst = cn.prepareStatement(sql);
-				pst.setInt(1, seq);
+				pst.setInt(1, dto.getSeq());
 				
 				return pst.executeUpdate(); // 처리갯수
 			} catch (Exception e) {

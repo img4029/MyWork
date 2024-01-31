@@ -89,10 +89,9 @@ public class BoardController {
 	
 	// ** delete
 	@GetMapping("/delete")
-	public String delete(@RequestParam("seq") int seq, Model model, RedirectAttributes rttr) {
-		if(service.delete(seq) > 0) {
+	public String delete(BoardDTO dto, Model model, RedirectAttributes rttr) {
+		if(service.delete(dto) > 0) {
 			rttr.addFlashAttribute("message", "게시글 삭제에 성공했습니다.");
-
 		} else {
 			rttr.addFlashAttribute("message", "게시글 삭제에 실패했습니다.");
 		}

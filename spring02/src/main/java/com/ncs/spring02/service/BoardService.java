@@ -18,6 +18,6 @@ public interface BoardService {
 	
 	int update(int seq);
 
-	int delete(int seq);
+	int delete(BoardDTO dto);
 
 }

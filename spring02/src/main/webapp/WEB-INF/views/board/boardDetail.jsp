@@ -6,9 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/boardStyle.css">
+<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/boardStyle.css?a">
 </head>
 <body>
+<c:import url="/header"></c:import>
 <div id="boardDetail">
 	<h3>제목 : ${requestScope.dto.title}</h3>
 	<h4>작성자 : ${requestScope.dto.id}</h4>
@@ -44,10 +45,10 @@
 		</c:if>
 		<c:if test="${requestScope.dto.id.equals(sessionScope.loginID)}">
 			&nbsp;<a class="link" href="detail?seq=${requestScope.dto.seq}&jCode=U">수정하기</a>&nbsp;
-			&nbsp;<a class="link" href="delete?seq=${requestScope.dto.seq}">삭제하기</a>&nbsp;
+			&nbsp;<a class="link" href="delete?seq=${requestScope.dto.seq}&root=${requestScope.dto.root}">삭제하기</a>&nbsp;
 		</c:if>
+		&nbsp;<a class="link" href="boardList">글목록</a>&nbsp;
 		&nbsp;<a class="link" href="/spring02/home">Home</a>&nbsp;
-		&nbsp;<a class="link" href="boardList">MList</a>&nbsp;
 		&nbsp;<a class="link" href="javascript:history.back();">이전으로</a>&nbsp;	
 	</div>
 </div>

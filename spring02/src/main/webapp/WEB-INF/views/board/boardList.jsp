@@ -10,7 +10,7 @@
 	href="/spring02/resources/myLib/test.css?c">
 </head>
 <body>
-
+<c:import url="/header"></c:import>
 	<section class="notice">
 		<div class="page-title">
 			<div class="container">
@@ -62,7 +62,7 @@
 									<td class="title">
 										<c:if test="${b.indent != 0}">
 											<c:forEach begin="1" end="${b.indent}" step="1">
-												&nbsp;&nbsp;
+												&nbsp;&nbsp;&nbsp;&nbsp;
 											</c:forEach>
 											<span style="color: blue;">re...</span>
 										</c:if>

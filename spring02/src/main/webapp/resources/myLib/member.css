@@ -1,0 +1,145 @@
+/* nav 높이 72 */
+* {
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: 'Libre Baskerville', 'Noto Sans KR', 'Nunito Sans', sans-serif;
+}
+.textFont {
+    font-family: 'Libre Baskerville', serif;
+}
+
+main ul {
+    padding: 0;
+}
+
+main a {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
+/* 여기부터 main ======================*/
+.main_container {
+    padding: 0 100px;
+    padding-top: 150px;
+    padding-bottom: 90px;
+    min-width: 1100px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+.main_container>h3 {
+    border-bottom: 1px solid black;
+    height: 30px;
+}
+
+.login_container {
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    display: flex;
+}
+
+.login_container>div {
+    padding: 80px 81px 0 81px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login_container>div:nth-child(1) {
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.login_container p {
+    padding: 15px 0;
+    font-size: 10px;
+    line-height: 18px;
+    color: rgba(128, 128, 128,1);
+
+}
+
+.find_box {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+#email+label,#phoneNumber+label,#idVerification+label {
+    font-size: 11px;
+    padding-left: 5PX;
+}
+
+#phoneNumber,#idVerification {
+    margin-left: 20px;
+}
+#id,
+#password {
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    padding: 10px;
+    margin: 3px 0;
+}
+
+#id:focus,
+#password:focus {
+    outline: none;
+}
+
+#id::placeholder,
+#password::placeholder {
+    color: rgba(128, 128, 128, 0.5);
+}
+
+.login_btn {
+    margin-top: 20px;
+    margin-bottom: 100PX;
+    background-color: black;
+    color: white;
+}
+
+.tpPw_btn,.member_btn,.findId_btn,.findIdPw_btn {
+    background-color: white;
+    color: black;
+}
+
+.tpPw_btn,.member_btn,.findIdPw_btn,.login_btn,.findId_btn {
+    width: 100%;
+    height: 60px;
+    border: 1px solid black;
+    font-size: 18px;
+    transition-property: background-color;
+    /*변형 완료 1초*/
+    transition-duration: 0.3s;
+    /*빠른 시작 서서히 감속*/
+    transition-timing-function: ease-out;
+    cursor: pointer;
+}
+
+.login_btn:hover {
+    background-color: white;
+    color: black;
+    transition: background 0.3s ease-out;
+}
+.tpPw_btn:hover,
+.findId_btn:hover,
+.member_btn:hover,
+.findIdPw_btn:hover {
+    background-color: black;
+    color: white;
+    transition: background 0.3s ease-out;
+}
+
+.member_img img {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.reference_login {
+    display: flex;
+    justify-content: center;
+    padding-top: 18px;
+    gap: 10px;
+}
+/* 여기까지 main ======================*/

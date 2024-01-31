@@ -1,0 +1,248 @@
+/* nav 높이 72 */
+* {
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: 'Libre Baskerville', 'Noto Sans KR', 'Nunito Sans', sans-serif;
+}
+.textFont {
+    font-family: 'Libre Baskerville', serif;
+}
+ul {
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: black;
+}
+a:visited {
+    color: black;
+}
+/* 여기부터 main ======================*/
+.idinfoSubContainer {
+    padding: 100px 100px;
+    margin: auto;
+    padding-top: 200px;
+    min-width: 1100px;
+    max-width: 1300px;
+}
+.idinfoSubContainer>div>h3{
+/*     border-bottom: 1px solid black; */
+    line-height: 45px;
+    font-size: 18px;
+    text-align: left;
+}
+
+/* 여기까지 idinfo.html */
+.idinfo_grid {
+    display: grid;
+    grid-template: repeat(14, auto) / repeat(1, 155px) repeat(1, 945px);
+
+}
+.idinfo_grid>div {
+    display: flex;
+    border-top: 1px solid rgba(128, 128, 128, 0.4);
+    flex-grow: 0 1;
+}
+.idinfo_grid>div:nth-child(2n+1){
+    padding-top: 18px;
+    padding-left: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: rgb(245, 245, 245);
+}
+.idinfo_grid>div:nth-child(2n) {
+    align-items: center;
+    padding: 13px 10px;
+}
+.idinfo_grid>div:nth-child(2n)>input,
+.idinfo_grid>div:nth-child(2n)>select {
+    width: 290px;
+    height: 33px;
+    border: 1px solid rgba(128, 128, 128, 0.4);
+    padding-left: 10px;
+}
+.idinfo_grid>div:nth-child(2n)>input:focus{
+    outline: none;
+}
+.idinfo_grid>div:nth-child(4)>div {
+    margin-left: 10px;
+    height: 33px;
+    width: 100px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    background-color: white;
+    transition-property: background-color;
+        /*변형 완료 1초*/
+    transition-duration: 0.3s;
+        /*빠른 시작 서서히 감속*/
+    transition-timing-function: ease-out;
+    cursor: pointer;
+}
+.idinfo_grid>div:nth-child(4)>div:hover {
+    background-color: black;
+    color: white;
+    transition: background 0.3s ease-out;
+}
+.idinfo_grid>div:nth-child(19), .idinfo_grid>div:nth-child(20) {
+	border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
+#car {
+    width: 100px;
+}
+#har,#dar,#cdar{
+    width: 650px;
+}
+
+.idinfo_grid>div>span {
+    color: red;
+    padding-left: 10px;
+    font-size: 13px;
+}
+/* ========================== */
+.agreement_box {
+    margin-top: 70px;
+}
+.agreement_box{
+    border: 1px solid rgba(128, 128, 128, 0.4);
+}
+.fullAgreement_box {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
+.fullAgreement_box,
+.fullUnder1,
+.fullUnder1>div,
+.fullUnder2>div {
+    display: flex;
+    align-items: center;
+}
+.fullAgreement_box label {
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 5px;
+}
+
+.fullUnder_box {
+    padding: 10px 10px;
+}
+.fullUnder_box label {
+    font-size: 13px;
+    font-weight: bold;
+    padding-left: 5px;
+}
+.fullUnder_box>hr {
+    border-width: 1px 0 0 0;
+    border-style: dashed;
+    border-color: rgba(128, 128, 128, 0.4);
+}
+.fullUnder1,.fullUnder2 {
+    gap: 200px;
+    padding: 15px 20px;
+}
+.fullUnder1 a{
+    display: block;
+    width: 60px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid rgba(128, 128, 128, 0.4);
+    margin-left: 5px;
+}
+.fullUnder2 span {
+    padding: 0 3px
+}
+#SMS {
+    margin-left: 15px;
+}
+.fullUnder2>p {
+    font-size: 12px;
+    padding-top: 10px;
+    text-align: left;
+}
+.registrationComplete{
+    display: block;
+    width: 234px;
+    height: 64px;
+    line-height: 66px;
+    margin: 50px auto;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background: #0549bb;
+    border: 1px solid #053688;
+    cursor: pointer;
+}
+/* ============================================ */
+.idinfoSubPage>div {
+    margin-bottom: 40px;
+}
+.idinfoSubPage textarea{
+    width: 100%;
+    height: 165px;
+    clear: both;
+    border: 1px solid #CCC;
+    padding: 10px;
+    background: #FFFFFF;
+    font-size: 12px;
+    color: #1c1c1c;
+    line-height: 1.25;
+}
+.idinfoSubPage h3 { 
+    font-size: 14px;
+    padding: 8px 5px;
+    text-align: left;
+}
+.idinfoSubPage>p {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+}
+.essentialGrid,.selectGrid{
+    display: grid;
+}
+.essentialGrid{
+    grid-template: repeat(2, auto) / repeat(1, 1fr) repeat(1, 4fr) repeat(1, 5fr) repeat(1, 4fr);
+    border: 1px solid rgba(128, 128, 128, 0.4);
+}
+.essentialGrid>div:nth-child(n),
+.selectGrid>div:nth-child(n) {
+    border-right: 1px solid rgba(128, 128, 128, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    padding: 10px;
+}
+.essentialGrid>div:nth-child(4n) {
+    border-right: 0;
+}
+.essentialGrid>div:nth-child(-n + 4),.selectGrid>div:nth-child(-n+4) {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+    background-color: rgba(128, 128, 128, 0.1);
+    font-weight: bold;
+}
+.essentialGrid>div:nth-child(8),
+.selectGrid>div:nth-child(8),
+.selectGrid>div:nth-child(11) {
+    font-weight: bold;
+    font-size: 13px;
+}
+.selectGrid {
+    grid-template: repeat(3, auto) / repeat(1, 1fr) repeat(1, 4fr) repeat(1, 5fr) repeat(1, 4fr);
+    border: 1px solid rgba(128, 128, 128, 0.4);
+
+}
+.selectGrid>div:nth-child(5) {
+    grid-area: 2 / 1 / 4 / 2;
+}
+.selectGrid>div:nth-child(n+9) {
+    border-top: 1px solid rgba(128, 128, 128, 0.4);
+}

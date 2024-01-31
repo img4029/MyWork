@@ -6,9 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/boardStyle.css">
+<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/boardStyle.css?a">
 </head>
 <body>
+<c:import url="/header"></c:import>
 <form action="update" method="post">
 	<div id="boardUpdate">
 		<input id="seq" name="seq" value="${requestScope.dto.seq}"><br>

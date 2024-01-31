@@ -4,50 +4,37 @@
 <html>
 <head>
 	<title>Home</title>
-	<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+    <style type="text/css">
+    	main p, main h1, main span, main img{
+    		padding: 20px 0;
+    	}
+    </style>
 </head>
 <body>
-<h1>** Hello Spring_MVC02 !!!</h1>
+<c:import url="/header"></c:import>
+<main>
+	<h1>Hello Spring_MVC02!!!</h1>
+	<P>Home_time : ${serverTime}</P>
+	<c:if test="${!empty sessionScope.loginName}">
+		<span>${sessionScope.loginName}님 안녕하세요.</span><br>
+	</c:if>
+	<c:if test="${empty sessionScope.loginID}">
+		<span>로그인 후 이용하세요.</span><br>
+	</c:if>
+	<c:if test="${!empty requestScope.message}">
+		<span>=> ${requestScope.message}</span><br>
+	</c:if>
+	
+	<!-- 로그인 전 -->
+	<c:if test="${empty sessionScope.loginID}">
+		<img alt="mainImage" src="resources/images/Destiny2.gif" width="800">
+	</c:if>
+	<!-- 로그인 후 -->
+	<c:if test="${!empty sessionScope.loginID}">
+		<img alt="mainImage" src="resources/images/Destiny4.gif" width="800">
+	</c:if>						
+</main>
 
-<P>*  Home_time : ${serverTime}</P>
-<hr>
-<c:if test="${!empty sessionScope.loginName}">
-	${sessionScope.loginName}님 안녕하세요.<br>
-</c:if>
-<c:if test="${empty sessionScope.loginID}">
-	로그인 후 이용하세요.<br>
-</c:if>
-<c:if test="${!empty requestScope.message}">
-	<hr>=> ${requestScope.message}<br>
-</c:if>
-<hr>
-
-<!-- 로그인 전 -->
-<c:if test="${empty sessionScope.loginID}">
-	<img alt="mainImage" src="resources/images/Destiny2.gif" width="800">
-	<hr>
-	<div class="divBox">
-		&nbsp;<a href = "member/loginForm">LoginF</a>&nbsp;
-		&nbsp;<a href = "member/joinForm">JoinF</a>&nbsp;
-	</div>
-</c:if>
-<!-- 로그인 후 -->
-<c:if test="${!empty sessionScope.loginID}">
-	<img alt="mainImage" src="resources/images/Destiny4.gif" width="800">
-	<hr>
-	<div class="divBox">
-		&nbsp;<a href = "member/detail?jCode=D">내정보</a>&nbsp;
-		&nbsp;<a href = "member/detail?jCode=U">내정보수정</a>&nbsp;
-		&nbsp;<a href = "member/logout">logout</a>&nbsp;
-		&nbsp;<a href = "member/deleteForm">회원탈퇴</a>&nbsp;
-	</div>
-</c:if>
-<hr>
-<div class="divBox">
-	&nbsp;<a href = "member/memberList">MList</a>&nbsp;
-	&nbsp;<a href = "jo/joList">JList</a>&nbsp;
-	&nbsp;<a href = "board/boardList">BList</a>&nbsp;
-</div>
 
 </body>
 </html>

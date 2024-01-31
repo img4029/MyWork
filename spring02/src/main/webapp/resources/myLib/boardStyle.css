@@ -37,8 +37,10 @@ hr {
 .link:hover { color:DimGray; font-size:1.2em; cursor:pointer; }
 .link:active { color:Blue; }
 
-#boardDetail {
+#boardDetail, #boardUpdate {
 	width: 70%;
+	width: 1100px;
+    margin: 0 auto;
 }
 #boardDetail, #boardUpdate {
 	padding: 50px;
