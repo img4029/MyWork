@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.servlet.ModelAndView;
@@ -147,6 +148,18 @@ public class MemberController {
 	@Autowired(required = false)
 	MemberService service;
 	
+	@GetMapping("/idDoubleCheck")
+	public void idDoubleCheck(@RequestParam("id") String id, Model model) {
+		// 1) newID 존재 여부 확인 & 결과처리
+		if(service.selectOne(id) != null) {
+			// => 사용 불가능
+			model.addAttribute("idUse", "F");
+		}else {
+			// => 사용 가능
+			model.addAttribute("idUse", "T");
+		}
+	} //idDoubleCheck
+	
 	// => ver01 : return String
 	//public String loginForm() {
 	//	return "member/loginForm";
@@ -175,7 +188,7 @@ public class MemberController {
 	    // => 존재하면 Password 확인
 	    // => 성공: id, name은 session에 보관, home 으로
 	    // => 실패: 재로그인 유도
-		dto = service.selectOne( dto.getId() );
+	    dto = service.selectOne( dto.getId() );
 		
 		if( dto != null && dto.getPassword().equals(password) ) {
 			//성공

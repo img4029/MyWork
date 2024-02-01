@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>** Login Form **</title>
 <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/member.css">
+<script src="/spring02/resources/myLib/inCheck.js"></script>
 <style type="text/css">
 	tr {
 		height: 40px;
@@ -16,7 +17,55 @@
 		background-color: gold;
 		text-align: center;
 	}
+	.login_container span{
+		font-size: 12px;
+		height : 17px;
+		text-align: left;
+		color:red;
+	}
 </style>
+<script>
+	let iCheck = { state: false, name: "아이디", message: "iMessage", id: "id" };
+	let pCheck = { state: false, name: "비밀번호", message: "pMessage", id: "password" };
+	let arr = [iCheck, pCheck];
+	
+ 	onload = () => {
+		let inputAll = document.querySelectorAll(".inputAll");
+        let inputCk = document.querySelectorAll(".inputCk");
+        for (let i = 0; i < inputAll.length; i++) {
+            inputAll[i].addEventListener('keydown', (e) => {
+                if (e.which == 13) {
+                    if(inputAll[i].id != 'password') e.preventDefault();
+                   	
+                    if (i != inputAll.length - 1) {
+                        inputAll[i + 1].focus();
+                    } else {
+                        document.getElementById('fullAgreement').focus();
+                    }
+                }
+            });
+        }
+        for (let i = 0; i < inputCk.length; i++) {
+            inputCk[i].addEventListener('focusout', (e) => {
+                arr[i].state = AllCheck(inputCk[i].id);
+            });
+        }
+        console.log(document.getElementById('iMessage').value);
+        if( document.getElementById('iMessage').value == "ID, 비밀번호 확인불가 다시 시도하세요"){
+     		alert("ID, 비밀번호 확인불가 다시 시도하세요");
+     	}
+	} 
+ 	
+ 	function inCheck() {
+		if (arr[0].state && arr[1].state ) {
+			return true;
+		} else {
+			alert("아이디와 비밀번호 양식이 올바르지 않습니다.");
+			return false;
+		}
+ 	}
+ 	
+</script>
 </head>
 <body>
 <c:import url="/header"></c:import>
@@ -32,13 +81,15 @@
             <p>가입하신 아이디와 비밀번호를 입력해 주세요<br>
                 비밀번호는 대소문자를 구분합니다.</p>
             <label class="idLabel" for="id"></label>
-            <input class="textFont" type="text" id="id" name="id" placeholder="MEMBER ID"
+            <input class="textFont inputAll inputCk" type="text" id="id" name="id" placeholder="MEMBER ID"
                 onfocus="this.placeholder = ''">
             <label class="pwLabel " for="password"></label>
-            <input class="textFont" type="password" id="password" name="password" placeholder="PASSWORD"
+            <span id="iMessage" class="eMessage">${message}</span>
+            
+            <input class="textFont inputAll inputCk" type="password" id="password" name="password" placeholder="PASSWORD"
                 onfocus="this.placeholder = ''">
-			
-			<input class="login_btn" type="submit" value="로그인">
+			<span id="pMessage" class="eMessage"></span>
+			<input class="login_btn" type="submit" value="로그인" onclick="return inCheck();">
         </div>
         <div>
             <h3>회원가입</h3>
@@ -73,12 +124,6 @@
     </div>
 </form>
 </main>
-
-
-
-<c:if test="${not empty requestScope.message}">
-=> ${requestScope.message}<br>
-</c:if>	
 <hr>
 <div class="divBox">
 	&nbsp;<a href="/spring02/home">Home</a>&nbsp;

@@ -1,346 +1,362 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <!DOCTYPE html>
-        <html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
 
-        <head>
-            <meta charset="UTF-8">
-            <title>** Join Form **</title>
-            <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/idinfoSub.css?h">
-            <script src="/spring02/resources/myLib/inCheck.js"></script>
-            <script>
-                "use strict"
-                // 1) 전역변수 정의
-                // => 무결성 확인 상태 표시를 위한 switch 변수
-                let iDoubleCheck = false;
-                let nCheck = { state: false, name: "이름", message: "nMessage", id: "name" };
-                let iCheck = { state: false, name: "아이디", message: "iMessage", id: "id" };
-                let pCheck = { state: false, name: "비밀번호", message: "pMessage", id: "password" };
-                let p2Check = { state: false, name: "비밀번호 확인", message: "p2Message", id: "password2" };
-                let aCheck = { state: false, name: "나이", message: "aMessage", id: "age" };
-                let jCheck = { state: false, name: "조", message: "jMessage", id: "jno" };
-                let oCheck = { state: false, name: "POINT", message: "oMessage", id: "point" };
-                let bCheck = { state: false, name: "생년월일", message: "bMessage", id: "birthday" };
-                let arr = [nCheck, iCheck, pCheck, p2Check, aCheck, jCheck, oCheck, bCheck];
-                // 2) 개별적인 확인 코드
-                // => 이벤트: forcusout, keydown_EnterKey	
-                // => 오류가 없으면 : switch 변수값을 true, 메세지삭제
-                // => 오류가 있으면 : switch 변수값을 false, 메세지출력
-                // => 순서 : Tag인식 -> Tag의 value 값 가져오기 -> 무결성확인
+<head>
+    <meta charset="UTF-8">
+    <title>** Join Form **</title>
+    <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/idinfoSub.css">
+    <script src="/spring02/resources/myLib/inCheck.js"></script>
+    <script>
+        "use strict"
+        // 1) 전역변수 정의
+        // => 무결성 확인 상태 표시를 위한 switch 변수
+        let iDoubleCheck = false;
+        let nCheck = { state: false, name: "이름", message: "nMessage", id: "name" };
+        let iCheck = { state: false, name: "아이디", message: "iMessage", id: "id" };
+        let pCheck = { state: false, name: "비밀번호", message: "pMessage", id: "password" };
+        let p2Check = { state: false, name: "비밀번호 확인", message: "p2Message", id: "password2" };
+        let aCheck = { state: false, name: "나이", message: "aMessage", id: "age" };
+        let jCheck = { state: false, name: "조", message: "jMessage", id: "jno" };
+        let oCheck = { state: false, name: "POINT", message: "oMessage", id: "point" };
+        let bCheck = { state: false, name: "생년월일", message: "bMessage", id: "birthday" };
+        let arr = [nCheck, iCheck, pCheck, p2Check, aCheck, jCheck, oCheck, bCheck];
+        // 2) 개별적인 확인 코드
+        // => 이벤트: forcusout, keydown_EnterKey	
+        // => 오류가 없으면 : switch 변수값을 true, 메세지삭제
+        // => 오류가 있으면 : switch 변수값을 false, 메세지출력
+        // => 순서 : Tag인식 -> Tag의 value 값 가져오기 -> 무결성확인
 
-                onload = () => {
-                    // => window.onload : window는 생략가능
-                    // => body 의 Tag 들을 인식가능한 상태일때 실행 되도록하기위함.
-                    document.getElementById('name').focus();
-                    let inputAll = document.querySelectorAll(".inputAll");
-                    let inputCk = document.querySelectorAll(".inputCk");
-                    for (let i = 0; i < inputAll.length; i++) {
-                        inputAll[i].addEventListener('keydown', (e) => {
-                            if (e.which == 13) {
-                                e.preventDefault();
-                                if (i != inputAll.length - 1) {
-                                    inputAll[i + 1].focus();
-                                } else {
-                                    document.getElementById('fullAgreement').focus();
-                                }
-                            }
-                        });
-                    }
-                    for (let i = 0; i < inputCk.length; i++) {
-                        inputCk[i].addEventListener('focusout', (e) => {
-                            arr[i].state = AllCheck(inputCk[i].id);
-                        });
-                    }
-
-                    // document.getElementById('id').addEventListener('forcusout',()=>{ iCheck = idCheck(); });
-
-                    mainExecution(document.querySelectorAll(".Agreement"), mainCheckBox);
-                    mainExecution(document.querySelectorAll(".Marketing"), mainCheckBox);
-                    subExecution(document.querySelectorAll(".Agreement"), subCheckBoxAll);
-                    subExecution(document.querySelectorAll(".Marketing"), subCheckBoxAll);
-                };
-
-                // 3) submit 실행 여부 판단 & 실행
-                // => 모든항목의 무결성을 확인
-                // => 오류가 없으면 : return true
-                // => 오류가 1항목이라도 있으면 : return false  
-
-                function inCheck() {
-                    if (!document.getElementById('termsUse').checked) {
-                        alert(`약관을 읽어보시고 동의하셔야 됩니다.`);
-                        document.getElementById('termsUse').focus();
-                        return false;
-                    } else if (!document.getElementById('collectionUse').checked) {
-                        alert(`개인정보 수집 및 이용에 동의하셔야 됩니다.`);
-                        document.getElementById('collectionUse').focus();
-                        return false;
-                    }
-
-                    for (let i = 0; i < arr.length; i++) {
-                        if (!arr[i].state) {
-                            document.getElementById(arr[i].message).innerHTML = '필수입력, ' + arr[i].name + '을 입력하세요';
-                            document.getElementById(arr[i].id).focus();
-
-                            break;
-                        }
-                        if (arr[i].id == 'id' || !iDoubleCheck) {
-                            document.getElementById('iMessage').innerHTML = '아이디 중복 확인을 해주세요';
-                            document.getElementById("id").focus();
-                            break;
-                        }
-                    }
-
-                    if (arr[0].state && arr[1].state && arr[2].state && arr[3].state
-                        && arr[4].state && arr[5].state && arr[6].state && arr[7].state) {
-                        //submit 진행
-                        if (confirm("정말 가입하십니까? (Yes:확인/No:취소)")) {
-                            return true;
+        onload = () => {
+            // => window.onload : window는 생략가능
+            // => body 의 Tag 들을 인식가능한 상태일때 실행 되도록하기위함.
+            document.getElementById('name').focus();
+            let inputAll = document.querySelectorAll(".inputAll");
+            let inputCk = document.querySelectorAll(".inputCk");
+            for (let i = 0; i < inputAll.length; i++) {
+                inputAll[i].addEventListener('keydown', (e) => {
+                    if (e.which == 13) {
+                        e.preventDefault();
+                        if (i != inputAll.length - 1) {
+                            inputAll[i + 1].focus();
                         } else {
-                            alert("가입이 취소되었습니다.");
-                            return false;
+                            document.getElementById('fullAgreement').focus();
                         }
-                    } else {
-                        return false;
                     }
+                });
+            }
+            for (let i = 0; i < inputCk.length; i++) {
+                inputCk[i].addEventListener('focusout', (e) => {
+                    arr[i].state = AllCheck(inputCk[i].id);
+                });
+            }
+
+            // document.getElementById('id').addEventListener('forcusout',()=>{ iCheck = idCheck(); });
+
+            mainExecution(document.querySelectorAll(".Agreement"), mainCheckBox);
+            mainExecution(document.querySelectorAll(".Marketing"), mainCheckBox);
+            subExecution(document.querySelectorAll(".Agreement"), subCheckBoxAll);
+            subExecution(document.querySelectorAll(".Marketing"), subCheckBoxAll);
+        };
+
+        // 3) submit 실행 여부 판단 & 실행
+        // => 모든항목의 무결성을 확인
+        // => 오류가 없으면 : return true
+        // => 오류가 1항목이라도 있으면 : return false  
+
+        function inCheck() {
+            if (!document.getElementById('termsUse').checked) {
+                alert(`약관을 읽어보시고 동의하셔야 됩니다.`);
+                document.getElementById('termsUse').focus();
+                return false;
+            } else if (!document.getElementById('collectionUse').checked) {
+                alert(`개인정보 수집 및 이용에 동의하셔야 됩니다.`);
+                document.getElementById('collectionUse').focus();
+                return false;
+            }
+
+            for (let i = 0; i < arr.length; i++) {
+                if (!arr[i].state) {
+                    document.getElementById(arr[i].message).innerHTML = '필수입력, ' + arr[i].name + '을 입력하세요';
+                    document.getElementById(arr[i].id).focus();
+
+                    break;
                 }
 
-                function idDoubleCheck() {
-                    iDoubleCheck = AllCheck(iCheck.id);
+                if (arr[i].id == 'id' && !document.getElementById('submitTag').value) {
+                    document.getElementById('iMessage').innerHTML = '아이디 중복 확인을 해주세요';
+                    document.getElementById("id").focus();
+                    break;
+                } 
+            }
 
-                    if (iDoubleCheck) {
-                        document.getElementById("id").disabled = true;
-                    }
+            if (arr[0].state && arr[1].state && arr[2].state && arr[3].state
+                && arr[4].state && arr[5].state && arr[6].state && arr[7].state) {
+                //submit 진행
+                if (confirm("정말 가입하십니까? (Yes:확인/No:취소)")) {
+                    return true;
+                } else {
+                    alert("가입이 취소되었습니다.");
+                    return false;
                 }
+            } else {
+                return false;
+            }
+        }
+        // ** ID 중복확인
+        // => UI 개선사항
+        // => 중복확인 버튼 추가
+        //    처음 : 중복확인버튼_enable / submit_disable
+        // => 중복확인 완료후 submit 이 가능하도록
+        //    중복확인버튼_disable / submit_enable
+        // => 중복확인 기능 : function idDupCheck()
+        //    id입력값의 무결성점검 -> id 확인요청 -> 서버로 전송 -> id , selectOne 결과 -> response: 사용가능/불가능
+        // => 서버측 : 컨트롤러에 idDupCheck 요청을 처리하는 매핑메서드, view_Page(팝업창) 작성 
 
-                //mainCheckBox 를 호출하기 위한 함수
-                function mainExecution(main, mainCheckBox) {
-                    main[0].addEventListener('click', () => {
-                        mainCheckBox(main);
-                    });
-                };
-                //subCheckBoxAll 를 호출하기 위한 함수
-                function subExecution(main, subCheckBoxAll) {
-                    for (let i = 0; i < main.length; i++) {
-                        main[i].addEventListener('click', () => {
-                            subCheckBoxAll(main);
-                        });
-                    }
-                };
+        function idDoubleCheck() {
+            // iDoubleCheck
+            let popupX = (window.screen.width / 2) - (400 / 2);
+            let popupY = (window.screen.height / 2) - (300 / 2);
+            if (!iCheck.state) {
+                iCheck.state = AllCheck(iCheck.id);
+            } else {
+                let url="idDoubleCheck?id="+document.getElementById('id').value;
+                window.open(url,'_blank','width=400,height=300,resizable=yes,scrollbars=yes,toolbar=no,menubar=yes, left=' + popupX + ', top=' + popupY);
+            } 
+            //document.getElementById("id").readonly = true;
+        };
 
-                //메인 CheckBox가 체크되면 서브가 모두 체크됨
-                function mainCheckBox(main) {
-                    if (main[0].checked) {
-                        for (let i = 1; i < main.length; i++) {
-                            main[i].checked = true;
-                        }
-                    }
-                    else if (main[0].checked != true) {
-                        for (let i = 1; i < main.length; i++) {
-                            main[i].checked = false;
-                        }
-                    }
-                };
-                //서브 CheckBox가 모두 체크되면 메인이 체크됨
-                function subCheckBoxAll(main) {
-                    for (let i = 1, count = 1; i < main.length; i++) {
-                        if (main[i].checked === true) count++;
+        //mainCheckBox 를 호출하기 위한 함수
+        function mainExecution(main, mainCheckBox) {
+            main[0].addEventListener('click', () => {
+                mainCheckBox(main);
+            });
+        };
+        //subCheckBoxAll 를 호출하기 위한 함수
+        function subExecution(main, subCheckBoxAll) {
+            for (let i = 0; i < main.length; i++) {
+                main[i].addEventListener('click', () => {
+                    subCheckBoxAll(main);
+                });
+            }
+        };
 
-                        if (count == main.length) main[0].checked = true;
-                        else main[0].checked = false;
-                    }
-                };
-            </script>
-        </head>
+        //메인 CheckBox가 체크되면 서브가 모두 체크됨
+        function mainCheckBox(main) {
+            if (main[0].checked) {
+                for (let i = 1; i < main.length; i++) {
+                    main[i].checked = true;
+                }
+            }
+            else if (main[0].checked != true) {
+                for (let i = 1; i < main.length; i++) {
+                    main[i].checked = false;
+                }
+            }
+        };
+        //서브 CheckBox가 모두 체크되면 메인이 체크됨
+        function subCheckBoxAll(main) {
+            for (let i = 1, count = 1; i < main.length; i++) {
+                if (main[i].checked === true) count++;
 
-        <body>
-            <c:import url="/header"></c:import>
-            <main>
-                <form action="join" method="post">
-                    <div class="idinfoSubContainer">
+                if (count == main.length) main[0].checked = true;
+                else main[0].checked = false;
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <c:import url="/header"></c:import>
+    <main>
+        <form action="join" method="post">
+            <div class="idinfoSubContainer">
+                <div>
+                    <h3>회원정보 입력</h3>
+                    <div class="idinfo_grid">
+                        <div class="grid_head"><span>*</span>이름</div>
                         <div>
-                            <h3>회원정보 입력</h3>
-                            <div class="idinfo_grid">
-                                <div class="grid_head"><span>*</span>이름</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="text" name="name" id="name" size="15"
-                                        maxlength="30">
-                                    <span id="nMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head"><span>*</span>아이디</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="text" name="id" id="id" size="15"
-                                        maxlength="30">
-                                    <div onclick="idDoubleCheck()" class="idDoubleCheck">중복확인</div>
-                                    <span id="iMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head"><span>*</span>비밀번호</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="password" name="password"
-                                        id="password" size="15" >
-                                    <span id="pMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head"><span>*</span>비밀번호 확인</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="password" id="password2" size="15">
-                                    <span id="p2Message" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head"><span>*</span>나이</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="text" name="age" id="age" size="15">
-                                    <span id="aMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head"><span>*</span>조</div>
-                                <div>
-                                    <select class="inputAll inputCk" id="jno" name="jno">
-                                        <option value="0">조를 선택하세요</option>
-                                        <option value="1">1조:Business</option>
-                                        <option value="2">2조:static</option>
-                                        <option value="3">3조:칭찬해조</option>
-                                        <option value="4">4조:카톡으로얘기하조</option>
-                                        <option value="7">7조:칠면조(관리팀)</option>
-                                    </select>
-                                    <span id="jMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head">자기소개</div>
-                                <div>
-                                    <input class="inputAll" value="" type="text" name="info" id="info" size="15">
-                                </div>
-
-                                <div class="grid_head"><span>*</span>POINT</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="text" name="point" id="point"
-                                        size="15">
-                                    <span id="oMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head"><span>*</span>생년월일</div>
-                                <div>
-                                    <input class="inputAll inputCk" value="" type="date" name="birthday" size="15"
-                                        id="birthday">
-                                    <span id="bMessage" class="eMessage"></span>
-                                </div>
-
-                                <div class="grid_head">추천인</div>
-                                <div>
-                                    <input class="inputAll" value="" type="text" name="rid" id="rid" size="15">
-                                </div>
-                            </div>
+                            <input class="inputAll inputCk" value="" type="text" name="name" id="name" size="15"
+                                maxlength="30">
+                            <span id="nMessage" class="eMessage"></span>
                         </div>
 
-                        <div class="agreement_box">
-                            <div class="fullAgreement_box">
-                                <input type="checkbox" id="fullAgreement" name="fullAgreement" class="Agreement">
-                                <label for="fullAgreement">전체동의</label>
-                            </div>
-                            <div class="fullUnder_box">
-                                <div class="fullUnder1">
-                                    <div>
-                                        <input type="checkbox" id="termsUse" name="termsUse"
-                                            class="Agreement Agreement_sub">
-                                        <label for="termsUse">이용약관</label>
-                                        <a href="#이용약관">내용보기</a>
-                                    </div>
-
-                                    <div>
-                                        <input type="checkbox" id="collectionUse" name="collectionUse"
-                                            class="Agreement Agreement_sub">
-                                        <label for="collectionUse">개인정보 수집 및 이용 안내</label>
-                                        <a href="#개인정보">내용보기</a>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="fullUnder2">
-                                    <div>
-                                        <input type="checkbox" id="receiveMarketing" name="receiveMarketing"
-                                            class="Agreement Marketing">
-                                        <label for="receiveMarketing">마케팅 수신동의</label>
-                                        <span>&#10088;</span>
-                                        <input type="checkbox" id="email" name="email" class="Agreement Marketing">
-                                        <label for="email">이메일</label>
-                                        <input type="checkbox" id="SMS" name="SMS" class="Agreement Marketing">
-                                        <label for="SMS">SMS</label>
-                                        <span>&#10089;</span>
-                                    </div>
-                                    <p>
-                                        쇼핑몰에서 제공하는 신상품 소식/ 할인쿠폰을 무상으로 보내드립니다! <br>
-                                        단, 상품 구매 정보는 수신동의 여부 관계없이 발송됩니다. <br>
-                                        <strong>제공 동의를 하지 않으셔도 서비스 이용에는 문제가 없습니다.</strong>
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="grid_head"><span>*</span>아이디</div>
+                        <div>
+                            <input class="inputAll inputCk" value="" type="text" name="id" id="id" size="15"
+                                maxlength="30">
+                            <button type="button" onclick="idDoubleCheck()" id="idDup" class="idDoubleCheck" >중복확인</button>
+                            <span id="iMessage" class="eMessage"></span>
                         </div>
-                        <!-- => Tag 의 onclick 이벤트를 작성하고, onclick 이벤트핸들러가 가지고있던
-                 기본동작인 submit 을 선택적으로 진행되도록 해준다. 
-                 - submit 진행 : default (또는 return true)
-                 - submit 정지 : submit 이벤트를 무효화 해야함 (return false 또는 이벤트.preventDefault())  -->
-                        <input type="submit" value="동의하고 가입완료" id="submitTag" class="registrationComplete"
-                            onclick="return inCheck();"></input>
-                        <!-- 
-        <button class="registrationComplete" onclick="return inCheck()">TEST</button>
-        ** Button Test
-            => default : form 내부에서는  submit 와  동일하게 작동됨 
-                        inCheck() 의 return 값에 따라 (true 면) submit 진행됨 
-            => 단, type 속성을 선택하면 (button, reset, submit 등) 속성에 맞게 실행됨
-               예) button 을 선택하면 submit 은 실행되지않음  
-            ** Enter_Key : form 내부에서는 누르면 submit이 진행됨.
-		-->
-                        <hr>
-                        <div class="idinfoSubPage">
+
+                        <div class="grid_head"><span>*</span>비밀번호</div>
+                        <div>
+                            <input class="inputAll inputCk" value="" type="password" name="password"
+                                id="password" size="15">
+                            <span id="pMessage" class="eMessage"></span>
+                        </div>
+
+                        <div class="grid_head"><span>*</span>비밀번호 확인</div>
+                        <div>
+                            <input class="inputAll inputCk" value="" type="password" id="password2" size="15">
+                            <span id="p2Message" class="eMessage"></span>
+                        </div>
+
+                        <div class="grid_head"><span>*</span>나이</div>
+                        <div>
+                            <input class="inputAll inputCk" value="" type="text" name="age" id="age" size="15">
+                            <span id="aMessage" class="eMessage"></span>
+                        </div>
+
+                        <div class="grid_head"><span>*</span>조</div>
+                        <div>
+                            <select class="inputAll inputCk" id="jno" name="jno">
+                                <option value="0">조를 선택하세요</option>
+                                <option value="1">1조:Business</option>
+                                <option value="2">2조:static</option>
+                                <option value="3">3조:칭찬해조</option>
+                                <option value="4">4조:카톡으로얘기하조</option>
+                                <option value="7">7조:칠면조(관리팀)</option>
+                            </select>
+                            <span id="jMessage" class="eMessage"></span>
+                        </div>
+
+                        <div class="grid_head">자기소개</div>
+                        <div>
+                            <input class="inputAll" value="" type="text" name="info" id="info" size="15">
+                        </div>
+
+                        <div class="grid_head"><span>*</span>POINT</div>
+                        <div>
+                            <input class="inputAll inputCk" value="" type="text" name="point" id="point"
+                                size="15">
+                            <span id="oMessage" class="eMessage"></span>
+                        </div>
+
+                        <div class="grid_head"><span>*</span>생년월일</div>
+                        <div>
+                            <input class="inputAll inputCk" value="" type="date" name="birthday" size="15"
+                                id="birthday">
+                            <span id="bMessage" class="eMessage"></span>
+                        </div>
+
+                        <div class="grid_head">추천인</div>
+                        <div>
+                            <input class="inputAll" value="" type="text" name="rid" id="rid" size="15">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="agreement_box">
+                    <div class="fullAgreement_box">
+                        <input type="checkbox" id="fullAgreement" name="fullAgreement" class="Agreement">
+                        <label for="fullAgreement">전체동의</label>
+                    </div>
+                    <div class="fullUnder_box">
+                        <div class="fullUnder1">
                             <div>
-                                <a id="이용약관"></a>
-                                <h3>이용약관</h3>
+                                <input type="checkbox" id="termsUse" name="termsUse"
+                                    class="Agreement Agreement_sub">
+                                <label for="termsUse">이용약관</label>
+                                <a href="#이용약관">내용보기</a>
+                            </div>
 
-                                <textarea cols="80" rows="10" readonly>
+                            <div>
+                                <input type="checkbox" id="collectionUse" name="collectionUse"
+                                    class="Agreement Agreement_sub">
+                                <label for="collectionUse">개인정보 수집 및 이용 안내</label>
+                                <a href="#개인정보">내용보기</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="fullUnder2">
+                            <div>
+                                <input type="checkbox" id="receiveMarketing" name="receiveMarketing"
+                                    class="Agreement Marketing">
+                                <label for="receiveMarketing">마케팅 수신동의</label>
+                                <span>&#10088;</span>
+                                <input type="checkbox" id="email" name="email" class="Agreement Marketing">
+                                <label for="email">이메일</label>
+                                <input type="checkbox" id="SMS" name="SMS" class="Agreement Marketing">
+                                <label for="SMS">SMS</label>
+                                <span>&#10089;</span>
+                            </div>
+                            <p>
+                                쇼핑몰에서 제공하는 신상품 소식/ 할인쿠폰을 무상으로 보내드립니다! <br>
+                                단, 상품 구매 정보는 수신동의 여부 관계없이 발송됩니다. <br>
+                                <strong>제공 동의를 하지 않으셔도 서비스 이용에는 문제가 없습니다.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- => Tag 의 onclick 이벤트를 작성하고, onclick 이벤트핸들러가 가지고있던
+            기본동작인 submit 을 선택적으로 진행되도록 해준다. 
+            - submit 진행 : default (또는 return true)
+            - submit 정지 : submit 이벤트를 무효화 해야함 (return false 또는 이벤트.preventDefault())  -->
+                <!-- <input type="submit" value=false id="submitTag" class="registrationComplete"
+                    onclick="return inCheck();" ></input> -->
+                <button type="submit" value=false class="registrationComplete"id="submitTag" onclick="return inCheck();">동의하고 가입완료</button>
+                <!-- 
+
+** Button Test
+    => default : form 내부에서는  submit 와  동일하게 작동됨 
+                inCheck() 의 return 값에 따라 (true 면) submit 진행됨 
+    => 단, type 속성을 선택하면 (button, reset, submit 등) 속성에 맞게 실행됨
+        예) button 을 선택하면 submit 은 실행되지않음  
+    ** Enter_Key : form 내부에서는 누르면 submit이 진행됨.
+-->
+                <hr>
+                <div class="idinfoSubPage">
+                    <div>
+                        <a id="이용약관"></a>
+                        <h3>이용약관</h3>
+
+                        <textarea cols="80" rows="10" readonly>
 인터넷 쇼핑몰 『주식회사 디엠코스메틱스 코리아 사이버 몰』회원 약관
-                    
+            
 제1조(목적)
 이 약관은 주식회사 디엠코스메틱스 코리아 회사(전자상거래 사업자)가 운영하는 주식회사 디엠코스메틱스 코리아 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.
-                    
-  ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
-                    
+            
+※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
+            
 제2조(정의)
 ① “몰”이란 주식회사 디엠코스메틱스 코리아 회사가 재화 또는 용역(이하 “재화 등”이라 함)을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 아울러 사이버몰을 운영하는 사업자의 의미로도 사용합니다.
-                    
+            
 ② “이용자”란 “몰”에 접속하여 이 약관에 따라 “몰”이 제공하는 서비스를 받는 회원 및 비회원을 말합니다.
-                    
+            
 ③ ‘회원’이라 함은 “몰”에 회원등록을 한 자로서, 계속적으로 “몰”이 제공하는 서비스를 이용할 수 있는 자를 말합니다.
-                    
+            
 ④ ‘비회원’이라 함은 회원에 가입하지 않고 “몰”이 제공하는 서비스를 이용하는 자를 말합니다.
-                    
+            
 제3조 (약관 등의 명시와 설명 및 개정) 
 ① “몰”은 이 약관의 내용과 상호 및 대표자 성명, 영업소 소재지 주소(소비자의 불만을 처리할 수 있는 곳의 주소를 포함), 전화번호·모사전송번호·전자우편주소, 사업자등록번호, 통신판매업 신고번호, 개인정보보호책임자 등을 이용자가 쉽게 알 수 있도록 주식회사 디엠코스메틱스 코리아 사이버몰의 초기 서비스화면(전면)에 게시합니다. 다만, 약관의 내용은 이용자가 연결화면을 통하여 볼 수 있도록 할 수 있습니다.
-                    
+            
 ② “몰은 이용자가 약관에 동의하기에 앞서 약관에 정하여져 있는 내용 중 청약철회·배송책임·환불조건 등과 같은 중요한 내용을 이용자가 이해할 수 있도록 별도의 연결화면 또는 팝업화면 등을 제공하여 이용자의 확인을 구하여야 합니다.
-                    
+            
 ③ “몰”은 「전자상거래 등에서의 소비자보호에 관한 법률」, 「약관의 규제에 관한 법률」, 「전자문서 및 전자거래기본법」, 「전자금융거래법」, 「전자서명법」, 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」, 「방문판매 등에 관한 법률」, 「소비자기본법」 등 관련 법을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.
-                    
+            
 ④ “몰”이 약관을 개정할 경우에는 적용일자 및 개정사유를 명시하여 현행약관과 함께 몰의 초기화면에 그 적용일자 7일 이전부터 적용일자 전일까지 공지합니다. 다만, 이용자에게 불리하게 약관내용을 변경하는 경우에는 최소한 30일 이상의 사전 유예기간을 두고 공지합니다.  이 경우 "몰“은 개정 전 내용과 개정 후 내용을 명확하게 비교하여 이용자가 알기 쉽도록 표시합니다. 
-                    
+            
 ⑤ “몰”이 약관을 개정할 경우에는 그 개정약관은 그 적용일자 이후에 체결되는 계약에만 적용되고 그 이전에 이미 체결된 계약에 대해서는 개정 전의 약관조항이 그대로 적용됩니다. 다만 이미 계약을 체결한 이용자가 개정약관 조항의 적용을 받기를 원하는 뜻을 제3항에 의한 개정약관의 공지기간 내에 “몰”에 송신하여 “몰”의 동의를 받은 경우에는 개정약관 조항이 적용됩니다.
-                    
+            
 ⑥ 이 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제 등에 관한 법률, 공정거래위원회가 정하는 「전자상거래 등에서의 소비자 보호지침」 및 관계법령 또는 상관례에 따릅니다.
-                    
+            
 제4조(서비스의 제공 및 변경) 
 ① “몰”은 다음과 같은 업무를 수행합니다.
 1. 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
 2. 구매계약이 체결된 재화 또는 용역의 배송
 3. 기타 “몰”이 정하는 업무
-                    
+            
 ② “몰”은 재화 또는 용역의 품절 또는 기술적 사양의 변경 등의 경우에는 장차 체결되는 계약에 의해 제공할 재화 또는 용역의 내용을 변경할 수 있습니다. 이 경우에는 변경된 재화 또는 용역의 내용 및 제공일자를 명시하여 현재의 재화 또는 용역의 내용을 게시한 곳에 즉시 공지합니다.
-                    
+            
 ③ “몰”이 제공하기로 이용자와 계약을 체결한 서비스의 내용을 재화 등의 품절 또는 기술적 사양의 변경 등의 사유로 변경할 경우에는 그 사유를 이용자에게 통지 가능한 주소로 즉시 통지합니다.
-                    
+            
 ④ 전항의 경우 “몰”은 이로 인하여 이용자가 입은 손해를 배상합니다. 다만, “몰”이 고의 또는 과실이 없음을 입증하는 경우에는 그러하지 아니합니다.
-                    
+            
 제5조(서비스의 중단) 
 ① “몰”은 컴퓨터 등 정보통신설비의 보수점검·교체 및 고장, 통신의 두절 등의 사유가 발생한 경우에는 서비스의 제공을 일시적으로 중단할 수 있습니다.
-                    
+            
 ② “몰”은 제1항의 사유로 서비스의 제공이 일시적으로 중단됨으로 인하여 이용자 또는 제3자가 입은 손해에 대하여 배상합니다. 단, “몰”이 고의 또는 과실이 없음을 입증하는 경우에는 그러하지 아니합니다.
 
 ③ 사업종목의 전환, 사업의 포기, 업체 간의 통합 등의 이유로 서비스를 제공할 수 없게 되는 경우에는 “몰”은 제8조에 정한 방법으로 이용자에게 통지하고 당초 “몰”에서 제시한 조건에 따라 소비자에게 보상합니다. 다만, “몰”이 보상기준 등을 고지하지 아니한 경우에는 이용자들의 마일리지 또는 적립금 등을 “몰”에서 통용되는 통화가치에 상응하는 현물 또는 현금으로 이용자에게 지급합니다.
@@ -453,7 +469,7 @@
 ⑤ “몰”이 제3항과 제4항에 의해 이용자의 동의를 받아야 하는 경우에는 개인정보보호 책임자의 신원(소속, 성명 및 전화번호, 기타 연락처), 정보의 수집목적 및 이용목적, 제3자에 대한 정보제공 관련사항(제공받은자, 제공목적 및 제공할 정보의 내용) 등 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제22조제2항이 규정한 사항을 미리 명시하거나 고지해야 하며 이용자는 언제든지 이 동의를 철회할 수 있습니다.
 
 ⑥ 이용자는 언제든지 “몰”이 가지고 있는 자신의 개인정보에 대해 열람 및 오류정정을 요구할 수 있으며 “몰”은 이에 대해 지체 없이 필요한 조치를 취할 의무를 집니다. 이용자가 오류의 정정을 요구한 경우에는 “몰”은 그 오류를 정정할 때까지 당해 개인정보를 이용하지 않습니다.
- 
+
 ⑦ “몰”은 개인정보 보호를 위하여 이용자의 개인정보를 처리하는 자를  최소한으로 제한하여야 하며 신용카드, 은행계좌 등을 포함한 이용자의 개인정보의 분실, 도난, 유출, 동의 없는 제3자 제공, 변조 등으로 인한 이용자의 손해에 대하여 모든 책임을 집니다.
 
 ⑧ “몰” 또는 그로부터 개인정보를 제공받은 제3자는 개인정보의 수집목적 또는 제공받은 목적을 달성한 때에는 당해 개인정보를 지체 없이 파기합니다.
@@ -501,62 +517,62 @@
 ① “몰”은 이용자가 제기하는 정당한 의견이나 불만을 반영하고 그 피해를 보상처리하기 위하여 피해보상처리기구를 설치·운영합니다.
 
 ② “몰”은 이용자로부터 제출되는 불만사항 및 의견은 우선적으로 그 사항을 처리합니다. 다만, 신속한 처리가 곤란한 경우에는 이용자에게 그 사유와 처리일정을 즉시 통보해 드립니다.
-                
+        
 ③ “몰”과 이용자 간에 발생한 전자상거래 분쟁과 관련하여 이용자의 피해구제신청이 있는 경우에는 공정거래위원회 또는 시·도지사가 의뢰하는 분쟁조정기관의 조정에 따를 수 있습니다.
-                    
+            
 제24조(재판권 및 준거법)
 ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
-                    
+            
 ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-                    
+            
 본 약관은 2022년 12월 09일부터 적용됩니다.
-                </textarea>
-                            </div>
-                            <div>
-                                <a id="개인정보"></a>
-                                <h3>개인정보 수집·이용 (필수)</h3>
-                                <div class="essentialGrid">
-                                    <div>구분</div>
-                                    <div>목적</div>
-                                    <div>항목</div>
-                                    <div>보유기간</div>
-                                    <div>필수정보</div>
-                                    <div>회원제 서비스 이용 / 본인확인</div>
-                                    <div>이름, 아이디, 비밀번호, 이메일, 생년월일, 성별, 주소, 휴대 전화</div>
-                                    <div>회원 탈퇴 후 즉시</div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3>개인정보 수집·이용 (선택)</h3>
-                                <div class="selectGrid">
-                                    <div>구분</div>
-                                    <div>목적</div>
-                                    <div>항목</div>
-                                    <div>보유기간</div>
-                                    <div>선택정보</div>
-                                    <div>회원제 서비스 이용 / 본인확인</div>
-                                    <div>일반 전화</div>
-                                    <div>회원 탈퇴 후 즉시</div>
-                                    <div>마케팅 활용(이벤트, 맞춤형 광고)</div>
-                                    <div>휴대폰, 이메일, 쿠키정보</div>
-                                    <div>회원 탈퇴 후 즉시</div>
-                                </div>
-                            </div>
-                            <p>귀하께서는 쇼핑몰에서 위와 같이 수집하는 개인정보에 대해, 동의하지 않거나 개인정보를 기재하지 않음으로써 거부할 수 있습니다. <br>
-                                다만, 이때 회원에게 제공되는 서비스가 제한될 수 있습니다.</p>
+        </textarea>
+                    </div>
+                    <div>
+                        <a id="개인정보"></a>
+                        <h3>개인정보 수집·이용 (필수)</h3>
+                        <div class="essentialGrid">
+                            <div>구분</div>
+                            <div>목적</div>
+                            <div>항목</div>
+                            <div>보유기간</div>
+                            <div>필수정보</div>
+                            <div>회원제 서비스 이용 / 본인확인</div>
+                            <div>이름, 아이디, 비밀번호, 이메일, 생년월일, 성별, 주소, 휴대 전화</div>
+                            <div>회원 탈퇴 후 즉시</div>
                         </div>
                     </div>
-                </form>
-            </main>
-            <hr>
-            <c:if test="${not empty requestScope.message}">
-                => ${requestScope.message}<br>
-            </c:if>
-            <hr>
-            <div class="divBox">
-                &nbsp;<a href="/spring02/home">Home</a>&nbsp;
-                &nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
+                    <div>
+                        <h3>개인정보 수집·이용 (선택)</h3>
+                        <div class="selectGrid">
+                            <div>구분</div>
+                            <div>목적</div>
+                            <div>항목</div>
+                            <div>보유기간</div>
+                            <div>선택정보</div>
+                            <div>회원제 서비스 이용 / 본인확인</div>
+                            <div>일반 전화</div>
+                            <div>회원 탈퇴 후 즉시</div>
+                            <div>마케팅 활용(이벤트, 맞춤형 광고)</div>
+                            <div>휴대폰, 이메일, 쿠키정보</div>
+                            <div>회원 탈퇴 후 즉시</div>
+                        </div>
+                    </div>
+                    <p>귀하께서는 쇼핑몰에서 위와 같이 수집하는 개인정보에 대해, 동의하지 않거나 개인정보를 기재하지 않음으로써 거부할 수 있습니다. <br>
+                        다만, 이때 회원에게 제공되는 서비스가 제한될 수 있습니다.</p>
+                </div>
             </div>
-        </body>
+        </form>
+    </main>
+    <hr>
+    <c:if test="${not empty requestScope.message}">
+        => ${requestScope.message}<br>
+    </c:if>
+    <hr>
+    <div class="divBox">
+        &nbsp;<a href="/spring02/home">Home</a>&nbsp;
+        &nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
+    </div>
+</body>
 
-        </html>
+</html>
