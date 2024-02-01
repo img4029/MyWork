@@ -12,21 +12,21 @@
                 "use strict"
                 // 1) 전역변수 정의
                 // => 무결성 확인 상태 표시를 위한 switch 변수
+                let iDoubleCheck = false;
                 let nCheck = { state: false, name: "이름", message: "nMessage", id: "name" };
                 let iCheck = { state: false, name: "아이디", message: "iMessage", id: "id" };
                 let pCheck = { state: false, name: "비밀번호", message: "pMessage", id: "password" };
                 let p2Check = { state: false, name: "비밀번호 확인", message: "p2Message", id: "password2" };
                 let aCheck = { state: false, name: "나이", message: "aMessage", id: "age" };
+                let jCheck = { state: false, name: "조", message: "jMessage", id: "jno" };
                 let oCheck = { state: false, name: "POINT", message: "oMessage", id: "point" };
                 let bCheck = { state: false, name: "생년월일", message: "bMessage", id: "birthday" };
-                let arr = [nCheck, iCheck, pCheck, p2Check, aCheck, oCheck, bCheck];
+                let arr = [nCheck, iCheck, pCheck, p2Check, aCheck, jCheck, oCheck, bCheck];
                 // 2) 개별적인 확인 코드
                 // => 이벤트: forcusout, keydown_EnterKey	
                 // => 오류가 없으면 : switch 변수값을 true, 메세지삭제
                 // => 오류가 있으면 : switch 변수값을 false, 메세지출력
                 // => 순서 : Tag인식 -> Tag의 value 값 가져오기 -> 무결성확인
-
-                // => ID
 
                 onload = () => {
                     // => window.onload : window는 생략가능
@@ -49,7 +49,6 @@
                     for (let i = 0; i < inputCk.length; i++) {
                         inputCk[i].addEventListener('focusout', (e) => {
                             arr[i].state = AllCheck(inputCk[i].id);
-                            console.log(arr[i].state);
                         });
                     }
 
@@ -61,48 +60,38 @@
                     subExecution(document.querySelectorAll(".Marketing"), subCheckBoxAll);
                 };
 
-
-
                 // 3) submit 실행 여부 판단 & 실행
                 // => 모든항목의 무결성을 확인
                 // => 오류가 없으면 : return true
                 // => 오류가 1항목이라도 있으면 : return false  
 
                 function inCheck() {
+                    if (!document.getElementById('termsUse').checked) {
+                        alert(`약관을 읽어보시고 동의하셔야 됩니다.`);
+                        document.getElementById('termsUse').focus();
+                        return false;
+                    } else if (!document.getElementById('collectionUse').checked) {
+                        alert(`개인정보 수집 및 이용에 동의하셔야 됩니다.`);
+                        document.getElementById('collectionUse').focus();
+                        return false;
+                    }
 
                     for (let i = 0; i < arr.length; i++) {
-                        console.log(arr[i].state);
                         if (!arr[i].state) {
                             document.getElementById(arr[i].message).innerHTML = '필수입력, ' + arr[i].name + '을 입력하세요';
                             document.getElementById(arr[i].id).focus();
+
+                            break;
+                        }
+                        if (arr[i].id == 'id' || !iDoubleCheck) {
+                            document.getElementById('iMessage').innerHTML = '아이디 중복 확인을 해주세요';
+                            document.getElementById("id").focus();
                             break;
                         }
                     }
-                    // if (!nCheck) {
-                    //     document.getElementById('nMessage').innerHTML = '필수입력, 이름을 입력하세요';
-                    //     document.getElementById('name').focus();
-                    // } else if (!iCheck) {
-                    //     document.getElementById('iMessage').innerHTML = '필수입력, 아이디를 입력하세요';
-                    //     document.getElementById('id').focus();
-                    // } else if (!pCheck) {
-                    //     document.getElementById('pMessage').innerHTML = '필수입력, 비밀번호를 입력하세요';
-                    //     document.getElementById('password').focus();
-                    // } else if (!p2Check) {
-                    //     document.getElementById('p2Message').innerHTML = '필수입력, 비밀번호 확인을 입력하세요';
-                    //     document.getElementById('password2').focus();
-                    // } else if (!aCheck) {
-                    //     document.getElementById('aMessage').innerHTML = '필수입력, 나이를 입력하세요';
-                    //     document.getElementById('age').focus();
-                    // } else if (!oCheck) {
-                    //     document.getElementById('oMessage').innerHTML = '필수입력, POINT를 입력하세요';
-                    //     document.getElementById('point').focus();
-                    // } else if (!bCheck) {
-                    //     document.getElementById('bMessage').innerHTML = '필수입력, 생년월일을 입력하세요';
-                    //     document.getElementById('birthday').focus();
-                    // }
 
                     if (arr[0].state && arr[1].state && arr[2].state && arr[3].state
-                        && arr[4].state && arr[5].state && arr[6].state) {
+                        && arr[4].state && arr[5].state && arr[6].state && arr[7].state) {
                         //submit 진행
                         if (confirm("정말 가입하십니까? (Yes:확인/No:취소)")) {
                             return true;
@@ -114,6 +103,15 @@
                         return false;
                     }
                 }
+
+                function idDoubleCheck() {
+                    iDoubleCheck = AllCheck(iCheck.id);
+
+                    if (iDoubleCheck) {
+                        document.getElementById("id").disabled = true;
+                    }
+                }
+
                 //mainCheckBox 를 호출하기 위한 함수
                 function mainExecution(main, mainCheckBox) {
                     main[0].addEventListener('click', () => {
@@ -149,7 +147,6 @@
 
                         if (count == main.length) main[0].checked = true;
                         else main[0].checked = false;
-                        console.log(count);
                     }
                 };
             </script>
@@ -174,34 +171,32 @@
                                 <div>
                                     <input class="inputAll inputCk" value="" type="text" name="id" id="id" size="15"
                                         maxlength="30">
-                                    <div onclick="idDoubleCheckfc()" class="idDoubleCheck">중복확인</div>
+                                    <div onclick="idDoubleCheck()" class="idDoubleCheck">중복확인</div>
                                     <span id="iMessage" class="eMessage"></span>
                                 </div>
 
                                 <div class="grid_head"><span>*</span>비밀번호</div>
                                 <div>
                                     <input class="inputAll inputCk" value="" type="password" name="password"
-                                        id="password" size="15" minlength="8" maxlength="16">
+                                        id="password" size="15" >
                                     <span id="pMessage" class="eMessage"></span>
                                 </div>
 
                                 <div class="grid_head"><span>*</span>비밀번호 확인</div>
                                 <div>
-                                    <input class="inputAll inputCk" value="" type="password" id="password2" size="15"
-                                        minlength="8" maxlength="16">
+                                    <input class="inputAll inputCk" value="" type="password" id="password2" size="15">
                                     <span id="p2Message" class="eMessage"></span>
                                 </div>
 
                                 <div class="grid_head"><span>*</span>나이</div>
                                 <div>
-                                    <input class="inputAll inputCk" value="" type="text" name="age" id="age" size="15"
-                                        minlength="8" maxlength="16">
+                                    <input class="inputAll inputCk" value="" type="text" name="age" id="age" size="15">
                                     <span id="aMessage" class="eMessage"></span>
                                 </div>
 
                                 <div class="grid_head"><span>*</span>조</div>
                                 <div>
-                                    <select class="inputAll" id="jno" name="jno">
+                                    <select class="inputAll inputCk" id="jno" name="jno">
                                         <option value="0">조를 선택하세요</option>
                                         <option value="1">1조:Business</option>
                                         <option value="2">2조:static</option>
@@ -209,18 +204,18 @@
                                         <option value="4">4조:카톡으로얘기하조</option>
                                         <option value="7">7조:칠면조(관리팀)</option>
                                     </select>
+                                    <span id="jMessage" class="eMessage"></span>
                                 </div>
 
                                 <div class="grid_head">자기소개</div>
                                 <div>
-                                    <input class="inputAll" value="" type="text" name="info" id="info" size="15"
-                                        minlength="8" maxlength="16">
+                                    <input class="inputAll" value="" type="text" name="info" id="info" size="15">
                                 </div>
 
                                 <div class="grid_head"><span>*</span>POINT</div>
                                 <div>
                                     <input class="inputAll inputCk" value="" type="text" name="point" id="point"
-                                        size="15" minlength="8" maxlength="16">
+                                        size="15">
                                     <span id="oMessage" class="eMessage"></span>
                                 </div>
 
@@ -233,8 +228,7 @@
 
                                 <div class="grid_head">추천인</div>
                                 <div>
-                                    <input class="inputAll" value="" type="text" name="rid" id="rid" size="15"
-                                        minlength="8" maxlength="16">
+                                    <input class="inputAll" value="" type="text" name="rid" id="rid" size="15">
                                 </div>
                             </div>
                         </div>

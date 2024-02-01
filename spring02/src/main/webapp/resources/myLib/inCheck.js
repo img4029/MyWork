@@ -28,16 +28,16 @@
  */
 function AllCheck(id) {
     let all = document.getElementById(id).value;
-    let regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
-    let regPass2 = /[ "']/;
-    console.log(id);
+    let regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,10}$/;
+    let regPass2 = /^(?=.*[a-zA-Z.0-9.!@#$%^*+=-])/;
+    let regPass3 = /[!@#$%^*+=-]/g;
     switch (id) {
         case "name":
-			if (all.length < 2 || all.length > 6) {
-                document.getElementById('iMessage').innerHTML = '이름은 2~6 글자 입니다.';
+            if (all.length < 2) {
+                document.getElementById('nMessage').innerHTML = '이름은 2 글자 이상 입니다.';
                 return false;
-            } else if (all.replace(/[가-힣]/g,'').length > 0) {
-                document.getElementById('nMessage').innerHTML = '이름은 한글만 입력 가능합니다.';
+            } else if (all.replace(/[a-z.가-힣]/gi, '').length > 0) {
+                document.getElementById('nMessage').innerHTML = '이름은 영어와 한글만 입력 가능합니다.';
                 return false;
             } else {
                 document.getElementById('nMessage').innerHTML = '';
@@ -47,43 +47,119 @@ function AllCheck(id) {
             if (all.length < 4 || all.length > 10) {
                 document.getElementById('iMessage').innerHTML = '아이디는 4~10 글자 입니다.';
                 return false;
-            } else if (all.replace(/[a-z.0-9]/gi,'').length > 0) {
+            } else if (all.replace(/[a-z.0-9]/gi, '').length > 0) {
                 // => 영문과 숫자로만 입력했는지 : id 에서 영문과 숫자를 모두 '' 로 변경했을때 length 가 0 이면 OK  
-                document.getElementById('iMessage').innerHTML = '아이디는 영문과 숫자만 가능합니다.';
+                document.getElementById('iMessage').innerHTML = '아이디는 영문과 숫자만 입력 가능합니다.';
                 return false;
             } else {
                 document.getElementById('iMessage').innerHTML = '';
                 return true;
             }
         case "password":
-			if (all.length < 4 || all.length > 10) {
+            if (all.length < 4 || all.length > 10) {
                 document.getElementById('pMessage').innerHTML = '비밀번호는 4~10 글자 입니다.';
                 return false;
-            } else if (all.replace(/[a-z.0-9.!@#$%^*+=-]/gi,'').length > 0) { 
-                document.getElementById('pMessage').innerHTML = '비밀번호는 영문과 숫자 특수문자만 가능합니다.';
+            } else if (!regPass2.test(all)) {
+                document.getElementById('pMessage').innerHTML = '비밀번호는 영문과 숫자 특수문자로 구성되어야 합니다.';
+                return false;
+            } else if (!regPass3.test(all)) {
+                document.getElementById('pMessage').innerHTML = '비밀번호는 특수문자가 반드시 포함되어야 합니다.';
                 return false;
             } else {
                 document.getElementById('pMessage').innerHTML = '';
                 return true;
             }
         case "password2":
-			if (document.getElementById('password').value != document.getElementById('password2').value) {
-                document.getElementById('p2Message').innerHTML = '비밀번호와 비밀번호 확인이 같지않습니다.';
+            if (document.getElementById('password').value != document.getElementById('password2').value) {
+                document.getElementById('p2Message').innerHTML = '비밀번호와 비밀번호 확인이 같지 않습니다.';
                 return false;
-            }  else {
+            } else {
                 document.getElementById('p2Message').innerHTML = '';
                 return true;
             }
-            break;
         case "age":
+            // Age (정수)
+            // => 정수의 조건: 숫자이면서 소수점이 없어야함
+            // => Number.isInteger(n) : n 이 정수일때만 true
+            //   -> 단, n 은 숫자 Type 이여야함
+            //   -> value 속성의 값은 문자 Type 이므로 숫자화_parseInt 가 필요함
+            //   -> 단, parseInt(age) 사용시 주의
+            //      - 실수의 경우는 정수만 사용(123.56 -> 123)
+            //      - 숫자 뒤쪽에 문자 포함시 앞쪽의 숫자만 가져와 return (123abc -> 123)
+            //      - 문자로 시작하면 문자로 취급, NaN(Not a Nimber) 을 return (abc123 -> NaN)
+            // => 숫자 아닌값이 있는지 확인, Number.isInteger(....) 확인
+            // console.log(all);
+            // console.log(`** parseInt(all) => ${parseInt(all)}`);
+            // console.log(`** Number.isInteger(all) => ${Number.isInteger(all)}`);
+            // console.log(`** Number.isInteger(parseInt(all)) => ${Number.isInteger(parseInt(all))}`);
+            if (all.replace(/[^0-9]/g, '').length < all.length || !Number.isInteger(parseInt(all))) {
+                document.getElementById('aMessage').innerHTML = '나이는 정수만 입력 가능합니다.';
+                return false;
+            } else {
+                document.getElementById('aMessage').innerHTML = '';
+                return true;
+            }
 
-            break;
+        /*            if (all.replace(/[0-9]/g, '').length > 0) {
+                        document.getElementById('aMessage').innerHTML = '나이는 숫자만 입력 가능합니다.';
+                        return false;
+                    } else if (all.length < 1 || all.length > 3) {
+                        // => 영문과 숫자로만 입력했는지 : id 에서 영문과 숫자를 모두 '' 로 변경했을때 length 가 0 이면 OK  
+                        document.getElementById('aMessage').innerHTML = '나이는 1~3 글자 입니다.';
+                        return false;
+                    } else {
+                        document.getElementById('aMessage').innerHTML = '';
+                        return true;
+                    }*/
+        case "jno":
+            if (all == 0) {
+                document.getElementById('jMessage').innerHTML = '조를 선택해주세요.';
+                return false;
+            } else {
+                document.getElementById('jMessage').innerHTML = '';
+                return true;
+            }
+
         case "point":
-
-            break;
+            // Point
+            // => 정수 또는 실수 허용
+            // => 범위: 100 ~ 10000
+            // => parseFloat(point)
+            //      -> 오류 또는 입력값이 없는 경우 NaN return
+            //      -> 확인 : Number.isNaN(parseFloat(point)) 
+            //    	-> 단, 숫자로 시작하면 뒤쪽에 문자가 섞여있어도 숫자값만 사용함 ( NaN 을 return 하지않음 )
+			// console.log(`** all => ${all}`);
+            // console.log(`** parseFloat(all) => ${parseFloat(all)}`);
+            // console.log(`** Number.isNaN(all) => ${Number.isNaN(all)}`);
+            // console.log(`** Number.isNaN(parseFloat(all)) => ${Number.isNaN(parseFloat(all))}`);
+            // console.log(`** all.replace(/[^0-9./.]/g, '').length => ${all.replace(/[^0-9.\.]/g, '').length} < ${all.length}`);
+			console.log(`** all.replaceAll('.','') => ${all.replaceAll('.','')}`);
+            if (Number.isNaN(parseFloat(all)) || all.replace(/[^0-9.\.]/g, '').length < all.length) {
+                document.getElementById('oMessage').innerHTML = 'Point는 실수와 정수만 입력 가능합니다.';
+                return false;
+            } else if (parseFloat(all) < 100 || parseFloat(all) > 10000) {
+                // => 영문과 숫자로만 입력했는지 : id 에서 영문과 숫자를 모두 '' 로 변경했을때 length 가 0 이면 OK  
+                document.getElementById('oMessage').innerHTML = 'Point는 100 ~ 10000 입니다.';
+                return false;
+            } else if (all.length-1 > all.replaceAll('.','').length) {
+                // => 영문과 숫자로만 입력했는지 : id 에서 영문과 숫자를 모두 '' 로 변경했을때 length 가 0 이면 OK  
+                document.getElementById('oMessage').innerHTML = '" . " 은 하나만 입력하세요';
+                return false;
+            } else {
+                document.getElementById('oMessage').innerHTML = '';
+                return true;
+            }
         case "birthday":
+            let InputDate = new Date(all);
+            let today = new Date();
 
-            break;
+            if (InputDate > today) {
+                document.getElementById('bMessage').innerHTML = '생년월일이 올바르지 않습니다, 다시 입력해주세요.';
+                return false;
+            } else {
+                document.getElementById('bMessage').innerHTML = '';
+                return true;
+            }
     }
     return true;
 }

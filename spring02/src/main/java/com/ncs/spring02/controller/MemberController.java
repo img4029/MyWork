@@ -195,15 +195,15 @@ public class MemberController {
 	
 	// ** join
 	@RequestMapping( value = {"/join"}, method = RequestMethod.POST )
-	public String join(Model model, MemberDTO dto) {
+	public String join(Model model, MemberDTO dto, RedirectAttributes rttr) {
 		// 1. 요청분석
 		// => 이전: 한글처리, request 값 -> dto 에 set
 		// => 스프링: 한글은 필터에서 request 처리는 매개변수로 자동화
-		String uri = "member/loginForm"; // 성공시
+		String uri = "redirect:loginForm"; // 성공시
 		
 		// 2. Service & 결과
 		if(service.insert(dto) > 0) {
-			model.addAttribute("message", "가입에 성공했습니다. 로그인 후 이용하세요.");
+			rttr.addFlashAttribute("message", "가입에 성공했습니다. 로그인 후 이용하세요.");
 		} else {
 			uri = "member/joinForm";
 			model.addAttribute("message", "가입 실패, 다시입력하세요");
