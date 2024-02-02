@@ -75,7 +75,10 @@
                 document.getElementById('collectionUse').focus();
                 return false;
             }
-
+            
+            if(document.getElementById('submitTag').value == "true") iDoubleCheck = true;
+			else iDoubleCheck = false;
+            
             for (let i = 0; i < arr.length; i++) {
                 if (!arr[i].state) {
                     document.getElementById(arr[i].message).innerHTML = '필수입력, ' + arr[i].name + '을 입력하세요';
@@ -84,15 +87,16 @@
                     break;
                 }
 
-                if (arr[i].id == 'id' && !document.getElementById('submitTag').value) {
+                if (arr[i].id == 'id' && !iDoubleCheck) {
                     document.getElementById('iMessage').innerHTML = '아이디 중복 확인을 해주세요';
                     document.getElementById("id").focus();
                     break;
                 } 
             }
-
+			
+				
             if (arr[0].state && arr[1].state && arr[2].state && arr[3].state
-                && arr[4].state && arr[5].state && arr[6].state && arr[7].state) {
+                && arr[4].state && arr[5].state && arr[6].state && arr[7].state && iDoubleCheck) {
                 //submit 진행
                 if (confirm("정말 가입하십니까? (Yes:확인/No:취소)")) {
                     return true;

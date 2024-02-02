@@ -1,5 +1,9 @@
 package com.ncs.spring02.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ncs.spring02.domain.MemberDTO;
@@ -218,7 +224,7 @@ public class MemberController {
 	
 	// ** join
 	@RequestMapping( value = {"/join"}, method = RequestMethod.POST )
-	public String join(Model model, MemberDTO dto, RedirectAttributes rttr) {
+	public String join(HttpServletRequest request, Model model, MemberDTO dto, RedirectAttributes rttr) throws IOException {
 		// 1. 요청분석
 		// => 이전: 한글처리, request 값 -> dto 에 set
 		// => 스프링: 한글은 필터에서 request 처리는 매개변수로 자동화
@@ -230,16 +236,69 @@ public class MemberController {
 		//   -> 전달돤 파일명 Table에 저장 : file2
 		//   -> MultipartFile : 위의 과정을 지원해주는 전용객체
 		
-		// => E:\Mtest\git\spring02\src\main\webapp\resources\ uploadImages
+		// => E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\uploadImages
 		
 		// 1) 물리적 실제 저장위치 확인
 		// 1.1) 현제 웹어플리케이션의 실질적인 실행위치 확인
-		//  => 개발환경(이클립스-배포전)
-		//  => 톰캣 서버 배포후
-		String realPath = "";
+		//  => 개발환경(이클립스-배포전) : ~~.eclipse.~~ 포함
+		//  => 톰캣 서버 배포후 : ~~.eclipse.~~ 미포함
+		String realPath = request.getRealPath("/");
+		System.out.println("** realPath => " + realPath);
 		
+		// 1.2) realPath 를 이용해서 물리적 저장위치 (file1) 확인
+		if( realPath.contains(".eclipse.") ) 
+			realPath= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\uploadImages\\"; // 개발중.
+		else realPath= "resources\\uploadImages\\";
 		
-		//dto.setUploadfile(file2);
+		// 1.3 폴더 만들기 (없을수도 있음을 가정, File 클래스)
+		// => File type 객체 생성 : new File("경로");
+		// => file.exists()
+	    //   -> 파일 또는 폴더가 존재하는지 리턴
+	    //   -> 폴더가 아닌, 파일존재 확인하려면 file.isDirectory() 도 함께 체크해야함. 
+		//     ( 참고: https://codechacha.com/ko/java-check-if-file-exists/ )
+		// => file.isDirectory() : 폴더이면 true 그러므로 false 이면 file 이 존재 한다는 의미가 됨. 
+		// => file.isFile()
+		//   -> 파일이 존재하는 경우 true 리턴,
+		//      file의 Path 가 폴더인 경우는 false 리턴
+		File file = new File(realPath);
+		if( !file.exists() ) {
+			// 저장 폴더가 존재하지 않는경우 만들어줌
+			file.mkdir();
+		}
+		
+		// ----------------------------------------------------------------------
+		// ** File Copy 하기 (IO Stream)
+	    // => 기본이미지(basicman4.png) 가 uploadImages 폴더에 없는경우 기본폴더(images) 에서 가져오기
+	    // => IO 발생: Checked Exception 처리
+		File f1 = new File(realPath+"basicman4.png"); // uploadImages 폴더에 화일존재 확인을 위함
+	    if ( !f1.isFile() ) { // 존재하지않는 경우
+	    	String basicImagePath 
+	    	= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png";
+	    	FileInputStream fi = new FileInputStream(new File(basicImagePath));
+	    	// => uploadImages 읽어 파일 입력바이트스트림 생성
+	    	FileOutputStream fo = new FileOutputStream(f1); 
+	    	// => 목적지 파일(realPath+"basicman4.png") 출력바이트스트림 생성  
+	    	FileCopyUtils.copy(fi, fo);
+	    }
+		// ----------------------------------------------------------------------
+	    // ** MultipartFile
+	    // => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
+	    //    -> String getOriginalFilename(), 
+	    //    -> void transferTo(File destFile),
+	    //    -> boolean isEmpty()
+		
+		// 1.4) 저장경로 완성
+		String file1="", file2="basicman4.png";
+		MultipartFile uploadfilef = dto.getUploadfilef();
+		if(uploadfilef != null && !uploadfilef.isEmpty()) {
+			file1=realPath+uploadfilef.getOriginalFilename(); //저장경로 완성
+			uploadfilef.transferTo(new File(file1));
+			
+			file2=uploadfilef.getOriginalFilename();
+			System.out.println(file2);
+		}
+		
+		dto.setUploadfile(file2);
 		// 2. Service & 결과
 		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 		if(service.insert(dto) > 0) {
