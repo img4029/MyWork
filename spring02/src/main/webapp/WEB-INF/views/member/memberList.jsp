@@ -16,15 +16,15 @@
 	</c:if>
 	<table border="1" style="width: 100%">
 		<tr bgcolor="DeepSkyBlue" style="font-weight: bold;">
-			<th>ID</th><th>Password</th><th>Name</th><th>Age</th><th>Jno</th>
-			<th>Info</th><th>Point</th><th>Birthday</th><th>추천인</th>
+			<th>ID</th><!-- <th>Password</th> --><th>Name</th><th>Age</th><th>Jno</th>
+			<th>Info</th><th>Point</th><th>Birthday</th><th>추천인</th><th>이미지</th>
 		</tr>
 		<c:choose>
 			<c:when test="${!empty requestScope.mList}">
 				<c:forEach var="s" items="${requestScope.mList}">
 					<tr>
 						<td>${s.id}</td>
-						<td>${s.password}</td>
+						<%-- <td>${s.password}</td> --%>
 						<td>${s.name}</td>
 						<td>${s.age}</td>
 						<td>${s.jno}</td>
@@ -32,6 +32,10 @@
 						<td>${s.point}</td>
 						<td>${s.birthday}</td>
 						<td>${s.rid}</td>
+						<td>
+							<img alt="이미지" src="/spring02/resources/uploadImages/${s.uploadfile}"
+							width="50" height="70">  
+						</td>
 					</tr>
 				</c:forEach>
 			</c:when>

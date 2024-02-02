@@ -37,7 +37,6 @@ public class HomeController {
 	
 	@GetMapping("/bcrypt")
 	public String bcrypt() {
-	      
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String password = "12345!";
 	  
@@ -49,7 +48,7 @@ public class HomeController {
 	    String digest4 = passwordEncoder.encode("6789@");
 	    String digest5 = passwordEncoder.encode("abcd#");
 	  
-	    System.out.println("** digest1 => "+digest1+" "+digest1.length());
+	    System.out.println("** digest1 => "+digest1);
 	    System.out.println("** digest2 => "+digest2);
 	    System.out.println("** digest3 => "+digest3);
 	    System.out.println("** digest4 => "+digest4);
@@ -64,4 +63,5 @@ public class HomeController {
 	      
 	  	return "redirect:home";
 	} //bcrypt
-}
+	
+} // class

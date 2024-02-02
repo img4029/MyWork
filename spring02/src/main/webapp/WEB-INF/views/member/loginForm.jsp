@@ -35,7 +35,11 @@
         for (let i = 0; i < inputAll.length; i++) {
             inputAll[i].addEventListener('keydown', (e) => {
                 if (e.which == 13) {
-                    if(inputAll[i].id != 'password') e.preventDefault();
+                    if(inputAll[i].id != 'password') {
+                    	e.preventDefault();
+                    } else {
+                    	pCheck.state = AllCheck(pCheck.id);
+                    }
                    	
                     if (i != inputAll.length - 1) {
                         inputAll[i + 1].focus();

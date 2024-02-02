@@ -9,9 +9,12 @@ import javax.servlet.http.HttpSession;
 //import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.servlet.ModelAndView;
@@ -147,6 +150,9 @@ public class MemberController {
 	
 	@Autowired(required = false)
 	MemberService service;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	//= new BCryptPasswordEncoder();
 	
 	@GetMapping("/idDoubleCheck")
 	public void idDoubleCheck(@RequestParam("id") String id, Model model) {
@@ -174,12 +180,13 @@ public class MemberController {
 	
 	// ** login
 	@RequestMapping( value = {"/login"}, method = RequestMethod.POST )
-	public String login(HttpSession session,Model model,MemberDTO dto) {
+	public String login(HttpSession session,Model model,MemberDTO dto,RedirectAttributes rttr) {
 		// 1. 요청분석
 	    // => requst 로 전달되는 id, password 처리: 
 	    //    매서드 매개변수로 MemberDTO 를 정의해주면 자동 처리
 	    //   ( Parameter name 과 일치하는 setter 를 찾아 값을 할당해줌 )
 	    // => 전달된 password 보관
+		
 	    String password = dto.getPassword();
 	    String uri = "redirect:/home"; // 성공시
 	      
@@ -189,15 +196,18 @@ public class MemberController {
 	    // => 성공: id, name은 session에 보관, home 으로
 	    // => 실패: 재로그인 유도
 	    dto = service.selectOne( dto.getId() );
-		
-		if( dto != null && dto.getPassword().equals(password) ) {
+	    System.out.println(password);
+		System.out.println(dto.getPassword());
+		System.out.println(passwordEncoder.matches(password, dto.getPassword()));
+		//if( dto != null && dto.getPassword().equals(password) ) {
+		if( dto != null && passwordEncoder.matches( password, dto.getPassword() ) ) {
 			//성공
 			session.setAttribute("loginID", dto.getId());
 			session.setAttribute("loginName", dto.getName());
 		} else {
 			//실패
-			model.addAttribute("message", "ID, 비밀번호 확인불가 다시 시도하세요");
-			uri = "member/loginForm";
+			rttr.addFlashAttribute("message", "ID, 비밀번호 확인불가 다시 시도하세요");
+			uri = "redirect:loginForm";
 		}
 		return uri;
 	}
@@ -214,7 +224,24 @@ public class MemberController {
 		// => 스프링: 한글은 필터에서 request 처리는 매개변수로 자동화
 		String uri = "redirect:loginForm"; // 성공시
 		
+		// *** Upload File 처리 *******************************************
+		// => 주요과제
+		//   -> 전달된 파일 저장 : file1 (서버의 물리적 실제 저장위치 필요함: realPath.)
+		//   -> 전달돤 파일명 Table에 저장 : file2
+		//   -> MultipartFile : 위의 과정을 지원해주는 전용객체
+		
+		// => E:\Mtest\git\spring02\src\main\webapp\resources\ uploadImages
+		
+		// 1) 물리적 실제 저장위치 확인
+		// 1.1) 현제 웹어플리케이션의 실질적인 실행위치 확인
+		//  => 개발환경(이클립스-배포전)
+		//  => 톰캣 서버 배포후
+		String realPath = "";
+		
+		
+		//dto.setUploadfile(file2);
 		// 2. Service & 결과
+		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 		if(service.insert(dto) > 0) {
 			rttr.addFlashAttribute("message", "가입에 성공했습니다. 로그인 후 이용하세요.");
 		} else {
@@ -238,6 +265,28 @@ public class MemberController {
 		return uri;
 	}
 	
+	@GetMapping("/pwUpdate")
+	public void pwUpdate() {
+		//view_name 생략
+	}
+	
+	// => Service, DAO 에 pwUpdate(dto) 메서드 추가
+	// => 성공: 로그인창으로
+	//    실패: pwUpdate, 재로그인 유도
+	@PostMapping("/pwUpdate")
+	public String pwUpdate(HttpSession session, Model model, MemberDTO dto) {
+		dto.setId((String)session.getAttribute("loginID"));
+		dto.setPassword( passwordEncoder.encode( dto.getPassword() ) );
+		if(service.pwUpdate(dto) > 0) {
+			// => 성공
+			session.invalidate();
+			model.addAttribute("message", "T");
+		}else {
+			// => 실패
+			model.addAttribute("message", "비밀번호 수정 실패, 다시입력하세요");
+		}
+		return "member/pwUpdate";
+	}
 	// ** update
 	@RequestMapping( value = {"/update"}, method = RequestMethod.POST )
 	public String update(HttpSession session, Model model, MemberDTO dto) {

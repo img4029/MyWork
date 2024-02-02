@@ -106,3 +106,32 @@ select * from jo;
 		-> 실패 : index.jsp ( message : 탈퇴 실패 !!! )
  
 =========================================================
+
+** Upload File
+
+1) Table
+=> file 정보(경로와 파일명) 보관 컬럼 추가 : uploadfile varchar(50) default 'basicman4.png';
+	ALTER TABLE member ADD uploadfile varchar(50) default 'basicman4.png';
+	
+=> 기본값 넣어놓기
+	update member set uploadfile = 'aaa.gif' where jno='1';
+	update member set uploadfile = 'bbb.gif' where jno='2';
+	update member set uploadfile = 'ccc.gif' where jno='3';
+	update member set uploadfile = '루피.PNG' where jno='4';
+	update member set uploadfile = 'xxx.gif' where jno='7';
+
+=> IDE(이클립스) 에 준비
+	wepapp/resources/uploadImages/ 에 위의 파일을 복사해두기
+	
+2) Java Code
+2.1) List, Detail 출력하기
+=> memberList, memberDetail, ~DTO, ~DAO
+
+2.2) 입력 수정폼 수정하기
+
+
+
+
+
+
+

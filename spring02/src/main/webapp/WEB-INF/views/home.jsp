@@ -27,11 +27,11 @@
 	
 	<!-- 로그인 전 -->
 	<c:if test="${empty sessionScope.loginID}">
-		<img alt="mainImage" src="resources/images/Destiny2.gif" width="800">
+		<img alt="mainImage" src="resources/images/Destiny2.gif" width="1000">
 	</c:if>
 	<!-- 로그인 후 -->
 	<c:if test="${!empty sessionScope.loginID}">
-		<img alt="mainImage" src="resources/images/Destiny4.gif" width="800">
+		<img alt="mainImage" src="resources/images/Destiny4.gif" width="1000">
 	</c:if>						
 </main>
 

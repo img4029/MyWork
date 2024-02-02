@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>** Join Form **</title>
-    <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/idinfoSub.css">
+    <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/idinfoSub.css?a">
     <script src="/spring02/resources/myLib/inCheck.js"></script>
     <script>
         "use strict"
@@ -166,15 +166,36 @@
         };
     </script>
 </head>
+<!--  ** FileUpLoad Form **
+=> form 과 table Tag 사용시 주의사항 : form 내부에 table 사용해야함
+   -> form 단위작업시 인식안됨
+   -> JQ 의 serialize, FormData 의 append all 등 
 
+=> method="Post" : 255 byte 이상 대용량 전송 가능 하므로
+
+=> <form enctype="속성값">
+   <form> 태그의 데이터 (input 의 value)가 서버로 제출될때 해당 데이터가 인코딩되는 방법을 명시함.  
+ 
+=> enctype="multipart/form-data" : 화일 upload 를 가능하게 해줌 
+   ** multipart/form-data는 파일업로드가 있는 입력양식요소에 사용되는 enctype 속성의 값중 하나이고, 
+       multipart는 폼데이터가 여러 부분으로 나뉘어 서버로 전송되는 것을 의미
+       이 폼이 제출될 때 이 형식을 서버에 알려주며, 
+       multipart/form-data로 지정이 되어 있어야 서버에서 정상적으로 데이터를 처리할 수 있다.     
+-->
 <body>
     <c:import url="/header"></c:import>
     <main>
-        <form action="join" method="post">
+        <form action="join" method="post" enctype="multipart/form-data">
             <div class="idinfoSubContainer">
                 <div>
                     <h3>회원정보 입력</h3>
                     <div class="idinfo_grid">
+                    	<div class="grid_head"><span>*</span>이미지</div>
+                        <div>
+                            <input class="inputAll" value="" type="file" name="uploadfilef" id="uploadfilef">
+                            <span id="fMessage" class="eMessage"></span>
+                        </div>
+                        
                         <div class="grid_head"><span>*</span>이름</div>
                         <div>
                             <input class="inputAll inputCk" value="" type="text" name="name" id="name" size="15"

@@ -53,6 +53,15 @@
 		font-size: 18px;
 	}
 </style>
+<script>
+	function pwUpdate(){
+		console.log("오냐??");
+		let popupX = (window.screen.width / 2) - (1300 / 2);
+        let popupY = (window.screen.height / 2) - (700 / 2);
+		let url="pwUpdate";
+		window.open(url,'_blank','width=1300,height=700,resizable=yes,scrollbars=yes,toolbar=no,menubar=yes, left=' + popupX + ', top=' + popupY);
+	}
+</script>
 </head>
 <body>
 <h2>** UpdateForm **</h2>
@@ -67,7 +76,11 @@
 			<c:when test="${!empty dto}">
 				<tr>
 					<td><input readonly id="id" name="id" value="${dto.id}"></td>
-					<td><input type="password" id="password" name="password" value="${dto.password}"></td>
+					<td>
+						<button type="button" onclick="pwUpdate()">비밀번호 수정하기</button>
+						<!-- <span id="message"></span> -->
+						<%-- <input type="password" id="password" name="password" value="${dto.password}"> --%>
+					</td>
 					<td><input id="name" name="name" value="${dto.name}"></td>
 					<td><input id="age" name="age" value="${dto.age}"></td>
 					<td><select id="jno" name="jno">

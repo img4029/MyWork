@@ -67,7 +67,7 @@ a:visited {
 .idinfo_grid>div:nth-child(2n)>input:focus{
     outline: none;
 }
-.idinfo_grid>div:nth-child(4)>button {
+.idinfo_grid>div>button {
     margin-left: 10px;
     height: 33px;
     width: 100px;
@@ -84,12 +84,12 @@ a:visited {
     transition-timing-function: ease-out;
     cursor: pointer;
 }
-.idinfo_grid>div:nth-child(4)>button:hover {
+.idinfo_grid>div>button:hover {
     background-color: black;
     color: white;
     transition: background 0.3s ease-out;
 }
-.idinfo_grid>div:nth-child(19), .idinfo_grid>div:nth-child(20) {
+.idinfo_grid>div:nth-child(21), .idinfo_grid>div:nth-child(22) {
 	border-bottom: 1px solid rgba(128, 128, 128, 0.4);
 }
 #car {

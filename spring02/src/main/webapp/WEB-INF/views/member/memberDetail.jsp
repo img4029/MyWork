@@ -45,17 +45,23 @@
 <h2>** MyInfo **</h2>
 <table border=1>
 	<tr bgcolor="Aquamarine" style="font-weight: bold;">
+		<th style="height:310px">이미지</th>
 		<th>ID</th><th>Password</th><th>Name</th><th>Age</th><th>Jno</th>
 		<th>Info</th><th>Point</th><th>Birthday</th><th>추천인</th>
 	</tr>
 	<c:choose>
 		<c:when test="${!empty requestScope.dto}">
 			<tr>
+				<td style="height:310px">
+					<img alt="이미지" src="/spring02/resources/uploadImages/${dto.uploadfile}"
+					width="300" height="300">  
+				</td>
 				<td>${dto.id}</td><td>${dto.password}</td>
 				<td>${dto.name}</td><td>${dto.age}</td>
 				<td>${dto.jno}</td><td>${dto.info}</td>
 				<td>${dto.point}</td><td>${dto.birthday}</td>
 				<td>${dto.rid}</td>
+				
 			</tr>
 		</c:when>
 		<c:otherwise>

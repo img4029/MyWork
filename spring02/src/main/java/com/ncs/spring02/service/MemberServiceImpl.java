@@ -43,7 +43,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int pwUpdate(MemberDTO dto) {
+		return dao.pwUpdate(dto);
+	}
+	
+	@Override
 	public int delete(String id) {
 		return dao.delete(id);
 	}
+
+	
 }
