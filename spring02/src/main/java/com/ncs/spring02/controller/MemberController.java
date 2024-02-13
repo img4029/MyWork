@@ -248,7 +248,7 @@ public class MemberController {
 		// 1.2) realPath 를 이용해서 물리적 저장위치 (file1) 확인
 		if( realPath.contains(".eclipse.") ) 
 			realPath= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\uploadImages\\"; // 개발중.
-		else realPath= "resources\\uploadImages\\";
+		else realPath= "E:\\Mtest\\IDESet\\apache-tomcat-9.0.85\\webapps\\spring02\\resources\\uploadImages\\";
 		
 		// 1.3 폴더 만들기 (없을수도 있음을 가정, File 클래스)
 		// => File type 객체 생성 : new File("경로");
@@ -270,13 +270,16 @@ public class MemberController {
 		// ** File Copy 하기 (IO Stream)
 	    // => 기본이미지(basicman4.png) 가 uploadImages 폴더에 없는경우 기본폴더(images) 에서 가져오기
 	    // => IO 발생: Checked Exception 처리
-		File f1 = new File(realPath+"basicman4.png"); // uploadImages 폴더에 화일존재 확인을 위함
-	    if ( !f1.isFile() ) { // 존재하지않는 경우
-	    	String basicImagePath 
-	    	= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png";
+		file = new File(realPath+"basicman4.png"); // uploadImages 폴더에 화일존재 확인을 위함
+	    if ( !file.isFile() ) { // 존재하지않는 경우
+//	    	String basicImagePath= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png";
+	    	String basicImagePath;
+	    	if( realPath.contains(".eclipse.") ) 
+	    		basicImagePath= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png"; // 개발중.
+			else basicImagePath= "E:\\Mtest\\IDESet\\apache-tomcat-9.0.85\\webapps\\spring02\\resources\\images\\basicman4.png";
 	    	FileInputStream fi = new FileInputStream(new File(basicImagePath));
 	    	// => uploadImages 읽어 파일 입력바이트스트림 생성
-	    	FileOutputStream fo = new FileOutputStream(f1); 
+	    	FileOutputStream fo = new FileOutputStream(file); 
 	    	// => 목적지 파일(realPath+"basicman4.png") 출력바이트스트림 생성  
 	    	FileCopyUtils.copy(fi, fo);
 	    }
@@ -348,8 +351,38 @@ public class MemberController {
 	}
 	// ** update
 	@RequestMapping( value = {"/update"}, method = RequestMethod.POST )
-	public String update(HttpSession session, Model model, MemberDTO dto) {
+	public String update(HttpServletRequest request,HttpSession session, Model model, MemberDTO dto) throws IOException {
 		String uri = "member/memberDetail"; // 성공시
+		
+		// ** uploadFile 처리
+		// => newImage 선택여부
+		// => 선택 -> oldImage 삭제, newImage 저장 : uploadFilef 사용
+		// => 선택하지않음 -> oldImage 가 uploadFilef 전달되었으므로 그냥 사용하면 됨
+		
+		MultipartFile uploadfilef = dto.getUploadfilef();
+		if(uploadfilef != null && !uploadfilef.isEmpty()) {
+			// => newImage 를 선택함
+			// 1) 물리적위치 저장(file1)
+			String realPath = request.getRealPath("/");
+			String file1;
+			
+			// 2) realPath 를 이용해 물리적 저장위치(file1) 확인
+			if( realPath.contains(".eclipse.") ) 
+				realPath= "E:\\Mtest\\git\\spring02\\src\\main\\webapp\\resources\\uploadImages\\"; // 개발중.
+			else realPath= "E:\\Mtest\\IDESet\\apache-tomcat-9.0.85\\webapps\\spring02\\resources\\uploadImages\\";
+			
+			// 3) old 파일 삭제
+			File delFile = new File(realPath+dto.getUploadfile());
+			if(delFile.isFile()) delFile.delete(); // file 존재시 삭제
+			
+			// 4) newFile 저장
+			file1=realPath+uploadfilef.getOriginalFilename(); //저장경로 완성
+			uploadfilef.transferTo(new File(file1));
+			
+			// 5) Table 저장경로 완성(file2)
+			dto.setUploadfile(uploadfilef.getOriginalFilename());
+		}
+		
 		model.addAttribute("dto", dto);
 		if(service.update(dto) > 0) {
 			session.setAttribute("loginName", dto.getName());

@@ -64,17 +64,46 @@
 </script>
 </head>
 <body>
+<!-- Image Update 추가 
+      => form Tag : method, enctype 확인
+      => new Image 를 선택하는 경우 -> uploadfilef 사용
+      => new Image 를 선택하지않는 경우 
+         -> 본래 Image 를 사용 -> uploadfile 값이 필요함
+--> 
 <h2>** UpdateForm **</h2>
 <c:set value="${requestScope.dto}" var="dto"></c:set>
-<form action="update" method="post">
+<form action="update" method="post" enctype="multipart/form-data">
 	<table border=1>
 		<tr bgcolor="MediumOrchid" style="font-weight: bold;">
-			<th>ID</th><th>Password</th><th>Name</th><th>Age</th><th>Jno</th>
+			<th style="height:310px">이미지</th><th>ID</th><th>Password</th><th>Name</th><th>Age</th><th>Jno</th>
 			<th>Info</th><th>Point</th><th>Birthday</th><th>추천인</th>
 		</tr>
 		<c:choose>
 			<c:when test="${!empty dto}">
 				<tr>
+					<td style="height:310px">
+						<img alt="이미지" src="/spring02/resources/uploadImages/${dto.uploadfile}"
+						width="300" height="300" class="select_img"> 
+						<input type="hidden" id="uploadfile" name="uploadfile"
+						value="${dto.uploadfile}">
+						<input type="file" id="uploadfilef" name="uploadfilef">
+					</td>
+					<script>
+						document.getElementById('uploadfilef').onchange=function(e){
+         					if(this.files && this.files[0]) {
+	            				let reader = new FileReader;
+	            				reader.readAsDataURL(this.files[0]);
+	             				reader.onload = (e) => {
+					                // => jQuery를 사용하지 않는경우 
+					                document.getElementsByClassName('select_img')[0].src=e.target.result;
+	                
+					             	//$(".select_img").attr("src", e.target.result)
+					             	//            .width(70).height(90); 
+				            	} // onload_function
+				        	} // if   
+				    	}; //change  
+				    </script> 
+					
 					<td><input readonly id="id" name="id" value="${dto.id}"></td>
 					<td>
 						<button type="button" onclick="pwUpdate()">비밀번호 수정하기</button>

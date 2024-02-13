@@ -194,12 +194,15 @@
                 <div>
                     <h3>회원정보 입력</h3>
                     <div class="idinfo_grid">
-                    	<div class="grid_head"><span>*</span>이미지</div>
-                        <div>
+                    	<div style="height:310px" class="grid_head"><span>*</span>이미지</div>
+                        <div style="height:310px">
+                        	<img alt="이미지" src="/spring02/resources/uploadImages/basicman4.png"
+							width="300" height="300" class="select_img"> 
                             <input class="inputAll" value="" type="file" name="uploadfilef" id="uploadfilef">
                             <span id="fMessage" class="eMessage"></span>
                         </div>
-                        
+                     	<!-- 맨 아래에 자바스크립스있음 -->
+				    
                         <div class="grid_head"><span>*</span>이름</div>
                         <div>
                             <input class="inputAll inputCk" value="" type="text" name="name" id="name" size="15"
@@ -599,5 +602,19 @@
         &nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
     </div>
 </body>
-
+<script>
+	document.getElementById('uploadfilef').onchange=function(e){
+	   					if(this.files && this.files[0]) {
+	       				let reader = new FileReader;
+	       				reader.readAsDataURL(this.files[0]);
+	        				reader.onload = (e) => {
+	               // => jQuery를 사용하지 않는경우 
+	               document.getElementsByClassName('select_img')[0].src=e.target.result;
+	           
+	            	//$(".select_img").attr("src", e.target.result)
+	            	//            .width(70).height(90); 
+	          	} // onload_function
+	      	} // if   
+	  	}; //change  
+</script>
 </html>
