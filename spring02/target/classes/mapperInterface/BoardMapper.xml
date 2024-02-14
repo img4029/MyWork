@@ -24,6 +24,20 @@
 4) 조건문, 반복문, sql, include, selectKey 등          
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
+<!-- 
+	** Board_Paging 
+	=> MySql: ~~ Limit a,b(a개를 제외하고 b개 : a+1 부터 b개)
+	=> Oracle : ~~ Between a and b (a 번째부터 b까지)
+-->
+	<select id="bPageList" resultType="com.ncs.spring02.domain.BoardDTO" >
+		select * from board 
+		order by root desc, step asc
+		limit #{sno}, #{rowPerPage}
+	</select>
+	<select id="totalRowsCount" resultType="int" >
+		select count(*) from board
+	</select>
+
 	<!-- ** selectList -->
 	<select id="selectList" resultType="com.ncs.spring02.domain.BoardDTO" >
 		select * from board order by root desc, step asc
@@ -60,8 +74,7 @@
 		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
 			select ifNull(max(seq),0)+1 from board 
 		</selectKey>
-		insert into board(seq,id,title,content,root) 
-		values( #{seq}, #{id}, #{title}, #{content} #{seq} )
+		insert into board(seq,id,title,content,root) values( #{seq}, #{id}, #{title}, #{content}, #{seq} )
 	</insert>
 	
 	<!-- 4. rinsert: 답글입력 

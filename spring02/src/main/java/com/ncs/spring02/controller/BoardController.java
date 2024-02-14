@@ -14,6 +14,8 @@ import com.ncs.spring02.domain.BoardDTO;
 import com.ncs.spring02.service.BoardService;
 
 import lombok.AllArgsConstructor;
+import pageTest.Criteria;
+import pageTest.PageMaker;
 
 @Controller
 @RequestMapping("/board")
@@ -21,11 +23,32 @@ import lombok.AllArgsConstructor;
 public class BoardController {
 	BoardService service;
 	
-	// ** joList
+	// ** bPageList
+	@GetMapping("/bPageList")
+	public void bPageList(Model model, Criteria cri, PageMaker pageMaker) {
+		// 1) Criteria 처리
+		// => currPage, rowsPerPage 값들은 Parameter 로 전달되어 자동으로 cri에 set
+		cri.setSnoEno();
+		
+		System.out.println(cri);
+		
+		// 2) Service
+		// => 출력 대상인 Rows 를 select
+		model.addAttribute("bList", service.bPageList(cri));
+		
+		// 3) View처리 : pageMaker 이용
+		// => cri, totalRowsConut (Read from DB)
+		pageMaker.setCri(cri);
+		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
+		
+		model.addAttribute("pageMaker", pageMaker);
+	}//bPageList
+	
+	// ** boardList
 	@GetMapping("/boardList")
 	public void jList(Model model) {
 		model.addAttribute("bList", service.selectList());
-	}
+	}//jList
 	
 	// ** Detail or Update
 	// => 글요청 처리중, 글을 읽기전
