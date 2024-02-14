@@ -27,7 +27,7 @@
 					<td><a href = "detail?jo=${s.jno}">${s.jno}</a></td>
 					<td>${s.jname}</td>
 					<td>${s.captain}</td>
-					<td>${s.cname}</td>
+					<td>${s.name}</td>
 					<td>${s.project}</td>
 					<td>${s.slogan}</td>
 				</tr>

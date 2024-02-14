@@ -181,19 +181,6 @@ public class BoardDAO {
 				return 0;
 			}
 		} // update
-
-		public int update(int seq) {
-			sql = "update board set cnt=cnt+1 where seq =?";
-			try {
-				pst = cn.prepareStatement(sql);
-				pst.setInt(1, seq);
-				
-				return pst.executeUpdate(); // 처리갯수
-			} catch (Exception e) {
-				System.out.println("** update Exception => " + e.toString());
-				return 0;
-			}
-		} // update
 		
 		// ** delete 
 		// => seq 로 삭제 

@@ -36,7 +36,7 @@ public class JoDAO {
 					dto.setJno(rs.getInt(1));
 					dto.setJname(rs.getString(2));
 					dto.setCaptain(rs.getString(3));
-					dto.setCname(rs.getString(4));
+					dto.setName(rs.getString(4));
 					dto.setProject(rs.getString(5));
 					dto.setSlogan(rs.getString(6));
 
@@ -71,7 +71,7 @@ public class JoDAO {
 				dto.setJno(rs.getInt(1));
 				dto.setJname(rs.getString(2));
 				dto.setCaptain(rs.getString(3));
-				dto.setCname(rs.getString(4));
+				dto.setName(rs.getString(4));
 				dto.setProject(rs.getString(5));
 				dto.setSlogan(rs.getString(6));
 				return dto;

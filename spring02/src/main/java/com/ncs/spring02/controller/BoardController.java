@@ -40,11 +40,8 @@ public class BoardController {
 		if(jCode.equals("U")) {
 			uri = "board/boardUpdate";
 		} else if(!session.getAttribute("loginID").equals( dto.getId() ) ){
-			if(service.update(seq) > 0) {
-				System.out.println("조회수 +1 성공");
-			} else {
-				System.out.println("조회수 +1 실패");
-			}
+			dto.setCnt(dto.getCnt()+1);
+			service.update(dto);
 		}
 		model.addAttribute("dto", dto);
 		

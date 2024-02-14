@@ -54,7 +54,7 @@
 				<td>${requestScope.dto.jno}</td>
 				<td>${requestScope.dto.jname}</td>
 				<td>${requestScope.dto.captain}</td>
-				<td>${requestScope.dto.cname}</td>
+				<td>${requestScope.dto.name}</td>
 				<td>${requestScope.dto.project}</td>
 				<td>${requestScope.dto.slogan}</td>
 			</tr>
