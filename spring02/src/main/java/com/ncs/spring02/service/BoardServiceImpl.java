@@ -17,6 +17,16 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardMapper mapper;
 	
+	// ** Board_Check_List
+	@Override
+	public List<BoardDTO> bCheckList(SearchCriteria cri){
+		return mapper.bCheckList(cri);
+	}
+	@Override
+	public int bCheckRowsCount(SearchCriteria cri) {
+		return mapper.bCheckRowsCount(cri);
+	}
+	
 	// => ver01 : Criteria
 	// => ver02 : SearchCriteria
 	@Override

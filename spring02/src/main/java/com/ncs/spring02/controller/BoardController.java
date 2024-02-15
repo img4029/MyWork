@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ncs.spring02.domain.BoardDTO;
 import com.ncs.spring02.service.BoardService;
+import com.ncs.spring02.service.JoService;
 
 import lombok.AllArgsConstructor;
 import pageTest.Criteria;
@@ -23,6 +24,33 @@ import pageTest.SearchCriteria;
 @AllArgsConstructor
 public class BoardController {
 	BoardService service;
+	JoService jservice;
+		
+	// ** Board Check_List
+	@GetMapping("/bCheckList")
+	public String bCheckList(Model model, SearchCriteria cri, PageMaker pageMaker) {
+		String uri = "board/bPageList";
+		// 1) Criteria 처리
+		// => ver01: currPage, rowsPerPage 값들은 Parameter 로 전달되어 자동으로 cri에 set
+		// => ver02: Ver01 + searchType, keyword 도 동일하게 cri에 set
+		cri.setSnoEno();
+		
+		// 2) Service
+		// => 출력 대상인 Rows 를 select
+		// => ver01, 02 모두 같은 service 메서드 사용,
+		//    mapper interface 에서 사용하는 Sql 구문만 교체
+		// 즉, BoardMapper.xml 에 새로운 Sql 구문 추가 BoardMapper.java interface 수정
+		if(cri.getCheck() != null && cri.getCheck().length<1) cri.setCheck(null);
+		model.addAttribute("bList", service.bCheckList(cri));
+		model.addAttribute("jList", jservice.selectJoList());
+		// 3) View처리 : pageMaker 이용
+		// => cri, totalRowsConut (Read from DB)
+		pageMaker.setCri(cri);
+		pageMaker.setTotalRowsCount(service.bCheckRowsCount(cri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return uri;
+	}//bCheckList
 	
 	// ** bPageList
 	// => ver01 : Criteria 사용
@@ -40,16 +68,12 @@ public class BoardController {
 		// => ver01, 02 모두 같은 service 메서드 사용,
 		//    mapper interface 에서 사용하는 Sql 구문만 교체
 		// 즉, BoardMapper.xml 에 새로운 Sql 구문 추가 BoardMapper.java interface 수정
-		System.out.println("1번");
 		model.addAttribute("bList", service.bPageList(cri));
-		
+		model.addAttribute("jList", jservice.selectJoList());
 		// 3) View처리 : pageMaker 이용
 		// => cri, totalRowsConut (Read from DB)
-		System.out.println("2번");
 		pageMaker.setCri(cri);
-		System.out.println(cri);
 		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
-		System.out.println("3번");
 		model.addAttribute("pageMaker", pageMaker);
 		
 	}//bPageList

@@ -22,6 +22,11 @@ function searchDB() {
 	+'&searchType='+document.getElementById('searchType').value
 	+'&keyword='+document.getElementById('keyword').value;
 }
+//=> 검색조건 입력 후 첫 Page 요청
+//이때는 서버에 searchType, keyword 가 전달되기 이전이므로 
+//searchType, keyword 가 없는 makeQuery 메서드사용
+//=> self.location="bcrilist?currPage=?????" : 해당 요청을 서버로 전달    
+
 //** JS 코드 내부에서 el Tag 사용시 주의사항
 //=> JS 코드의 스트링 내에서 사용한 el Tag 는 JSP 가 처리해주므로   
 //사용가능 하지만, 이 스크립트가 외부 문서인 경우에는 처리해주지 않으므로 주의
@@ -33,6 +38,17 @@ function keywordClear() {
 		document.getElementById('keyword').value='';
 }
 
+function checkClear() {
+	let ck = document.querySelectorAll(".clear")
+
+/* 	for (let i = 0; i < ck.length; i++) {
+		ck[i].checked = false;
+	} */
+	ck.forEach(element => {
+		element.checked = false;
+	});
+	return false;
+}
 </script>
 </head>
 <body>
@@ -43,28 +59,49 @@ function keywordClear() {
 				<h3>게시판</h3>
 			</div>
 		</div>
-
+		
 		<!-- board seach area -->
 		<div id="board-search">
 			<div class="container">
+				<form action="bCheckList" method="get">
+					<b>ID : </b>
+					<c:if test="${!empty requestScope.jList}">
+						<c:forEach items="${requestScope.jList}" var="i">
+							<c:set var="checked" value=""></c:set>
+							<c:forEach items="${pageMaker.cri.check}" var="c">
+								<c:if test="${c==i.captain}">
+									<c:set var="checked" value="checked"></c:set>
+								</c:if>
+							</c:forEach>
+							<input class="clear" type="checkbox" name="check" value="${i.captain}" ${checked}>${i.name}&nbsp;
+						</c:forEach>
+					</c:if>
+					<!-- <input type="checkbox" name="check" value="simsim916">최문석&nbsp;
+					<input type="checkbox" name="check" value="agr4005">김수빈&nbsp;
+					<input type="checkbox" name="check" value="bamboo7">최승삼&nbsp;
+					<input type="checkbox" name="check" value="kso">김수옥&nbsp;
+					<input type="checkbox" name="check" value="admin">관리자&nbsp; -->
+					<input type="submit" value="Search">&nbsp;
+					<input type="reset" value="Clear" onclick="return checkClear()">
+				</form>
 				<div class="search-window">
-					<form action="">
-						<div class="search-wrap" style="display: flex">
-							<select name="searchType" id="searchType" onchange="keywordClear()">
-								<option value="all">전체</option>
-								<option value="title">제목</option>
-								<option value="content">내용</option>
-								<option value="id">작성자</option>
-								<option value="regdate">등록일</option>
-								<option value="tc">내용 및 작성자</option>
-							</select>
-							<label for="keyword" class="blind">게시판 내용 검색</label> <input
-								id="keyword" type="search" name="keyword" placeholder="검색어를 입력해주세요."
-								value="">
-							<button type="button" id="searchBtn" 
-							class="btn btn-dark" onclick="searchDB()">검색</button>
-						</div>
-					</form>
+					<div class="search-wrap" style="display: flex">
+						<select name="searchType" id="searchType" onchange="keywordClear()">
+							<option value="all" ${pageMaker.cri.searchType == 'all' ? 'selected' : '' }>전체</option>
+							<option value="title" ${pageMaker.cri.searchType == 'title' ? 'selected' : '' }>제목</option>
+							<option value="content" ${pageMaker.cri.searchType == 'content' ? 'selected' : '' }>내용</option>
+							<option value="id" ${pageMaker.cri.searchType == 'id' ? 'selected' : '' }>작성자</option>
+							<option value="regdate" ${pageMaker.cri.searchType == 'regdate' ? 'selected' : '' }>등록일</option>
+							<option value="tc" ${pageMaker.cri.searchType == 'tc' ? 'selected' : '' }>내용 및 작성자</option>
+						</select>
+						<label for="keyword" class="blind">게시판 내용 검색</label> <input
+							id="keyword" type="search" name="keyword" placeholder="검색어를 입력해주세요."
+							value="${pageMaker.cri.keyword}">
+						<button type="button" id="searchBtn" 
+						class="btn btn-dark" onclick="searchDB()">검색</button>
+						<!-- CheckBox Test -->
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -123,11 +160,14 @@ function keywordClear() {
 				     => OLD
 				     	<a href="bPageList?currPage=1&rowPerPage=5">FP</a>&nbsp;
 				     	<a href="bPageList?currPage=${pageMaker.spageNo - 1}&rowPerPage=5">&LT;</a>&nbsp;&nbsp;
-				     =>	ver01 makeQuery 메서드 적용	-->
+				     =>	ver01 makeQuery 메서드 적용
+				     	<a href="bPageList${pageMaker.makeQuery(1)}">FP</a>&nbsp;
+				     	<a href="bPageList${pageMaker.makeQuery(pageMaker.spageNo - 1)}">&LT;</a>&nbsp;&nbsp;
+				     => ver02: searchQuery() 메서드 사용		-->
 					<c:choose>
 				     	<c:when test="${pageMaker.prev && pageMaker.spageNo > 1}">
-				     		<a href="bPageList${pageMaker.makeQuery(1)}">FP</a>&nbsp;
-				     		<a href="bPageList${pageMaker.makeQuery(pageMaker.spageNo - 1)}">&LT;</a>&nbsp;&nbsp;
+				     		<a href="bPageList${pageMaker.searchQuery(1)}">FP</a>&nbsp;
+				     		<a href="bPageList${pageMaker.searchQuery(pageMaker.spageNo - 1)}">&LT;</a>&nbsp;&nbsp;
 				     	</c:when>
 				     	<c:otherwise>
 				     		<font color="gray">FP&nbsp;&LT;&nbsp;&nbsp;</font>
@@ -138,13 +178,15 @@ function keywordClear() {
 					=> currPage	제외한 
 					=> OLD
 						<a href="bPageList?currPage=${i}&rowPerPage=5">${i}</a>&nbsp;
-					=> ver01 makeQuery 메서드 적용		-->
+					=> ver01 makeQuery 메서드 적용
+						<a href="bPageList${pageMaker.makeQuery(i)}">${i}</a>&nbsp;
+					=> ver02: searchQuery() 메서드 사용		-->
 					<c:forEach var="i" begin="${pageMaker.spageNo}" end="${pageMaker.epageNo}">
 						<c:if test="${i==pageMaker.cri.currPage}">
 							<font color="Orange" size="5"><b>${i}</b></font>&nbsp;
 						</c:if>
 						<c:if test="${i!=pageMaker.cri.currPage}">
-							<a href="bPageList${pageMaker.makeQuery(i)}">${i}</a>&nbsp;
+							<a href="bPageList${pageMaker.searchQuery(i)}">${i}</a>&nbsp;
 						</c:if>
 					</c:forEach>
 				
@@ -152,17 +194,19 @@ function keywordClear() {
 					 => OLD
 						&nbsp;<a href="bPageList?currPage=${pageMaker.epageNo + 1}&rowPerPage=5">&GT;</a>
 				     	&nbsp;<a href="bPageList?currPage=${pageMaker.lastPageNo}&rowPerPage=5">LP</a>
-					 => ver01: makeQuery() 메서드 사용 -->
+					 => ver01: makeQuery() 메서드 사용 
+					 	&nbsp;<a href="bPageList${pageMaker.makeQuery(pageMaker.epageNo + 1)}">&GT;</a>
+				     	&nbsp;<a href="bPageList${pageMaker.makeQuery(pageMaker.lastPageNo)}">LP</a>
+					 => ver02: searchQuery() 메서드 사용	-->
 					<c:choose>
 				     	<c:when test="${pageMaker.next && pageMaker.epageNo > 0}">
-				     		&nbsp;<a href="bPageList${pageMaker.makeQuery(pageMaker.epageNo + 1)}">&GT;</a>
-				     		&nbsp;<a href="bPageList${pageMaker.makeQuery(pageMaker.lastPageNo)}">LP</a>
+				     		&nbsp;<a href="bPageList${pageMaker.searchQuery(pageMaker.epageNo + 1)}">&GT;</a>
+				     		&nbsp;<a href="bPageList${pageMaker.searchQuery(pageMaker.lastPageNo)}">LP</a>
 				     	</c:when>
 				     	<c:otherwise>
 				     		<font color="gray">&nbsp;&GT;&nbsp;LP</font>
 						</c:otherwise>
 					</c:choose>
-				<!-- => ver02: searchQuery() 메서드 사용 -->
 				</div>
 
 				<div class="divBox">

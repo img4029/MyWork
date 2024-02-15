@@ -8,8 +8,11 @@ import pageTest.Criteria;
 import pageTest.SearchCriteria;
 
 public interface BoardService {
+	// ** Board_Check_List
+	List<BoardDTO> bCheckList(SearchCriteria cri);
+	int bCheckRowsCount(SearchCriteria cri);
 	
-	// **board_paging
+	// ** Board_Paging
 	// => ver01 : Criteria
 	// => ver02 : SearchCriteria
 	List<BoardDTO> bPageList(SearchCriteria cri);

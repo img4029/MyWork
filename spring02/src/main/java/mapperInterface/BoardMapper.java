@@ -9,6 +9,10 @@ import pageTest.SearchCriteria;
 
 public interface BoardMapper {
 	
+	// ** Board_Check_List
+	List<BoardDTO> bCheckList(SearchCriteria cri);
+	int bCheckRowsCount(SearchCriteria cri);
+	
 	// **board_search_paging
 	List<BoardDTO> bSearchList(SearchCriteria cri);
 	int bSearchRowsCount(SearchCriteria cri);
