@@ -5,9 +5,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Board List</title>
 <link rel="stylesheet" type="text/css"
 	href="/spring02/resources/myLib/test.css?c">
+<script type="text/javascript">
+"use script"
+// 1. 검색조건 입력후 버튼클릭
+// => 입력된 값을 서버로 전송요청 처리 : 로케이션(location)
+
+// ** self.location   
+// 1) location 객체 직접사용 Test : url로 이동, 히스토리에 기록됨
+// 2) location 객체의 메서드
+// => href, replace('...'), reload() 
+function searchDB() {
+	self.location ='bPageList${pageMaker.makeQuery(1)}'
+	+'&searchType='+document.getElementById('searchType').value
+	+'&keyword='+document.getElementById('keyword').value;
+}
+//** JS 코드 내부에서 el Tag 사용시 주의사항
+//=> JS 코드의 스트링 내에서 사용한 el Tag 는 JSP 가 처리해주므로   
+//사용가능 하지만, 이 스크립트가 외부 문서인 경우에는 처리해주지 않으므로 주의
+//이 코드를 외부문서로 작성하면 "${pageMaker.makeQuery(1)}" 이 글자 그대로 적용되어 404 발생 
+
+// 2. searchType 을 '전체' 로 변경하면 keyword는 clear 
+function keywordClear() {
+	if(document.getElementById('searchType').value == 'all') 
+		document.getElementById('keyword').value='';
+}
+
+</script>
 </head>
 <body>
 <c:import url="/header"></c:import>
@@ -19,20 +45,29 @@
 		</div>
 
 		<!-- board seach area -->
-<!-- 		<div id="board-search">
+		<div id="board-search">
 			<div class="container">
 				<div class="search-window">
 					<form action="">
-						<div class="search-wrap">
-							<label for="search" class="blind">공지사항 내용 검색</label> <input
-								id="search" type="search" name="" placeholder="검색어를 입력해주세요."
+						<div class="search-wrap" style="display: flex">
+							<select name="searchType" id="searchType" onchange="keywordClear()">
+								<option value="all">전체</option>
+								<option value="title">제목</option>
+								<option value="content">내용</option>
+								<option value="id">작성자</option>
+								<option value="regdate">등록일</option>
+								<option value="tc">내용 및 작성자</option>
+							</select>
+							<label for="keyword" class="blind">게시판 내용 검색</label> <input
+								id="keyword" type="search" name="keyword" placeholder="검색어를 입력해주세요."
 								value="">
-							<button type="submit" class="btn btn-dark">검색</button>
+							<button type="button" id="searchBtn" 
+							class="btn btn-dark" onclick="searchDB()">검색</button>
 						</div>
 					</form>
 				</div>
 			</div>
-		</div> -->
+		</div>
 
 		<!-- board list area -->
 		<div id="board-list">
@@ -80,15 +115,19 @@
 						</c:if>
 					</tbody>
 				</table>
-				<hr>
+				<br>
 				<div align="center">
 				<!-- ** Paging Block ** 
 				   => ver01: QueryString 수동 입력 -> 자동생성
-				     1) FirstPage, Prev  -->
+				     1) FirstPage, Prev  
+				     => OLD
+				     	<a href="bPageList?currPage=1&rowPerPage=5">FP</a>&nbsp;
+				     	<a href="bPageList?currPage=${pageMaker.spageNo - 1}&rowPerPage=5">&LT;</a>&nbsp;&nbsp;
+				     =>	ver01 makeQuery 메서드 적용	-->
 					<c:choose>
 				     	<c:when test="${pageMaker.prev && pageMaker.spageNo > 1}">
-				     		<a href="bPageList?currPage=1&rowPerPage=5">FP</a>&nbsp;
-				     		<a href="bPageList?currPage=${pageMaker.spageNo - 1}&rowPerPage=5">&LT;</a>&nbsp;&nbsp;
+				     		<a href="bPageList${pageMaker.makeQuery(1)}">FP</a>&nbsp;
+				     		<a href="bPageList${pageMaker.makeQuery(pageMaker.spageNo - 1)}">&LT;</a>&nbsp;&nbsp;
 				     	</c:when>
 				     	<c:otherwise>
 				     		<font color="gray">FP&nbsp;&LT;&nbsp;&nbsp;</font>
@@ -96,31 +135,36 @@
 					</c:choose>
 				     
 				<!-- 2) Display PageNo
-					=> currPage	제외한 -->
-					
+					=> currPage	제외한 
+					=> OLD
+						<a href="bPageList?currPage=${i}&rowPerPage=5">${i}</a>&nbsp;
+					=> ver01 makeQuery 메서드 적용		-->
 					<c:forEach var="i" begin="${pageMaker.spageNo}" end="${pageMaker.epageNo}">
 						<c:if test="${i==pageMaker.cri.currPage}">
 							<font color="Orange" size="5"><b>${i}</b></font>&nbsp;
 						</c:if>
 						<c:if test="${i!=pageMaker.cri.currPage}">
-							<a href="bPageList?currPage=${i}&rowPerPage=5">${i}</a>&nbsp;
+							<a href="bPageList${pageMaker.makeQuery(i)}">${i}</a>&nbsp;
 						</c:if>
 					</c:forEach>
 				
 				<!-- 3) Next, LastPage 
-					=> ver01: makeQuery() 메서드 사용
-				    => ver02: searchQuery() 메서드 사용 -->
+					 => OLD
+						&nbsp;<a href="bPageList?currPage=${pageMaker.epageNo + 1}&rowPerPage=5">&GT;</a>
+				     	&nbsp;<a href="bPageList?currPage=${pageMaker.lastPageNo}&rowPerPage=5">LP</a>
+					 => ver01: makeQuery() 메서드 사용 -->
 					<c:choose>
 				     	<c:when test="${pageMaker.next && pageMaker.epageNo > 0}">
-				     		&nbsp;<a href="bPageList?currPage=${pageMaker.epageNo + 1}&rowPerPage=5">&GT;</a>
-				     		&nbsp;<a href="bPageList?currPage=${pageMaker.lastPageNo}&rowPerPage=5">LP</a>
+				     		&nbsp;<a href="bPageList${pageMaker.makeQuery(pageMaker.epageNo + 1)}">&GT;</a>
+				     		&nbsp;<a href="bPageList${pageMaker.makeQuery(pageMaker.lastPageNo)}">LP</a>
 				     	</c:when>
 				     	<c:otherwise>
 				     		<font color="gray">&nbsp;&GT;&nbsp;LP</font>
 						</c:otherwise>
 					</c:choose>
+				<!-- => ver02: searchQuery() 메서드 사용 -->
 				</div>
-				<hr>
+
 				<div class="divBox">
 					<c:if test="${!empty sessionScope.loginName}">
 						&nbsp;<a class="link" href="boardInsert">등록하기</a>&nbsp; 

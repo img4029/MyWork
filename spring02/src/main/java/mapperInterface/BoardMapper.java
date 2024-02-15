@@ -5,13 +5,18 @@ import java.util.List;
 import com.ncs.spring02.domain.BoardDTO;
 
 import pageTest.Criteria;
+import pageTest.SearchCriteria;
 
 public interface BoardMapper {
+	
+	// **board_search_paging
+	List<BoardDTO> bSearchList(SearchCriteria cri);
+	int bSearchRowsCount(SearchCriteria cri);
 	
 	// **board_paging
 	List<BoardDTO> bPageList(Criteria cri);
 	int totalRowsCount(Criteria cri);
-
+	
 	List<BoardDTO> selectList();
 
 	BoardDTO selectOne(int seq);

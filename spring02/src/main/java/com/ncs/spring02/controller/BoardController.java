@@ -16,6 +16,7 @@ import com.ncs.spring02.service.BoardService;
 import lombok.AllArgsConstructor;
 import pageTest.Criteria;
 import pageTest.PageMaker;
+import pageTest.SearchCriteria;
 
 @Controller
 @RequestMapping("/board")
@@ -24,24 +25,33 @@ public class BoardController {
 	BoardService service;
 	
 	// ** bPageList
+	// => ver01 : Criteria 사용
+	// public void bPageList(Model model, Criteria cri, PageMaker pageMaker) {
+	// => ver02 : searchCriteria 사용(검색기능 추가)
 	@GetMapping("/bPageList")
-	public void bPageList(Model model, Criteria cri, PageMaker pageMaker) {
+	public void bPageList(Model model, SearchCriteria cri, PageMaker pageMaker) {
 		// 1) Criteria 처리
-		// => currPage, rowsPerPage 값들은 Parameter 로 전달되어 자동으로 cri에 set
+		// => ver01: currPage, rowsPerPage 값들은 Parameter 로 전달되어 자동으로 cri에 set
+		// => ver02: Ver01 + searchType, keyword 도 동일하게 cri에 set
 		cri.setSnoEno();
-		
-		System.out.println(cri);
 		
 		// 2) Service
 		// => 출력 대상인 Rows 를 select
+		// => ver01, 02 모두 같은 service 메서드 사용,
+		//    mapper interface 에서 사용하는 Sql 구문만 교체
+		// 즉, BoardMapper.xml 에 새로운 Sql 구문 추가 BoardMapper.java interface 수정
+		System.out.println("1번");
 		model.addAttribute("bList", service.bPageList(cri));
 		
 		// 3) View처리 : pageMaker 이용
 		// => cri, totalRowsConut (Read from DB)
+		System.out.println("2번");
 		pageMaker.setCri(cri);
+		System.out.println(cri);
 		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
-		
+		System.out.println("3번");
 		model.addAttribute("pageMaker", pageMaker);
+		
 	}//bPageList
 	
 	// ** boardList

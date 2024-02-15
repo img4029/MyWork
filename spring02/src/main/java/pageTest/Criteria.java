@@ -43,7 +43,6 @@ public class Criteria {
 	// 2) 요청시 값 갱신
 	// 2.1) currPage
 	public void setCurrPage(int currPage) {
-		System.out.println(currPage);
 		if(currPage > 1) this.currPage = currPage;
 		else this.currPage = 1;
 	}

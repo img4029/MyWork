@@ -1,5 +1,8 @@
 package pageTest;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.ToString;
 
@@ -72,5 +75,28 @@ public class PageMaker {
 		next = this.epageNo==this.lastPageNo ? false : true;
 		
 	} //calcData
+	
+	// 4) QueryString 자동 만들기
+	// ** 패키지 org.springframework.web.util
+	// => 웹개발에 필요한 많은 유틸리티 클래스 제공
+	// => UriComponents , UriComponentsBuilder
+	//    Uri를 동적으로 생성해주는 클래스,
+	//    파라미터가 조합된 uri를 손쉽게 만들어줌
+	// => ?currPage=7&rowsPerPage=10 이것을 만들어줌
+	//    ? 부터 만들어지므로 jsp Code에서 ? 포함하지 않도록 주의    
+   
+	// ** ver01
+	// => QueryString 자동생성 
+	//    ?currPage=4&rowsPerPage=3
+	public String makeQuery(int currPage) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.queryParam("currPage", currPage)
+				.queryParam("rowPerPage", cri.getRowPerPage())
+				.build();
+		
+		return uriComponents.toString();
+	} //makeQuery
+	
+	
 	
 } //class

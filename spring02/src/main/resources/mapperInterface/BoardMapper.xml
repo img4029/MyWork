@@ -28,12 +28,66 @@
 	** Board_Paging 
 	=> MySql: ~~ Limit a,b(a개를 제외하고 b개 : a+1 부터 b개)
 	=> Oracle : ~~ Between a and b (a 번째부터 b까지)
+
 -->
 	<select id="bPageList" resultType="com.ncs.spring02.domain.BoardDTO" >
-		select * from board 
+		select * from board
 		order by root desc, step asc
 		limit #{sno}, #{rowPerPage}
 	</select>
+	
+<!-- ** Board Search Paging 
+	=> searchType 에 따라 다른 조건문 작성
+	=> 동일한 조건이 Count(*)에도 적용되어야함
+		1) 기본 조건문 만들기
+		=> sql Tag 로 작성, include Tag 로 call   
+		
+		2) 검색조건 : title 에 spring 이 포함된 글
+			select * from board
+			where title like '%spring%'
+			order ............
+		=> 즉, % + #{keyword} + % 문자연산 필요함
+			MySql : CONCAT('%', #{keyword},'%')
+			Mybatis 구문이 MySql 보다 편리
+			
+-->
+	<sql id="search">
+		<if test="keyword != null">
+			<!-- 1) CONCAT('%', #{keyword},'%') 처리 -->
+			<bind name="keyval" value="'%'+keyword+'%'"/>
+			<!-- 2) Like 조건문 -->
+			<choose>
+				<when test="searchType == 'all'">
+				<!-- id,title,content에서 keyword 가 포함된 글목록 -->
+					and (id Like #{keyval}	
+					or title Like #{keyval}
+					or content Like #{keyval})
+				</when>
+				<when test="searchType == 'tc'">
+				<!-- id,title,content에서 keyword 가 포함된 글목록 -->
+					and (title Like #{keyval}
+					or content Like #{keyval})
+				</when>
+				<otherwise>
+					and ${searchType} Like #{keyval}
+				</otherwise>
+			</choose>
+			
+		</if>
+		)
+	</sql>
+	<select id="bSearchList" resultType="com.ncs.spring02.domain.BoardDTO" >
+		select * from board
+		where (seq>0 <include refid="search"></include>
+		order by root desc, step asc
+		limit #{sno}, #{rowPerPage}
+	</select>
+	
+	<select id="bSearchRowsCount" resultType="int" >
+		select count(*) from board
+		where (seq>0 <include refid="search"></include>
+	</select>
+	
 	<select id="totalRowsCount" resultType="int" >
 		select count(*) from board
 	</select>
