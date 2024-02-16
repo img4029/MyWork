@@ -20,6 +20,7 @@
 	        <div class="menu_list_main">
 	            <ul>
 	                <li><a href = "/spring02/member/memberList">MList</a></li>
+	                <li><a href = "/spring02/member/mPageList">MPage</a></li>
 	                <li><a href = "/spring02/jo/joList">JList</a></li>
 	                <li><a href = "/spring02/board/boardList">BList</a></li>
 	                <li><a href = "/spring02/board/bPageList">BPage</a></li>

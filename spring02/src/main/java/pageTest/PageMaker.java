@@ -35,6 +35,7 @@ public class PageMaker {
 	private boolean prev; // 이전 PageBlock 으로
 	private boolean next; // 다음 PageBlock 으로
 	
+	private String mappingName;
 	// => ver01 : Criteria
 	// => ver02 : SearchCriteria
 	SearchCriteria cri;
@@ -45,6 +46,9 @@ public class PageMaker {
 	// => ver02 : SearchCriteria
 	public void setCri(SearchCriteria cri) {
 		this.cri = cri;
+	}
+	public void setMappingName(String mappingName) {
+		this.mappingName = mappingName;
 	}
 	// 2) totalRowsCount
 	// => 전체 Rows 갯수 : Read from DB
@@ -100,7 +104,7 @@ public class PageMaker {
 				.queryParam("rowPerPage", cri.getRowPerPage())
 				.build();
 		
-		return uriComponents.toString();
+		return this.mappingName+uriComponents.toString();
 	} //makeQuery
 	
 	// ** ver02
@@ -141,7 +145,7 @@ public class PageMaker {
 				.queryParam("keyword", cri.getKeyword())
 				.queryParams(checkMap)
 				.build();
-		return uriComponents.toString();
+		return this.mappingName+uriComponents.toString();
 	}
 	
 } //class

@@ -28,7 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ncs.spring02.domain.MemberDTO;
+import com.ncs.spring02.service.JoService;
 import com.ncs.spring02.service.MemberService;
+
+import pageTest.PageMaker;
+import pageTest.SearchCriteria;
 
 // ** IOC/DI 적용 ( @Component 의 세분화 ) 
 // => 스프링 프레임워크에서는 클래스들을 기능별로 분류하기위해 @ 을 추가함.
@@ -156,6 +160,10 @@ public class MemberController {
 	
 	@Autowired(required = false)
 	MemberService service;
+	
+	@Autowired
+	JoService jservice;
+	
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	//= new BCryptPasswordEncoder();
@@ -422,6 +430,47 @@ public class MemberController {
 		return "redirect:/home";
 	}
 		
+	// ** mPageList
+	@GetMapping("/mCheckList")
+	public String mCheckList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {
+		String uri = "member/mPageList";
+		String mappingName = request.getRequestURI().substring( request.getRequestURI().lastIndexOf("/")+1 );
+		// 1) Criteria 처리
+		cri.setSnoEno();
+		
+		// 2) Service
+		if(cri.getCheck() != null && cri.getCheck().length<1) cri.setCheck(null);
+		model.addAttribute("mList", service.mCheckList(cri));
+		model.addAttribute("jList", jservice.selectJoList());
+		
+		// 3) View처리 : pageMaker 이용
+		pageMaker.setCri(cri);
+		pageMaker.setMappingName(mappingName);
+		pageMaker.setTotalRowsCount(service.mCheckRowsCount(cri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return uri;
+	}//mCheckList
+	
+	// ** mPageList
+	@GetMapping("/mPageList")
+	public void mPageList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {
+		String mappingName = request.getRequestURI().substring( request.getRequestURI().lastIndexOf("/")+1 );
+		// 1) Criteria 처리
+		cri.setSnoEno();
+		
+		// 2) Service
+		model.addAttribute("mList", service.mPageList(cri));
+		model.addAttribute("jList", jservice.selectJoList());
+		
+		// 3) View처리 : pageMaker 이용
+		pageMaker.setCri(cri);
+		pageMaker.setMappingName(mappingName);
+		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+	}//mPageList
+	
 	// ** memberList
 	@RequestMapping(value = { "/memberList" }, method = RequestMethod.GET)
 	public void mList(Model model) {

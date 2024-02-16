@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** Web02_MVC02 MemberList **</title>
-</head>
+
 <body>
 	<h2>** Web02_MVC02 MemberList **</h2>
 	<hr>
@@ -14,6 +14,7 @@
 	=> ${requestScope.massage}	
 	<hr>
 	</c:if>
+	
 	<table border="1" style="width: 100%">
 		<tr bgcolor="DeepSkyBlue" style="font-weight: bold;">
 			<th>ID</th><!-- <th>Password</th> --><th>Name</th><th>Age</th><th>Jno</th>
@@ -46,6 +47,7 @@
 			</c:otherwise>
 		</c:choose>
 	</table>
+	
 	<hr>
 	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;

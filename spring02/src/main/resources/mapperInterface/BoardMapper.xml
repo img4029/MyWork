@@ -88,10 +88,10 @@
 	</sql>
 	<select id="bCheckList" resultType="com.ncs.spring02.domain.BoardDTO" >
 		select 
-		*
-		<!-- seq,id,title,content
+		<!-- * -->
+		seq,id,title,content
 		,DATE_FORMAT(regdate, '%Y년 %m월 %d일 %H시 %i분 %s초') regdate
-		,cnt,root,step,indent --> 
+		,cnt,root,step,indent 
 		from board
 		<include refid="bcheck"></include>
 		order by root desc, step asc

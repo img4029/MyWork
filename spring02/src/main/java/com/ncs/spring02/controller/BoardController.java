@@ -1,5 +1,7 @@
 package com.ncs.spring02.controller;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,14 @@ import pageTest.SearchCriteria;
 public class BoardController {
 	BoardService service;
 	JoService jservice;
-		
+	
+	
 	// ** Board Check_List
 	@GetMapping("/bCheckList")
-	public String bCheckList(Model model, SearchCriteria cri, PageMaker pageMaker) {
+	public String bCheckList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {
 		String uri = "board/bPageList";
+		String mappingName = request.getRequestURI().substring( request.getRequestURI().lastIndexOf("/")+1 );
+		
 		// 1) Criteria 처리
 		// => ver01: currPage, rowsPerPage 값들은 Parameter 로 전달되어 자동으로 cri에 set
 		// => ver02: Ver01 + searchType, keyword 도 동일하게 cri에 set
@@ -46,6 +51,7 @@ public class BoardController {
 		// 3) View처리 : pageMaker 이용
 		// => cri, totalRowsConut (Read from DB)
 		pageMaker.setCri(cri);
+		pageMaker.setMappingName(mappingName);
 		pageMaker.setTotalRowsCount(service.bCheckRowsCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		
@@ -57,7 +63,8 @@ public class BoardController {
 	// public void bPageList(Model model, Criteria cri, PageMaker pageMaker) {
 	// => ver02 : searchCriteria 사용(검색기능 추가)
 	@GetMapping("/bPageList")
-	public void bPageList(Model model, SearchCriteria cri, PageMaker pageMaker) {
+	public void bPageList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {
+		String mappingName = request.getRequestURI().substring( request.getRequestURI().lastIndexOf("/")+1 );
 		// 1) Criteria 처리
 		// => ver01: currPage, rowsPerPage 값들은 Parameter 로 전달되어 자동으로 cri에 set
 		// => ver02: Ver01 + searchType, keyword 도 동일하게 cri에 set
@@ -73,6 +80,7 @@ public class BoardController {
 		// 3) View처리 : pageMaker 이용
 		// => cri, totalRowsConut (Read from DB)
 		pageMaker.setCri(cri);
+		pageMaker.setMappingName(mappingName);
 		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		
