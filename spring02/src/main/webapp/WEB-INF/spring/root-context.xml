@@ -21,7 +21,6 @@
 		<property name="username" value="root" />
 		<property name="password" value="mysql" />
 	</bean>
-
 	   
 	<!--
 	   2) Mybatis 설정 
@@ -33,5 +32,9 @@
 	<mybatis-spring:scan base-package="mapperInterface"/>
 	<!-- ***************************************************** -->
 	
+	<!-- JUnit Test
+		=> SpringDAO Test Bean 설정 MemberDAO, MemberDTO -->
+	<bean class="com.ncs.spring02.domain.MemberDTO" lazy-init="true" />
+	<bean class="com.ncs.spring02.model.MemberDAO" lazy-init="true" />
 	
 </beans>

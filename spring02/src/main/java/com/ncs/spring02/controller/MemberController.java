@@ -332,6 +332,7 @@ public class MemberController {
 		if("U".equals(jCode)) {
 			uri = "member/updateForm";
 		}
+
 		return uri;
 	}
 	
