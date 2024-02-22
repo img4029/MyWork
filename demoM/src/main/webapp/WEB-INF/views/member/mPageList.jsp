@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <title>** Web02_MVC02 MemberList **</title>
 <link rel="stylesheet" type="text/css"
-	href="/spring02/resources/myLib/test3.css">
+	href="/resources/myLib/test3.css">
 <link rel="stylesheet" type="text/css"
-	href="/spring02/resources/myLib/test.css?c">
+	href="/resources/myLib/test.css?c">
 </head>
 <script type="text/javascript">
 "use script"
@@ -109,7 +109,7 @@ function checkClear() {
 						<td>${s.birthday}</td>
 						<td>${s.rid}</td>
 						<td>
-							<img alt="이미지" src="/spring02/resources/uploadImages/${s.uploadfile}"
+							<img alt="이미지" src="/resources/uploadImages/${s.uploadfile}"
 							width="50" height="70">  
 						</td>
 					</tr>
@@ -154,7 +154,7 @@ function checkClear() {
 		</c:choose>
 	</div>
 	<hr>
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
 </body>
 </html>

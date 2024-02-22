@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Board List</title>
 <link rel="stylesheet" type="text/css"
-	href="/spring02/resources/myLib/test.css?c">
+	href="/resources/myLib/test.css?c">
 <script type="text/javascript">
 "use script"
 // 1. 검색조건 입력후 버튼클릭
@@ -217,7 +217,7 @@ function checkClear() {
 					<c:if test="${!empty sessionScope.loginName}">
 						&nbsp;<a class="link" href="boardInsert">등록하기</a>&nbsp; 
 					</c:if>
-					&nbsp;<a class="link" href="/spring02/home">Home</a>&nbsp; 
+					&nbsp;<a class="link" href="/home">Home</a>&nbsp; 
 					&nbsp;<a class="link" href="javascript:history.back();">이전으로</a>&nbsp;
 				</div>
 			</div>

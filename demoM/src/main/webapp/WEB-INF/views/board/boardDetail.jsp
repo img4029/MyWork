@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/boardStyle.css?a">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/boardStyle.css?a">
 </head>
 <body>
 <c:import url="/header"></c:import>
@@ -48,7 +48,7 @@
 			&nbsp;<a class="link" href="delete?seq=${requestScope.dto.seq}&root=${requestScope.dto.root}">삭제하기</a>&nbsp;
 		</c:if>
 		&nbsp;<a class="link" href="boardList">글목록</a>&nbsp;
-		&nbsp;<a class="link" href="/spring02/home">Home</a>&nbsp;
+		&nbsp;<a class="link" href="/home">Home</a>&nbsp;
 		&nbsp;<a class="link" href="javascript:history.back();">이전으로</a>&nbsp;	
 	</div>
 </div>

@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/idinfoSub.css">
-<script src="/spring02/resources/myLib/inCheck.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/myLib/idinfoSub.css">
+<script src="/resources/myLib/inCheck.js"></script>
 <script type="text/javascript">
 	let mpCheck = { state: true, name: "현재 비밀번호", message: "mpMessage", id: "mpassword" };
 	let pCheck = { state: false, name: "비밀번호", message: "pMessage", id: "password" };

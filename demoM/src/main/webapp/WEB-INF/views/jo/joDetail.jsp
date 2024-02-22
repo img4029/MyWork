@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** joDetail **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 <style type="text/css">
 
 	#jo tbody, #jo tr {
@@ -103,7 +103,7 @@
 <div class="divBox">
 	&nbsp;<a href="detail?jo=1${requestScope.dto.jno}">수정하기</a>&nbsp;
 	&nbsp;<a href="delete?jo=${requestScope.dto.jno}">삭제하기</a>&nbsp;
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;	
 </div>
 </body>

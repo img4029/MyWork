@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** UpdateForm **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 <style type="text/css">
 
 	tbody, tr {
@@ -91,7 +91,7 @@
 => ${requestScope.message}<hr>
 </c:if>
 <div class="divBox">
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;	
 </div>
 <hr>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** Spring02_MVC02 JoList **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 </head>
 <body>
 <h2>** Spring02_MVC02 JoList **</h2>
@@ -45,7 +45,7 @@
 </c:if>
 <hr>
 &nbsp;<a href="insertForm">등록하기</a>&nbsp;
-&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+&nbsp;<a href="/home">Home</a>&nbsp;
 &nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
 </body>
 </html>

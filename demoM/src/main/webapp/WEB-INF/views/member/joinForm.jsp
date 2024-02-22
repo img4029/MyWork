@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>** Join Form **</title>
-    <link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/idinfoSub.css?a">
-    <script src="/spring02/resources/myLib/inCheck.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/myLib/idinfoSub.css?a">
+    <script src="/resources/myLib/inCheck.js"></script>
     <script>
         "use strict"
         // 1) 전역변수 정의
@@ -196,7 +196,7 @@
                     <div class="idinfo_grid">
                     	<div style="height:310px" class="grid_head"><span>*</span>이미지</div>
                         <div style="height:310px">
-                        	<img alt="이미지" src="/spring02/resources/uploadImages/basicman4.png"
+                        	<img alt="이미지" src="/resources/uploadImages/basicman4.png"
 							width="300" height="300" class="select_img"> 
                             <input class="inputAll" value="" type="file" name="uploadfilef" id="uploadfilef">
                             <span id="fMessage" class="eMessage"></span>
@@ -598,7 +598,7 @@
     </c:if>
     <hr>
     <div class="divBox">
-        &nbsp;<a href="/spring02/home">Home</a>&nbsp;
+        &nbsp;<a href="/home">Home</a>&nbsp;
         &nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
     </div>
 </body>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** MyInfo **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 <style type="text/css">
 
 	tbody, tr {
@@ -53,7 +53,7 @@
 		<c:when test="${!empty requestScope.dto}">
 			<tr>
 				<td style="height:310px">
-					<img alt="이미지" src="/spring02/resources/uploadImages/${dto.uploadfile}"
+					<img alt="이미지" src="/resources/uploadImages/${dto.uploadfile}"
 					width="300" height="300">  
 				</td>
 				<td>${dto.id}</td><td>${dto.password}</td>
@@ -76,7 +76,7 @@
 => ${requestScope.message}<hr>
 </c:if>
 <div class="divBox">
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;	
 </div>
 </body>

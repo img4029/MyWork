@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>** ID 중복확인 **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
-<script src="/spring02/resources/myLib/inCheck.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/myLib/myStyle.css">
+<script src="/resources/myLib/inCheck.js"></script>
 <script>
 //** idOK : 사용자가 입력한 id를 사용가능하도록 해주고, 현재(this)창은 close
 //1) this 창의 id 를 부모창의 id 로

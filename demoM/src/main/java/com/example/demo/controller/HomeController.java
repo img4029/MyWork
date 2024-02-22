@@ -88,4 +88,10 @@ public class HomeController {
 	@GetMapping("/header")
 	public void header() {} 
 	
+	@GetMapping("/axTestform")
+	public String axTestForm() {
+		
+		return "axTest/axTestForm";
+	}
+	
 } // class

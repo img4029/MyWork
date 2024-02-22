@@ -34,7 +34,7 @@
 						<td>${s.birthday}</td>
 						<td>${s.rid}</td>
 						<td>
-							<img alt="이미지" src="/spring02/resources/uploadImages/${s.uploadfile}"
+							<img alt="이미지" src="/resources/uploadImages/${s.uploadfile}"
 							width="50" height="70">  
 						</td>
 					</tr>
@@ -49,7 +49,7 @@
 	</table>
 	
 	<hr>
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;
 </body>
 </html>

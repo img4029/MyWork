@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** Jo Join Form **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 <style type="text/css">
 	tbody, tr {
 		display: flex;
@@ -79,7 +79,7 @@
 </c:if>
 <hr>
 <div class="divBox">
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;	
 </div>
 </body>

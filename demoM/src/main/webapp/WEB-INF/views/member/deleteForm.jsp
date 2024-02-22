@@ -6,14 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>** Delete **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 </head>
 <body>
 
 <c:if test="${!empty requestScope.message}">
 => ${requestScope.message}<br>
 <div class="divBox">
-	&nbsp;<a href="/spring02/home">Home</a>&nbsp;
+	&nbsp;<a href="/home">Home</a>&nbsp;
 </div>
 </c:if>
 

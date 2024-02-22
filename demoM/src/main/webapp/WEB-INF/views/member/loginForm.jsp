@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>** Login Form **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/member.css">
-<script src="/spring02/resources/myLib/inCheck.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/myLib/member.css">
+<script src="/resources/myLib/inCheck.js"></script>
 <style type="text/css">
 	tr {
 		height: 40px;
