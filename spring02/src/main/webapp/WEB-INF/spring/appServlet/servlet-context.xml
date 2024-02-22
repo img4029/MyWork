@@ -93,4 +93,35 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut"/>
 	</aop:config> 
 	
+	<!-- ** Exception Resolver 설정 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+	1. Exception Resolver Bean 설정
+	<beans:bean id="exceptionResolver" 
+	         class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">   -->
+	<!-- 2. Exception 별 property 등록 
+			=> setter 주입을 의미 
+			=> setExceptionMappings(..) : 매개변수 Type 이 Collection Properties
+			=> setDefaultErrorView(..) : 매개변수 Type 이 String      
+		<beans:property name="exceptionMappings" >
+	      	<beans:props>
+	         	<beans:prop key="org.springframework.dao.DuplicateKeyException">
+					errorPage/dupExceptionMessage</beans:prop>         
+	         	<beans:prop key="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator">
+					errorPage/sqlexceptionMessage</beans:prop>
+	         	<beans:prop key="java.lang.IllegalArgumentException">
+					errorPage/ilexceptionMessage</beans:prop>   
+	         	<beans:prop key="java.lang.ArithmeticException">
+					errorPage/arexceptionMessage</beans:prop>
+	         	<beans:prop key="java.lang.NullPointerException">
+					errorPage/npException</beans:prop>
+	      	</beans:props>
+		</beans:property>
+		
+		<beans:property name="defaultErrorView" value="errorPage/exception_500" />
+		
+	</beans:bean>
+	--> 
+	
+	
+	
+	
 </beans:beans>

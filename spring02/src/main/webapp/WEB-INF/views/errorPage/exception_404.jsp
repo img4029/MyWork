@@ -29,7 +29,8 @@ D:\MTest\MyWork\Web01\jsp06_errorPage\img => OS 의 절대경로아님
 <img src="/Web01/jsp06_errorPage/img/adv.gif"> 
  -->
 <a href="#" onclick="history.back()">
-	[돌아가기]</a>
+	[돌아가기]</a>&nbsp;
+	<a href="/spring02/home">[HOME]</a>
 </font></div>
 </body>
 </html>

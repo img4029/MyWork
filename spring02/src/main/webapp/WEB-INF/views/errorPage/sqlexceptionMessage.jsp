@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** Spring SQLException Message **</title>
-<link rel="stylesheet" type="text/css" href="resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
 </head>
 <body>
 <h3>** Spring SQLException Message **</h3>
@@ -15,6 +15,6 @@
 <h2>다시 하세요 ~~~~~</h2>
 <br><br>
 <a href="#" onclick="history.back()">[다시 하기]</a>&nbsp;
-<a href="home">[HOME]</a>
+<a href="/spring02/home">[HOME]</a>
 </body>
 </html>

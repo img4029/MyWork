@@ -25,6 +25,13 @@
 	                <li><a href = "/spring02/board/boardList">BList</a></li>
 	                <li><a href = "/spring02/board/bPageList">BPage</a></li>
 	                <li><a href = "/spring02/bcrypt">BCrypt</a></li>
+	                <li><a href = "/spring02/etest">Exception</a></li>
+	                <li><a href = "/spring02/member/log4jTest">log4jTest</a></li>
+	                
+	                <li><a href = "/spring02/greensn">GreenSN</a></li>
+	                <li><a href = "/spring02/greenall">GreenALL</a></li>
+	                <li><a href = "/spring02/jeju">JeJu</a></li>
+	                <li><a href = "/spring02/gps">GPS</a></li>
 	            </ul>
 	        </div>
 	        <div class="menu_list_sub">

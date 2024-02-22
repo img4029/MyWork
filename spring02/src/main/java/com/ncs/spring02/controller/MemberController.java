@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpSession;
 //import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +29,8 @@ import com.ncs.spring02.domain.MemberDTO;
 import com.ncs.spring02.service.JoService;
 import com.ncs.spring02.service.MemberService;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import pageTest.PageMaker;
 import pageTest.SearchCriteria;
 
@@ -147,26 +147,42 @@ import pageTest.SearchCriteria;
 // -> dependency 필요함 (pom.xml 확인)
 // -> 로깅레벨 단계 준수함 ( log4j.xml 의 아래 logger Tag 의 level 확인)
 //    TRACE > DEBUG > INFO > WARN > ERROR > FATAL(치명적인)
-//    <logger name="com.ncs.green">
+//    <logger name="com.ncs.spring02">
 //       <level value="info" />
 //    </logger>   
 
 // -> Logger 사용과의 차이점 : "{}" 지원안됨 , 호출명 log
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+@Log4j
 @Controller
 @RequestMapping( value = "/member")
+@AllArgsConstructor // 개별적으로 @Autowired 하지않아도 된다. 생략가능
 public class MemberController {
 	
-	@Autowired(required = false)
+	//@Autowired(required = false)
 	MemberService service;
 	
-	@Autowired
+	//@Autowired
 	JoService jservice;
 	
-	@Autowired
+	//@Autowired
 	PasswordEncoder passwordEncoder;
 	//= new BCryptPasswordEncoder();
+	
+	// ** Lombok @Log4j Test
+	@GetMapping("/log4jTest")
+	public String log4jTest() {
+		String name = "img4029";
+		
+		log.error("** Lombok @Log4j Test Error: name = " + name);
+		log.warn("** Lombok @Log4j Test Warm: name = " + name);
+		log.info("** Lombok @Log4j Test Info: name = " + name);
+		log.debug("** Lombok @Log4j Test Debug: name = " + name);
+		log.trace("** Lombok @Log4j Test Trace: name = " + name);
+		
+		return "redirect:/";
+	}
 	
 	@GetMapping("/idDoubleCheck")
 	public void idDoubleCheck(@RequestParam("id") String id, Model model) {

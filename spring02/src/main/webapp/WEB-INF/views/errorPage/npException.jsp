@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** Spring NullPointerException Message **</title>
-<link rel="stylesheet" type="text/css" href="resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
 </head>
 <body>
 <h3>** Spring NullPointerException Message **</h3>
@@ -15,6 +15,6 @@
 <h3>잠시만 기다려 주세요 ~~</h3>
 <br><br>
 <a href="#" onclick="history.back()">[이전으로 돌아가기]</a>&nbsp;
-<a href="home">[HOME]</a>
+<a href="/spring02/home">[HOME]</a>
 </body>
 </html>

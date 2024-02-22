@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>** Spring Default Exception Message **</title>
-<link rel="stylesheet" type="text/css" href="/spring02/resources/jqLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/spring02/resources/myLib/myStyle.css">
 </head>
 <body>
 <h2>** Spring Security Exception Message (403) **</h2>
@@ -14,7 +14,7 @@
 <h2>exception Message => ${SPRING_SECURITY_403_EXCEPTION.getMessage()}</h2>
 <br><br>
 <a href="#" onclick="history.back()">[이전으로 돌아가기]</a>&nbsp;
-<a href="/green/home">[HOME]</a> 
+<a href="/spring02/home">[HOME]</a> 
  <!-- "member/list" , "member/memberList3" 접근하는경우를 위해 절대 경로 사용  -->
 </body>
 </html>

@@ -12,5 +12,5 @@
 	<h3>exception Message => ${exception.message}</h3>
 	<br>
 	<a href="#" onclick="history.back()">[이전으로 돌아가기]</a>&nbsp;
-	<a href="home">[home]</a>
+	<a href="/spring02/home">[home]</a>
 </body> </html>
