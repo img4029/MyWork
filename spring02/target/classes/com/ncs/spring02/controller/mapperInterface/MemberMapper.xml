@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapperInterface.MemberMapper">
+
+	<sql id="bcheck">
+		<if test="check != null">
+			<foreach collection="check" item="i" separator="," open="where jno IN(" close=")">
+				#{i}
+			</foreach>
+		</if>
+	</sql>
+	<select id="mCheckList" resultType="com.ncs.spring02.domain.MemberDTO" >
+		select * from member
+		<include refid="bcheck"></include>
+		limit #{sno}, #{rowPerPage}
+	</select>
+	<select id="mCheckRowsCount" resultType="int" >
+		select count(*) from member
+		<include refid="bcheck"></include>
+	</select>
+
+	<sql id="search">
+		<if test="keyword != null">
+			where 
+			<!-- 1) CONCAT('%', #{keyword},'%') 처리 -->
+			<bind name="keyval" value="'%'+keyword+'%'"/>
+			<!-- 2) Like 조건문 -->
+			<choose>
+				<when test="searchType == 'all'">
+				<!-- id,title,content에서 keyword 가 포함된 글목록 -->
+					id Like #{keyval}	
+					or name Like #{keyval}
+					or age Like #{keyval}
+					or info Like #{keyval}
+					or birthday Like #{keyval}
+					or rid Like #{keyval}
+				</when>
+				<otherwise>
+					${searchType} Like #{keyval}
+				</otherwise>
+			</choose>
+			
+		</if>
+		
+	</sql>
+	<select id="mSearchList" resultType="com.ncs.spring02.domain.MemberDTO" >
+		select * from member
+		<include refid="search"></include>
+		limit #{sno}, #{rowPerPage}
+	</select>
+	<select id="mSearchRowsCount" resultType="int" >
+		select count(*) from member
+		<include refid="search"></include>
+	</select>
+
+<!-- 	<select id="mPageList" resultType="com.ncs.spring02.domain.MemberDTO" >
+		select * from member
+		limit #{sno}, #{rowPerPage}
+	</select>
+	<select id="totalRowsCount" resultType="int" >
+		select count(*) from member
+	</select> -->
+	
+<!-- ** selectList -->
+	<select id="selectList" resultType="com.ncs.spring02.domain.MemberDTO" >
+		select * from member
+	</select>
+
+<!-- ** selectOne -->
+	<select id="selectOne" resultType="com.ncs.spring02.domain.MemberDTO" >
+		select * from member where id=#{id}
+	</select>
+	
+<!-- ** selectJoList -->
+	<select id="selectJoList" resultType="com.ncs.spring02.domain.MemberDTO" >
+		select * from member where jno=#{jno}
+	</select>
+	
+<!-- ** insert -->
+	<insert id="insert" >
+		insert into member values(
+			#{id},#{password},#{name},#{age},#{jno}
+			,#{info},#{point},#{birthday},#{rid},#{uploadfile}
+		)
+	</insert>
+	
+<!-- ** update -->
+	<update id="update" >
+		update member set name=#{name},age=#{age},jno=#{jno},info=#{info}
+		,point=#{point},birthday=#{birthday},rid=#{rid},uploadfile=#{uploadfile} 
+		where id=#{id}
+	</update>
+	
+<!-- ** pwUpdate -->
+	<update id="pwUpdate" >
+		update member set password=#{password} where id=#{id}
+	</update>
+	
+<!-- ** delete -->
+	<delete id="delete" >
+		delete from member where id=#{id}
+	</delete>
+	
+</mapper>
