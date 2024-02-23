@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>** AjaxTest Main Form **</title>
 <link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/member.css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/resources/myLib/axTest01.js" ></script>
 <script src="/resources/myLib/axTest02.js" ></script>

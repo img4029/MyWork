@@ -189,7 +189,7 @@
 <body>
     <c:import url="/header"></c:import>
     <main>
-        <form action="join" method="post" enctype="multipart/form-data">
+        <form action="join" method="post" id="myform" enctype="multipart/form-data">
             <div class="idinfoSubContainer">
                 <div>
                     <h3>회원정보 입력</h3>
@@ -325,15 +325,15 @@
                 <!-- <input type="submit" value=false id="submitTag" class="registrationComplete"
                     onclick="return inCheck();" ></input> -->
                 <button type="submit" value=false class="registrationComplete"id="submitTag" onclick="return inCheck();">동의하고 가입완료</button>
+                <span class="textlink" onclick="axiJoin()">axiJoin</span>
                 <!-- 
-
-** Button Test
-    => default : form 내부에서는  submit 와  동일하게 작동됨 
-                inCheck() 의 return 값에 따라 (true 면) submit 진행됨 
-    => 단, type 속성을 선택하면 (button, reset, submit 등) 속성에 맞게 실행됨
-        예) button 을 선택하면 submit 은 실행되지않음  
-    ** Enter_Key : form 내부에서는 누르면 submit이 진행됨.
--->
+					** Button Test
+					    => default : form 내부에서는  submit 와  동일하게 작동됨 
+					                inCheck() 의 return 값에 따라 (true 면) submit 진행됨 
+					    => 단, type 속성을 선택하면 (button, reset, submit 등) 속성에 맞게 실행됨
+					        예) button 을 선택하면 submit 은 실행되지않음  
+					    ** Enter_Key : form 내부에서는 누르면 submit이 진행됨.
+					-->
                 <hr>
                 <div class="idinfoSubPage">
                     <div>
