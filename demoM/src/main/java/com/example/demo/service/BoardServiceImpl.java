@@ -46,6 +46,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<BoardDTO> idbList(String id) {
+		return mapper.idbList(id);
+	};
+	
+	@Override
 	public BoardDTO selectOne(int seq) {
 		return mapper.selectOne(seq);
 	}

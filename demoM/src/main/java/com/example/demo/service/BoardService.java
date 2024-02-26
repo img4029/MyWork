@@ -19,6 +19,8 @@ public interface BoardService {
 	int totalRowsCount(SearchCriteria cri);
 
 	List<BoardDTO> selectList();
+	
+	List<BoardDTO> idbList(String id);
 
 	BoardDTO selectOne(int seq);
 

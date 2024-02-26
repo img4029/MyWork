@@ -30,14 +30,13 @@ function rsJoinf(){
 	document.getElementById('resultArea1').innerHTML = "";
 } //rsJoinf
 
+
 // 2) join 처리
 // => fileUpload 포함된 경우 : JS 의 내장객체 FormData 에 담아서 전송
 // => Data전송: JS 의 FormData 사용, 요청_headers "Content-Type" 변경
-
 function axiJoin(){
 	// 2.1) Data 전송준비
 	let formData = new FormData( document.getElementById('myform') )
-	
 	
 	// 2.2) Axios 요청처리
 	let url = "/rest/rsjoin";

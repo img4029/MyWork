@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,6 +8,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
 
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
@@ -301,7 +304,7 @@ public class MemberController {
 		return "redirect:/home";
 	}
 		
-	// ** mPageList
+	// ** mCheckList
 	@GetMapping("/mCheckList")
 	public String mCheckList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {
 		String uri = "member/mPageList";
@@ -347,4 +350,48 @@ public class MemberController {
 	public void mList(Model model) {
 		model.addAttribute("mList", service.selectList());
 	}
+	
+	// axiMemberList
+	@GetMapping(value="/aximlist")
+	public String axiMemberList(Model model) {
+		model.addAttribute("mList", service.selectList());
+		log.info("rsjoin HttpStatus.OK" + HttpStatus.OK);
+		
+		return "axTest/axMemberList";
+	}
+	
+	// axiMemberList
+	// => ver01 : "/axmcri" 만 구현 (search 기능만 구현)
+	// => ver02 : "/axmcheck" 요청도 처리할 수 있도록 구현
+	//			-> mappingName 에 check가 포함되어있으면 service 를 아래 메서드로 처리하도록
+	@GetMapping({"/axmcri","axmcheck"})
+	public String axmcri(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {
+		
+		// 1) Criteria 처리
+		cri.setSnoEno();
+		
+		// 2) 요청확인 & Service
+		String mappingName = request.getRequestURI().substring( request.getRequestURI().lastIndexOf("/")+1 );
+		pageMaker.setMappingName(mappingName);
+		pageMaker.setCri(cri);
+		System.out.println("??" + mappingName);
+		
+		if( mappingName.contains("check") ) {
+			// => Check 조건처리
+			model.addAttribute("mList", service.mCheckList(cri));
+			pageMaker.setTotalRowsCount(service.mCheckRowsCount(cri));
+		} else {
+			// => Search 조건 처리
+			model.addAttribute("mList", service.mPageList(cri));
+			pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
+		}
+		model.addAttribute("jList", jservice.selectJoList());
+		
+		// 3) View처리 : pageMaker 이용
+		// => 요청명을 url에 포함하기 위함
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "axTest/axmPageList";
+	}
+	
 }

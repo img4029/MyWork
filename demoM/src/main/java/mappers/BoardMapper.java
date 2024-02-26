@@ -2,6 +2,9 @@ package mappers;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import com.example.demo.domain.BoardDTO;
 
 import pageTest.Criteria;
@@ -21,7 +24,11 @@ public interface BoardMapper {
 	List<BoardDTO> bPageList(Criteria cri);
 	int totalRowsCount(Criteria cri);
 	
+	
 	List<BoardDTO> selectList();
+	
+	@Select("select * from board where id=#{id} order by root desc, step asc")
+	List<BoardDTO> idbList(String id);
 
 	BoardDTO selectOne(int seq);
 

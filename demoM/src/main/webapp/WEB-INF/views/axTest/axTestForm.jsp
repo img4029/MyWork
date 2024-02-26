@@ -8,6 +8,7 @@
 <title>** AjaxTest Main Form **</title>
 <link rel="stylesheet" type="text/css" href="/resources/myLib/myStyle.css">
 <link rel="stylesheet" type="text/css" href="/resources/myLib/member.css">
+<link rel="stylesheet" type="text/css" href="/resources/myLib/test.css?c">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/resources/myLib/axTest01.js" ></script>
 <script src="/resources/myLib/axTest02.js" ></script>
@@ -18,14 +19,16 @@
 <hr>
 <c:if test="${not empty sessionScope.loginID}">
 	=> ${sessionScope.loginName}님 안녕하세요 ~~<br> 
+	<hr>
 </c:if>
 <c:if test="${not empty requestScope.message}">
 	=> ${requestScope.message}<br>
 </c:if>
-<hr>
+
 &nbsp;<span class="textlink" onclick="rsLoginf()">rsLogin</span>&nbsp;
 &nbsp;<span class="textlink" onclick="rsJoinf()">rsJoin</span>&nbsp;
 &nbsp;<span class="textlink" onclick="axiMList()">axiMList</span>&nbsp;	
+&nbsp;<span class="textlink" onclick="axiMListCri('axmcri')">axiMListCri</span>&nbsp;	
 &nbsp;<a href="/home" >[Home]</a>  
 <hr>
 <div id="resultArea1"></div>
