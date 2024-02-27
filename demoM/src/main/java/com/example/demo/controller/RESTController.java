@@ -451,7 +451,7 @@ public class RESTController {
    }//rsjoin
    
    @GetMapping("/idbList/{id}")
-   public ResponseEntity<?> idbList(@PathVariable("id") String id) throws Exception{
+   public ResponseEntity<?> idbList(@PathVariable("id") String id){
 	   ResponseEntity<?> result = null;
 	   
 	   List<BoardDTO> list = bservice.idbList(id);
@@ -479,4 +479,39 @@ public class RESTController {
 		}
 
    }
+   
+   @GetMapping("/jotable/{jno}")
+   public ResponseEntity<?> jotable(@PathVariable("jno") int jno){
+	   ResponseEntity<?> result = null;
+	   
+	   JoDTO jDTO = jservice.selectJoOne(jno);
+	   
+	   if( jDTO != null ) {
+		   result = ResponseEntity.status(HttpStatus.OK).body(jDTO);
+		   log.info("** idbList HttpStatus.OK => " + HttpStatus.OK);
+	   }else {
+		   result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("출력할 자료가 없습니다.");
+		   log.info("** idbList HttpStatus.BAD_GATEWAY => " + HttpStatus.BAD_GATEWAY); 
+	   }
+	   
+	   return result;
+   }
+   
+   @GetMapping("/membertable/{jno}")
+   public ResponseEntity<?> membertable(@PathVariable("jno") int jno){
+	   ResponseEntity<?> result = null;
+	   
+	   List<MemberDTO> list = service.selectJoList(jno);
+	   
+	   if( list != null && list.size() > 0 ) {
+		   result = ResponseEntity.status(HttpStatus.OK).body(list);
+		   log.info("** idbList HttpStatus.OK => " + HttpStatus.OK);
+	   }else {
+		   result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("출력할 자료가 없습니다.");
+		   log.info("** idbList HttpStatus.BAD_GATEWAY => " + HttpStatus.BAD_GATEWAY); 
+	   }
+	   
+	   return result;
+   }
+   
 }

@@ -6,7 +6,39 @@
 <head>
 <meta charset="UTF-8">
 <title>** Web02_MVC02 MemberList **</title>
+<style type="text/css">
 
+	#jo tbody, #jo tr {
+		display: flex;
+	}
+	#jo tr {
+		flex-direction: column;
+	}
+	#jo th, #jo td {
+		
+		height: 40px;
+		display:flex;
+		align-items: center;
+	}
+	#jo th {
+		width: 10vw;
+		justify-content: center;
+		text-align: center;
+	}
+	#jo td {
+		width: 40vw;
+		padding-left: 10px;
+	}
+	input {
+		border: none;
+		height: 30px;
+		font-size: 18px;
+		width: 37vw;
+	}
+	input:focus {
+		outline:none;
+	}
+</style>
 <body>
 	<h2>** Web02_MVC02 MemberList **</h2>
 	<hr>
@@ -28,11 +60,14 @@
 							=> 선택된 id를 function 에 전달 (매개변수를 활용)
 							idbList('banana')
 						-->
-						<td><span class="textlink" onclick="idbList('${s.id}')">${s.id}</span></td>
-						<%-- <td>${s.password}</td> --%>
+						<td>
+							<%-- <span class="textlink" onclick="idbList('${s.id}')">${s.id}</span> --%>
+							<a href="#" onclick="idbList('${s.id}')" >${s.id}</a>
+						</td>
 						<td>${s.name}</td>
 						<td>${s.age}</td>
-						<td>${s.jno}</td>
+						<td style="position:relative;" id="jotable" onmouseenter="showJoDetail('${s.id}','${s.jno}')" onmouseleave="hideJoDetail('${s.id}')">${s.jno}<span id="jno${s.id}"></span></td>
+						<!-- style="display:flex" -->
 						<td>${s.info}</td>
 						<td>${s.point}</td>
 						<td>${s.birthday}</td>
@@ -45,7 +80,7 @@
 							=> 선택된 id를 function 에 전달 (매개변수를 활용)
 							=> 결과는 성공/실패 여부만 전달: RESTController 로 
 							=> 성공 : Deleted 로 변경, onclick 이벤트 해제 -->
-						<td><span id="${s.id}" class="textlink" onclick="axiDelete('${s.id}')">Delete</span></td>
+						<td><span id="${s.id}" class="textlink" onclick="axiDelete(event,'${s.id}')">Delete</span></td>
 					</tr>
 				</c:forEach>
 			</c:when>
