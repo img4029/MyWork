@@ -25,6 +25,11 @@
 	                <li><a href = "/board/boardList">BList</a></li>
 	                <li><a href = "/board/bPageList">BPage</a></li>
 	                <li><a href = "/axTestform">AjaxTest</a></li>
+	                <li><hr></li>
+	                <li><a href = "/ginsert">GInsert</a></li>
+	                <li><a href = "/glist">GList</a></li>
+	                <li><a href = "/gupdate">GUpdate</a></li>
+	                <li><a href = "/gpage">GPage</a></li>
 	            </ul>
 	        </div>
 	        <div class="menu_list_sub">

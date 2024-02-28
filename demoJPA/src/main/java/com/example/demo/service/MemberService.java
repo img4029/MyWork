@@ -2,31 +2,31 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.domain.MemberDTO;
+import com.example.demo.entity.Member;
 
 import pageTest.SearchCriteria;
 
 public interface MemberService {
 
 	// **Member_Check_List
-	List<MemberDTO> mCheckList(SearchCriteria cri);
+	List<Member> mCheckList(SearchCriteria cri);
 	int mCheckRowsCount(SearchCriteria cri);
 	
 	// **Member_Paging
-	List<MemberDTO> mPageList(SearchCriteria cri);
+	List<Member> mPageList(SearchCriteria cri);
 	int totalRowsCount(SearchCriteria cri);
 	
-	List<MemberDTO> selectList();
+	List<Member> selectList();
 
-	MemberDTO selectOne(String id);
+	Member selectOne(String id);
 
-	List<MemberDTO> selectJoList(int jno);
+	List<Member> selectJoList(int jno);
 
-	int insert(MemberDTO dto);
+	int insert(Member dto);
 
-	int update(MemberDTO dto);
+	int update(Member dto);
 	
-	int pwUpdate(MemberDTO dto);
+	int pwUpdate(Member dto);
 
 	int delete(String id);
 

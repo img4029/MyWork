@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.BoardDTO;
 
+import mappers.BoardMapper;
 import pageTest.Criteria;
 import pageTest.SearchCriteria;
 
