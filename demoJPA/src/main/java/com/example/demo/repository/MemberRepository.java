@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.example.demo.domain.MemberDTO;
 import com.example.demo.entity.Member;
 
 // ** JPA 쿼리의 특징
@@ -159,6 +160,11 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	@Query(value = "update member set password=:password where id=:id", nativeQuery = true)
 	void updataPassword2(@Param("id")String id, @Param("password")String password);
 	
+	// 2.3) Join 구문에 @Query 적용
+	// => JPQL
+	@Query("SELECT new com.example.demo.domain.MemberDTO(m.id, m.name, m.jno, j.jname, j.project) FROM Member m LEFT JOIN Jo j ON m.jno=j.jno order by m.jno")
+    List<MemberDTO> findMemberJoin();
+	
 	// 3) JPA Criteria
 	
 	// 4) QueryDSL (이놈은 좀 어려움)
@@ -167,4 +173,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	//  => MyRepository, MyRepositoryImpl 참고 
 	
 	// 6) JDBC API 직접 사용, MyBatis, SpringJdbcTemplate 함께 사용
+	
+	
 }

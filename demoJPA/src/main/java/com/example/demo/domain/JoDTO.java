@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 public class JoDTO {
 	// ** private 으로 맴버변수 정의
 	private int jno;
-	private String jname;
+	protected String jname;
 	private String captain;
 	private String name;
-	private String project;
+	protected String project;
 	private String slogan;
 	
 	// ** 생성자

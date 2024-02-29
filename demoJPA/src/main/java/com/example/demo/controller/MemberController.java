@@ -67,9 +67,6 @@ public class MemberController {
 	    String uri = "redirect:/home"; // 성공시
 	      
 	    entity = service.selectOne( entity.getId() );
-	    System.out.println(password);
-		System.out.println(entity.getPassword());
-		System.out.println(passwordEncoder.matches(password, entity.getPassword()));
 
 		if( entity != null && passwordEncoder.matches( password, entity.getPassword() ) ) {
 			//성공
@@ -177,14 +174,17 @@ public class MemberController {
 	public String pwUpdate(HttpSession session, Model model, Member entity) {
 		entity.setId((String)session.getAttribute("loginID"));
 		entity.setPassword( passwordEncoder.encode( entity.getPassword() ) );
-		if(service.pwUpdate(entity) != null) {
-			// => 성공
+		
+		try {
+			service.updataPassword1(entity.getId(), entity.getPassword());
+			log.info(" member updataPassword 성공 " );
 			session.invalidate();
 			model.addAttribute("message", "T");
-		}else {
-			// => 실패
+		} catch (Exception e) {
+			log.info(" member updataPassword Exception => " + e.toString());
 			model.addAttribute("message", "비밀번호 수정 실패, 다시입력하세요");
 		}
+		
 		return "member/pwUpdate";
 	}
 	
@@ -252,7 +252,12 @@ public class MemberController {
 		
 		return "redirect:/home";
 	}
-		
+	
+	@GetMapping("/mjoinList")
+	public void mjoinList(Model model) {
+		model.addAttribute("banana", service.findMemberJoin());
+	}
+	
 	// ** mCheckList
 //	@GetMapping("/mCheckList")
 //	public String mCheckList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker) {

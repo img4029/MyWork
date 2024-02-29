@@ -37,7 +37,7 @@
 		
 		if("${message}"=="T"){
 			//opener.document.getElementById('message').innerHTML = "변경이 완료되었습니다";
-			opener.open("/spring02/member/loginForm","_self","");
+			opener.open("/member/loginForm","_self","");
 			window.close();
 		}
 	}

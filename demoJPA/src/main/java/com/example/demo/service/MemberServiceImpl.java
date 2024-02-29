@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.MemberDTO;
 import com.example.demo.entity.Member;
 
 import com.example.demo.repository.MemberRepository;
@@ -46,13 +47,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Member pwUpdate(Member entity) {
-		return null;
-	}
+	public void updataPassword1(String id,String password) {
+		repository.updataPassword1(id, password);
+	};
+	
+	@Override
+	public void updataPassword2(String id,String password) {
+		repository.updataPassword1(id, password);
+	};
 	
 	@Override
 	public void deleteById(String id) {
 		repository.deleteById(id);
 	}
 	
+	// ** Join
+	@Override
+	public List<MemberDTO> findMemberJoin() {
+		return repository.findMemberJoin();
+	}
 }

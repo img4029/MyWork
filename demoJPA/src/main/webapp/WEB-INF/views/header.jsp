@@ -22,6 +22,7 @@
 	                <li><a href = "/member/memberList">MList</a></li>
 	                <li><a href = "/member/mPageList">MPage</a></li>
 	                <li><a href = "/jo/joList">JList</a></li>
+	                <li><a href = "/member/mjoinList">mJoinList</a></li>
 	                <li><a href = "/board/boardList">BList</a></li>
 	                <li><a href = "/board/bPageList">BPage</a></li>
 	                <li><a href = "/axTestform">AjaxTest</a></li>
