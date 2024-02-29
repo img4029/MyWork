@@ -101,7 +101,7 @@
 => ${requestScope.message}<hr>
 </c:if>
 <div class="divBox">
-	&nbsp;<a href="detail?jo=1${requestScope.dto.jno}">수정하기</a>&nbsp;
+	&nbsp;<a href="detail?jo=${requestScope.dto.jno}&jcode=U">수정하기</a>&nbsp;
 	&nbsp;<a href="delete?jo=${requestScope.dto.jno}">삭제하기</a>&nbsp;
 	&nbsp;<a href="/home">Home</a>&nbsp;
 	&nbsp;<a href="javascript:history.back();">이전으로</a>&nbsp;	

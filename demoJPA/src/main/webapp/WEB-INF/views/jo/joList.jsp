@@ -24,7 +24,7 @@
 		<c:when test="${!empty requestScope.jList}">
 			<c:forEach var="s" items="${requestScope.jList}">
 				<tr>
-					<td><a href = "detail?jo=${s.jno}">${s.jno}</a></td>
+					<td><a href = "detail?jo=${s.jno}&jcode=D">${s.jno}</a></td>
 					<td>${s.jname}</td>
 					<td>${s.captain}</td>
 					<td>${s.name}</td>
