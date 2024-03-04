@@ -142,6 +142,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	//List<Member> findByJno(@Param("jno") int jno);
 	
 	// 1) JPARepository Method 규약 이용하기
+	// => jno 별 Member 출력
 	List<Member> findByJno(int jno);
 	
 	// 2) @Query : JPQL, Native_SQL
