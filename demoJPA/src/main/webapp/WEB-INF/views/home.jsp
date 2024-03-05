@@ -32,7 +32,14 @@
 	<!-- 로그인 후 -->
 	<c:if test="${!empty sessionScope.loginID}">
 		<img alt="mainImage" src="resources/images/Destiny4.gif" width="1000">
-	</c:if>						
+	</c:if>		
+	
+	<br>
+	&nbsp;<a href="/tinsert">TSave</a>&nbsp; 
+	&nbsp;<a href="/tupdate">TUpdate</a>&nbsp; 
+	&nbsp;<a href="/tdupupdate">TDupUpdate</a>&nbsp; 
+	&nbsp;<a href="/tcalcCount">TCalc</a>&nbsp; 
+	&nbsp;<a href="/testlist">TList</a>&nbsp; 			
 </main>
 
 

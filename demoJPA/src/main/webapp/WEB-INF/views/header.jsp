@@ -31,6 +31,7 @@
 	                <li><a href = "/glist">GList</a></li>
 	                <li><a href = "/gupdate">GUpdate</a></li>
 	                <li><a href = "/gpage">GPage</a></li>
+	                
 	            </ul>
 	        </div>
 	        <div class="menu_list_sub">
